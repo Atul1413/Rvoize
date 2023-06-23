@@ -1,0 +1,22 @@
+9999999999s:517:".bravo-form-register input.checked:checked + .theme-btn {
+    background-color: #292772;
+}
+
+.bravo-form-register input.checked:checked + .theme-btn:hover {
+    background-color: #292772; /* Hover color */
+}
+
+.btn-style-four {
+    background-color: #29277236;
+    color: #292772;
+}
+
+.btn-style-four:hover {
+    background-color: #292772; /* Hover color */
+}
+/* Styles for desktop devices */
+@media only screen and (min-width: 768px) {
+  .contact-section .contact-form {
+    margin-top: 60px;
+  }
+}";
