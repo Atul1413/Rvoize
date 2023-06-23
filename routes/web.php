@@ -38,3 +38,35 @@ Route::get('admin/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@inde
 
 //Icon Helper
 Route::get('bc-helper/icons', '\App\Http\Controllers\BCController@index')->middleware(['auth'])->name('bc.icons');
+
+
+/*
+Route::get('testing-sms', function() {
+    $sender ='SEMPWR';
+    $mob ='7350442484';
+    $auth='D!~7363OldbDTVDFK';
+    $entity_id = '1201160637699734120';
+    $template_id = '1207162695833282772';
+    $otp = 122131;
+    $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '. $otp); 
+    
+    $url = 'http://aquicksms.com/API/sms-api.php?auth='.$auth.'&msisdn='.$mob.'&senderid='.$sender.'&entity_id='.$entity_id.'&template_id='.$template_id.'&message='.$msg.'';  // API URL
+    
+    echo $sender . "<br/>";
+    
+    function SendSMS($hostUrl){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $hostUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // change to 1 to verify cert
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        $result = curl_exec($ch);
+        return $result;
+    }
+    
+    $result=SendSMS($url);  // call function that return response with code
+    echo $result;
+});
+*/

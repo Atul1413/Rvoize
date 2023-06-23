@@ -4,6 +4,75 @@
         #permanentlyDeleteAccount .close-modal{
             top: 35px;
         }
+
+        .progress {
+            width: 150px;
+            height: 150px;
+            background: none;
+            position: relative;
+        }
+
+        .progress::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #eee;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress>span {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+        }
+
+        .progress .progress-left {
+            left: 0;
+        }
+
+        .progress .progress-bar {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border-width: 6px;
+            border-style: solid;
+            position: absolute;
+            top: 0;
+        }
+
+        .progress .progress-left .progress-bar {
+            left: 100%;
+            border-top-right-radius: 80px;
+            border-bottom-right-radius: 80px;
+            border-left: 0;
+            -webkit-transform-origin: center left;
+            transform-origin: center left;
+        }
+
+        .progress .progress-right {
+            right: 0;
+        }
+
+        .progress .progress-right .progress-bar {
+            left: -100%;
+            border-top-left-radius: 80px;
+            border-bottom-left-radius: 80px;
+            border-right: 0;
+            -webkit-transform-origin: center right;
+            transform-origin: center right;
+        }
+
+        .progress .progress-value {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
 @endsection
 @section('content')
@@ -21,6 +90,67 @@
             </div>
         </div>
         @include('admin.message')
+
+        <!-- Profile Progress Bar -->
+        @if (count($percentage) > 0)
+        <div class="row justify-content-center">
+            @foreach ($percentage as $percentName => $percentValue)
+                @if ($percentName === 'errors' && !empty($percentValue))
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            {{ __('Please fill the following below to complete the Profile progress') }}
+                            <ul class="pl-2">
+                                @foreach ($percentValue as $fillUpMessage)
+                                    <li>{{ $fillUpMessage }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @continue;
+                    </div>
+                @endif
+                <div class="col-xl-2 col-md-4 col-sm-6 mb-5">
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;">{{ $percentName }}
+                            Percentage
+                        </h2>
+
+                        <!-- Progress bar 3 -->
+                        <div class="progress mx-auto" data-value='{{ $percentValue }}'>
+
+                            <span class="progress-left">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <div
+                                class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="h3 font-weight-bold">{{ $percentValue }} <span class="small">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END -->
+
+                        {{-- <div class="row text-center mt-4">
+                            <div class="col-6 border-right">
+                                <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last
+                                    week</span>
+                            </div>
+                            <div class="col-6">
+                                <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last
+                                    month</span>
+                            </div>
+                        </div>  --}}
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+        @endif
+        <!-- Profile Progress Bar End-->
+
+
         <form action="{{ route('user.candidate.store') }}" method="post" class="default-form">
             @csrf
             <div class="row">
@@ -44,6 +174,23 @@
                                                 <input type="text" required value="{{old('last_name',$user->last_name)}}" name="last_name" placeholder="{{__("Last name")}}" class="form-control">
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ __('Phone Number')}} <span class="text-danger">*</span></label>
+                                                <input type="text" value="{{old('phone',@$row->phone)}}" placeholder="{{ __('Phone')}}" name="phone" class="form-control" required   >
+                                            </div>
+                                        </div>
+                                        @if (empty($row->phone_verified_at))
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>{{__("Verify Phone")}} </label> 
+                                                    <br/>
+                                                    <button class="btn btn-primary bc-call-modal verifyNumber" type="button">Send Verify Status</button>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <hr>
@@ -268,6 +415,35 @@
             </div>
         </div>
     @endif
+
+    <!-- Modal -->
+    @if (empty(@$row->phone_verified_at))
+        <div class="modal fade verifyNumber" id="verifyNumber" style="opacity: 1; display: inline-block;">
+            <div id="login-modal">
+                <div class="login-form default-form">
+                    <div class="form-inner">
+                        <div class="form-inner">
+                            <h3>Verify Phone Number</h3>
+                            <form class="form" id="bravo-form-verify-otp" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn-sm btn-style-one" type="button">SEND OTP
+                                        <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </form>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    <!-- Modal End -->
+
+
 @endsection
 @section('footer')
     {!! App\Helpers\MapEngine::scripts() !!}
@@ -291,6 +467,41 @@
             }
         }).on('apply.daterangepicker', function (ev, picker) {
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
+        });
+
+        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+            event.preventDefault();
+            this.blur();
+            $("#verifyNumber").modal({
+                fadeDuration: 300,
+                fadeDelay: 0.15
+            });
+        })
+
+        $(function() {
+
+        $(".progress").each(function() {
+
+            var value = $(this).attr('data-value');
+            var left = $(this).find('.progress-left .progress-bar');
+            var right = $(this).find('.progress-right .progress-bar');
+
+            if (value > 0) {
+                if (value <= 50) {
+                    right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                } else {
+                    right.css('transform', 'rotate(180deg)')
+                    left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                }
+            }
+
+        })
+
+        function percentageToDegrees(percentage) {
+
+            return percentage / 100 * 360
+
+        }
         });
     </script>
     <script>

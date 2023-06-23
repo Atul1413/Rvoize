@@ -51,7 +51,6 @@ class ManageCompanyController extends FrontendController{
         }
 
         $translation = $row->translateOrOrigin($request->query('lang'));
-
         $data = [
             'row'  => $row,
             'categories'        => $this->category::get()->toTree(),

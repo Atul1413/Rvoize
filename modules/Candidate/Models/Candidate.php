@@ -30,6 +30,9 @@ class Candidate extends BaseModel
         'address',
         'address2',
         'phone',
+        'phone_verified_at',
+        'otp',
+        'otp_expired_at',
         'birthday',
         'city',
         'state',
@@ -63,7 +66,9 @@ class Candidate extends BaseModel
         'experience' => 'array',
         'award' => 'array',
         'social_media' => 'array',
-        'expected_salary'=>'float'
+        'expected_salary'=>'float',
+        'phone_verified_at' => 'datetime',
+        'otp_expired_at' => 'datetime',
     ];
 
 

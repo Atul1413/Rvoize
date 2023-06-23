@@ -4,6 +4,75 @@
         #permanentlyDeleteAccount .close-modal{
             top: 35px;
         }
+
+        .progress {
+            width: 150px;
+            height: 150px;
+            background: none;
+            position: relative;
+        }
+
+        .progress::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #eee;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress>span {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+        }
+
+        .progress .progress-left {
+            left: 0;
+        }
+
+        .progress .progress-bar {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border-width: 6px;
+            border-style: solid;
+            position: absolute;
+            top: 0;
+        }
+
+        .progress .progress-left .progress-bar {
+            left: 100%;
+            border-top-right-radius: 80px;
+            border-bottom-right-radius: 80px;
+            border-left: 0;
+            -webkit-transform-origin: center left;
+            transform-origin: center left;
+        }
+
+        .progress .progress-right {
+            right: 0;
+        }
+
+        .progress .progress-right .progress-bar {
+            left: -100%;
+            border-top-left-radius: 80px;
+            border-bottom-left-radius: 80px;
+            border-right: 0;
+            -webkit-transform-origin: center right;
+            transform-origin: center right;
+        }
+
+        .progress .progress-value {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -21,6 +90,60 @@
             </div>
         </div>
         <?php echo $__env->make('admin.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+        <!-- Profile Progress Bar -->
+        <?php if(count($percentage) > 0): ?>
+        <div class="row justify-content-center">
+            <?php $__currentLoopData = $percentage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $percentName => $percentValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if($percentName === 'errors' && !empty($percentValue)): ?>
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <?php echo e(__('Please fill the following below to complete the Profile progress')); ?>
+
+                            <ul class="pl-2">
+                                <?php $__currentLoopData = $percentValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fillUpMessage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($fillUpMessage); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </ul>
+                        </div>
+                        <?php continue; ?>;
+                    </div>
+                <?php endif; ?>
+                <div class="col-xl-2 col-md-4 col-sm-6 mb-5">
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;"><?php echo e($percentName); ?>
+
+                            Percentage
+                        </h2>
+
+                        <!-- Progress bar 3 -->
+                        <div class="progress mx-auto" data-value='<?php echo e($percentValue); ?>'>
+
+                            <span class="progress-left">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <div
+                                class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="h3 font-weight-bold"><?php echo e($percentValue); ?> <span class="small">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END -->
+
+                        
+                    </div>
+                </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+        </div>
+        <?php endif; ?>
+        <!-- Profile Progress Bar End-->
+
+
         <form action="<?php echo e(route('user.candidate.store')); ?>" method="post" class="default-form">
             <?php echo csrf_field(); ?>
             <div class="row">
@@ -44,6 +167,23 @@
                                                 <input type="text" required value="<?php echo e(old('last_name',$user->last_name)); ?>" name="last_name" placeholder="<?php echo e(__("Last name")); ?>" class="form-control">
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__('Phone Number')); ?> <span class="text-danger">*</span></label>
+                                                <input type="text" value="<?php echo e(old('phone',@$row->phone)); ?>" placeholder="<?php echo e(__('Phone')); ?>" name="phone" class="form-control" required   >
+                                            </div>
+                                        </div>
+                                        <?php if(empty($row->phone_verified_at)): ?>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><?php echo e(__("Verify Phone")); ?> </label> 
+                                                    <br/>
+                                                    <button class="btn btn-primary bc-call-modal verifyNumber" type="button">Send Verify Status</button>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <hr>
@@ -272,6 +412,35 @@
             </div>
         </div>
     <?php endif; ?>
+
+    <!-- Modal -->
+    <?php if(empty(@$row->phone_verified_at)): ?>
+        <div class="modal fade verifyNumber" id="verifyNumber" style="opacity: 1; display: inline-block;">
+            <div id="login-modal">
+                <div class="login-form default-form">
+                    <div class="form-inner">
+                        <div class="form-inner">
+                            <h3>Verify Phone Number</h3>
+                            <form class="form" id="bravo-form-verify-otp" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="otp" placeholder="<?php echo e(__('Enter OTP')); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn-sm btn-style-one" type="button">SEND OTP
+                                        <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </form>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <!-- Modal End -->
+
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('footer'); ?>
     <?php echo App\Helpers\MapEngine::scripts(); ?>
@@ -296,6 +465,41 @@
             }
         }).on('apply.daterangepicker', function (ev, picker) {
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
+        });
+
+        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+            event.preventDefault();
+            this.blur();
+            $("#verifyNumber").modal({
+                fadeDuration: 300,
+                fadeDelay: 0.15
+            });
+        })
+
+        $(function() {
+
+        $(".progress").each(function() {
+
+            var value = $(this).attr('data-value');
+            var left = $(this).find('.progress-left .progress-bar');
+            var right = $(this).find('.progress-right .progress-bar');
+
+            if (value > 0) {
+                if (value <= 50) {
+                    right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                } else {
+                    right.css('transform', 'rotate(180deg)')
+                    left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                }
+            }
+
+        })
+
+        function percentageToDegrees(percentage) {
+
+            return percentage / 100 * 360
+
+        }
         });
     </script>
     <script>

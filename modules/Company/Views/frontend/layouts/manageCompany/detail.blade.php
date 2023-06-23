@@ -50,6 +50,16 @@
                                             <input type="text" value="{{old('phone',$row->phone)}}" placeholder="{{ __('Phone')}}" name="phone" class="form-control" required   >
                                         </div>
                                     </div>
+                                    
+                                    @if (empty($row->phone_verified_at))
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("Verify Phone")}} </label> 
+                                                <br/>
+                                                <button class="btn btn-primary bc-call-modal verifyNumber" type="button">Send Verify Status</button>
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{__("Website")}}</label>
@@ -330,6 +340,34 @@
             </div>
         </form>
     </div>
+
+     <!-- Modal -->
+     @if (empty(@$row->phone_verified_at))
+     <div class="modal fade verifyNumber" id="verifyNumber" style="opacity: 1; display: inline-block;">
+         <div id="login-modal">
+             <div class="login-form default-form">
+                 <div class="form-inner">
+                     <div class="form-inner">
+                         <h3>Verify Phone Number</h3>
+                         <form class="form" id="bravo-form-verify-otp" method="post">
+                             <div class="form-group">
+                                 <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
+                             </div>
+                             <div class="form-group">
+                                 <button class="btn-sm btn-style-one" type="button">SEND OTP
+                                     <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                 </button>
+                             </div>
+                         </form>
+         
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+    @endif
+    <!-- Modal End -->
+
 @endsection
 
 @section('footer')
@@ -355,6 +393,16 @@
         }).on('apply.daterangepicker', function (ev, picker) {
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
         });
+
+        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+            event.preventDefault();
+            this.blur();
+            $("#verifyNumber").modal({
+                fadeDuration: 300,
+                fadeDelay: 0.15
+            });
+        })
+        
     </script>
     <script>
 

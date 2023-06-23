@@ -23,6 +23,10 @@ class Company extends BaseModel
         'name',
         'email',
         'phone',
+        'phone',
+        'phone_verified_at',
+        'otp',
+        'otp_expired_at',
         'website',
         'avatar_id',
         'cover_id',
@@ -50,7 +54,9 @@ class Company extends BaseModel
     protected $seo_type = 'companies';
     public $type = 'company';
     protected $casts = [
-        'social_media' => 'array'
+        'social_media' => 'array',
+        'phone_verified_at' => 'datetime',
+        'otp_expired_at' => 'datetime',
     ];
 
     public function getDetailUrlAttribute()
