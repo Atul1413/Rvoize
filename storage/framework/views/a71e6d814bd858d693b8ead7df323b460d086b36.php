@@ -82,12 +82,7 @@
                 <h3 class="title"><?php echo e(__("My Profile")); ?></h3>
                 <div class="text"><?php echo e(__("Ready to jump back in?")); ?></div>
             </div>
-            <div class="title-actions">
-                <a href="<?php echo e(route('user.upgrade_company')); ?>" class="btn btn-warning text-light"><?php echo e(__("Become a Company")); ?></a>
-                <?php if($url = $row->getDetailUrl()): ?>
-                    <a href="<?php echo e($url); ?>" class="btn btn-info text-light ml-3"><i class="la la-eye"></i> <?php echo e(__("View profile")); ?></a>
-                <?php endif; ?>
-            </div>
+            
         </div>
         <?php echo $__env->make('admin.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -110,7 +105,7 @@
                         <?php continue; ?>;
                     </div>
                 <?php endif; ?>
-                <div class="col-xl-2 col-md-4 col-sm-6 mb-5">
+                <div class="col-xl-3 col-md-4 col-sm-6 mb-5">
                     <div class="bg-white rounded-lg p-4 shadow-sm">
                         <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;"><?php echo e($percentName); ?>
 
@@ -147,7 +142,7 @@
         <form action="<?php echo e(route('user.candidate.store')); ?>" method="post" class="default-form">
             <?php echo csrf_field(); ?>
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-12">
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
                             <div class="widget-title"><h4><?php echo e(__("Candidate Info")); ?></h4></div>
@@ -175,7 +170,7 @@
                                                 <input type="text" value="<?php echo e(old('phone',@$row->phone)); ?>" placeholder="<?php echo e(__('Phone')); ?>" name="phone" class="form-control" required   >
                                             </div>
                                         </div>
-                                        <?php if(empty($row->phone_verified_at)): ?>
+                                        <?php if(empty($row->phone_verified_at) && !empty($row->phone)): ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label><?php echo e(__("Verify Phone")); ?> </label> 
@@ -223,7 +218,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-3 col-12">
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
                             <div class="widget-title"><strong><?php echo e(__('Avatar')); ?></strong></div>
@@ -312,48 +307,7 @@
                                 <div class="widget-title"><strong><?php echo e(__('Social Media')); ?></strong></div>
                                 <div class="widget-content">
                                     <?php $socialMediaData = !empty($row) ? $row->social_media : []; ?>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-skype"><i class="fab fa-skype"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[skype]" value="<?php echo e(@$socialMediaData['skype']); ?>" placeholder="<?php echo e(__('Skype')); ?>" aria-label="<?php echo e(__('Skype')); ?>" aria-describedby="social-skype">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-facebook"><i class="fab fa-facebook"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[facebook]" value="<?php echo e(@$socialMediaData['facebook']); ?>" placeholder="<?php echo e(__('Facebook')); ?>" aria-label="<?php echo e(__('Facebook')); ?>" aria-describedby="social-facebook">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-twitter"><i class="fab fa-twitter"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[twitter]" value="<?php echo e(@$socialMediaData['twitter']); ?>" placeholder="<?php echo e(__('Twitter')); ?>" aria-label="<?php echo e(__('Twitter')); ?>" aria-describedby="social-twitter">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-instagram"><i class="fab fa-instagram"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[instagram]" value="<?php echo e(@$socialMediaData['instagram']); ?>" placeholder="<?php echo e(__('Instagram')); ?>" aria-label="<?php echo e(__('Instagram')); ?>" aria-describedby="social-instagram">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-pinterest"><i class="fab fa-pinterest"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[pinterest]" value="<?php echo e(@$socialMediaData['pinterest']); ?>" placeholder="<?php echo e(__('Pinterest')); ?>" aria-label="<?php echo e(__('Pinterest')); ?>" aria-describedby="social-pinterest">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-dribbble"><i class="fab fa-dribbble"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[dribbble]" value="<?php echo e(@$socialMediaData['dribbble']); ?>" placeholder="<?php echo e(__('Dribbble')); ?>" aria-label="<?php echo e(__('Dribbble')); ?>" aria-describedby="social-dribbble">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-google"><i class="fab fa-google"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[google]" value="<?php echo e(@$socialMediaData['google']); ?>" placeholder="<?php echo e(__('Google')); ?>" aria-label="<?php echo e(__('Google')); ?>" aria-describedby="social-google">
-                                    </div>
+                                    
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="social-google"><i class="fab fa-linkedin"></i></span>
@@ -363,7 +317,7 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="mb-4">
+                    <div class="mb-4 text-center">
                         <button class="theme-btn btn-style-one" type="submit"><i class="fa fa-save" style="padding-right: 5px"></i> <?php echo e(__('Save Changes')); ?></button>
                     </div>
                 </div>
@@ -414,19 +368,31 @@
     <?php endif; ?>
 
     <!-- Modal -->
-    <?php if(empty(@$row->phone_verified_at)): ?>
-        <div class="modal fade verifyNumber" id="verifyNumber" style="opacity: 1; display: inline-block;">
+    <?php if(empty(@$row->phone_verified_at) && !empty(@$row->phone)): ?>
+        <div class="modal fade verifyNumber" id="verifyNumber">
             <div id="login-modal">
                 <div class="login-form default-form">
                     <div class="form-inner">
                         <div class="form-inner">
                             <h3>Verify Phone Number</h3>
+                            <div class="alert alert-danger " id="verifyNumberAlert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <?php echo e(__("Please check the form below for problems")); ?>
+
+                                <ul class="pl-2" id="verifyNumberAlertContent">
+                                </ul>
+                            </div>
                             <form class="form" id="bravo-form-verify-otp" method="post">
+                                <?php echo csrf_field(); ?>
                                 <div class="form-group">
+                                    <input type="hidden" name="candidate_id" value="<?php echo e(@$row->id); ?>">
                                     <input type="text" name="otp" placeholder="<?php echo e(__('Enter OTP')); ?>" required>
                                 </div>
-                                <div class="form-group">
-                                    <button class="btn-sm btn-style-one" type="button">SEND OTP
+                                <div class="form-group d-flex justify-content-around">
+                                    <button class="btn btn-primary" id="sendOtp" type="button">SEND OTP 
+                                        <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-success" id="verifyOtp" type="button">VERIFY 
                                         <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
                                     </button>
                                 </div>
@@ -467,14 +433,114 @@
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
         });
 
-        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
-            event.preventDefault();
-            this.blur();
-            $("#verifyNumber").modal({
-                fadeDuration: 300,
-                fadeDelay: 0.15
+        <?php if(!empty($row->phone)): ?>
+
+            const verifyAlert = $('#verifyNumberAlert');
+            const verifyAlertContent = $('#verifyNumberAlertContent');
+
+            verifyAlert.hide();
+
+            $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+                event.preventDefault();
+                this.blur();
+                $("#verifyNumber").modal({
+                    fadeDuration: 300,
+                    fadeDelay: 0.15
+                });
             });
-        })
+
+            $('#sendOtp').on('click',function (e) {
+                e.preventDefault();
+                let form = $('#bravo-form-verify-otp');
+                verifyAlert.hide();
+                verifyAlertContent.empty();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                    }
+                });
+                $.ajax({
+                    'url':  `<?php echo e(route('user.candidate.sendOtp')); ?>`,
+                    'data': {
+                        'id': form.find('input[name=candidate_id]').val(),
+                    },
+                    'type': 'POST',
+                    beforeSend: function () {
+                        form.find('.error').hide();
+                        form.find('.icon-loading').css("display", 'inline-block');
+                    },
+                    success: function (data) {
+                        form.find('.icon-loading').hide();
+                        console.log(data);
+                        if (data.error === true) {
+                            if (data.messages !== undefined) {
+                                for(var item in data.messages) {
+                                    var msg = data.messages[item];
+                                    verifyAlertContent.append(`<li>${msg}</li>`);
+                                }
+                            }
+                        
+                            verifyAlert.show();
+                        } 
+                    },
+                    error:function (e) {
+                        form.find('.icon-loading').hide();
+                        console.log(e);
+                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                        // }
+                    }
+                });
+            });
+
+            $('#verifyOtp').on('click',function (e) {
+                e.preventDefault();
+                let form = $('#bravo-form-verify-otp');
+                verifyAlert.hide();
+                verifyAlertContent.empty();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                    }
+                });
+                $.ajax({
+                    'url':  `<?php echo e(route('user.candidate.verifyNumber')); ?>`,
+                    'data': {
+                        'id': form.find('input[name=candidate_id]').val(),
+                        'otp': form.find('input[name=otp]').val(),
+                    },
+                    'type': 'POST',
+                    beforeSend: function () {
+                        form.find('.error').hide();
+                        form.find('.icon-loading').css("display", 'inline-block');
+                    },
+                    success: function (data) {
+                        form.find('.icon-loading').hide();
+                        if (data.error === true) {
+                            if (data.messages !== undefined) {
+                                for(var item in data.messages) {
+                                    console.log(item);
+                                    var msg = data.messages[item];
+                                    verifyAlertContent.append(`<li>${msg}</li>`);
+                                }
+                            }
+                            verifyAlert.show();
+                        } else {
+                            window.location.reload()
+                        }
+                    
+                    },
+                    error:function (e) {
+                        form.find('.icon-loading').hide();
+                        console.log(e);
+                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                        // }
+                    }
+                });
+            });
+
+        <?php endif; ?>
 
         $(function() {
 

@@ -82,12 +82,14 @@
                 <h3 class="title">{{__("My Profile")}}</h3>
                 <div class="text">{{ __("Ready to jump back in?") }}</div>
             </div>
+            {{--
             <div class="title-actions">
                 <a href="{{route('user.upgrade_company')}}" class="btn btn-warning text-light">{{__("Become a Company")}}</a>
-                @if($url = $row->getDetailUrl())
+                 @if($url = $row->getDetailUrl())
                     <a href="{{$url}}" class="btn btn-info text-light ml-3"><i class="la la-eye"></i> {{__("View profile")}}</a>
-                @endif
+                @endif 
             </div>
+            --}}
         </div>
         @include('admin.message')
 
@@ -109,7 +111,7 @@
                         @continue;
                     </div>
                 @endif
-                <div class="col-xl-2 col-md-4 col-sm-6 mb-5">
+                <div class="col-xl-3 col-md-4 col-sm-6 mb-5">
                     <div class="bg-white rounded-lg p-4 shadow-sm">
                         <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;">{{ $percentName }}
                             Percentage
@@ -154,7 +156,7 @@
         <form action="{{ route('user.candidate.store') }}" method="post" class="default-form">
             @csrf
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-12">
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
                             <div class="widget-title"><h4>{{ __("Candidate Info") }}</h4></div>
@@ -182,7 +184,7 @@
                                                 <input type="text" value="{{old('phone',@$row->phone)}}" placeholder="{{ __('Phone')}}" name="phone" class="form-control" required   >
                                             </div>
                                         </div>
-                                        @if (empty($row->phone_verified_at))
+                                        @if (empty($row->phone_verified_at) && !empty($row->phone))
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>{{__("Verify Phone")}} </label> 
@@ -230,7 +232,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-3 col-12">
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
                             <div class="widget-title"><strong>{{ __('Avatar')}}</strong></div>
@@ -318,7 +320,7 @@
                                 <div class="widget-title"><strong>{{ __('Social Media')}}</strong></div>
                                 <div class="widget-content">
                                     <?php $socialMediaData = !empty($row) ? $row->social_media : []; ?>
-                                    <div class="input-group mb-3">
+                                    {{-- <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="social-skype"><i class="fab fa-skype"></i></span>
                                         </div>
@@ -359,7 +361,7 @@
                                             <span class="input-group-text" id="social-google"><i class="fab fa-google"></i></span>
                                         </div>
                                         <input type="text" class="form-control" name="social_media[google]" value="{{@$socialMediaData['google']}}" placeholder="{{__('Google')}}" aria-label="{{__('Google')}}" aria-describedby="social-google">
-                                    </div>
+                                    </div> --}}
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="social-google"><i class="fab fa-linkedin"></i></span>
@@ -369,7 +371,7 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="mb-4">
+                    <div class="mb-4 text-center">
                         <button class="theme-btn btn-style-one" type="submit"><i class="fa fa-save" style="padding-right: 5px"></i> {{__('Save Changes')}}</button>
                     </div>
                 </div>
@@ -417,19 +419,30 @@
     @endif
 
     <!-- Modal -->
-    @if (empty(@$row->phone_verified_at))
-        <div class="modal fade verifyNumber" id="verifyNumber" style="opacity: 1; display: inline-block;">
+    @if (empty(@$row->phone_verified_at) && !empty(@$row->phone))
+        <div class="modal fade verifyNumber" id="verifyNumber">
             <div id="login-modal">
                 <div class="login-form default-form">
                     <div class="form-inner">
                         <div class="form-inner">
                             <h3>Verify Phone Number</h3>
+                            <div class="alert alert-danger " id="verifyNumberAlert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {{__("Please check the form below for problems")}}
+                                <ul class="pl-2" id="verifyNumberAlertContent">
+                                </ul>
+                            </div>
                             <form class="form" id="bravo-form-verify-otp" method="post">
+                                @csrf
                                 <div class="form-group">
+                                    <input type="hidden" name="candidate_id" value="{{ @$row->id }}">
                                     <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
                                 </div>
-                                <div class="form-group">
-                                    <button class="btn-sm btn-style-one" type="button">SEND OTP
+                                <div class="form-group d-flex justify-content-around">
+                                    <button class="btn btn-primary" id="sendOtp" type="button">SEND OTP 
+                                        <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-success" id="verifyOtp" type="button">VERIFY 
                                         <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
                                     </button>
                                 </div>
@@ -469,14 +482,114 @@
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
         });
 
-        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
-            event.preventDefault();
-            this.blur();
-            $("#verifyNumber").modal({
-                fadeDuration: 300,
-                fadeDelay: 0.15
+        @if(!empty($row->phone))
+
+            const verifyAlert = $('#verifyNumberAlert');
+            const verifyAlertContent = $('#verifyNumberAlertContent');
+
+            verifyAlert.hide();
+
+            $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+                event.preventDefault();
+                this.blur();
+                $("#verifyNumber").modal({
+                    fadeDuration: 300,
+                    fadeDelay: 0.15
+                });
             });
-        })
+
+            $('#sendOtp').on('click',function (e) {
+                e.preventDefault();
+                let form = $('#bravo-form-verify-otp');
+                verifyAlert.hide();
+                verifyAlertContent.empty();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                    }
+                });
+                $.ajax({
+                    'url':  `{{ route('user.candidate.sendOtp') }}`,
+                    'data': {
+                        'id': form.find('input[name=candidate_id]').val(),
+                    },
+                    'type': 'POST',
+                    beforeSend: function () {
+                        form.find('.error').hide();
+                        form.find('.icon-loading').css("display", 'inline-block');
+                    },
+                    success: function (data) {
+                        form.find('.icon-loading').hide();
+                        console.log(data);
+                        if (data.error === true) {
+                            if (data.messages !== undefined) {
+                                for(var item in data.messages) {
+                                    var msg = data.messages[item];
+                                    verifyAlertContent.append(`<li>${msg}</li>`);
+                                }
+                            }
+                        
+                            verifyAlert.show();
+                        } 
+                    },
+                    error:function (e) {
+                        form.find('.icon-loading').hide();
+                        console.log(e);
+                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                        // }
+                    }
+                });
+            });
+
+            $('#verifyOtp').on('click',function (e) {
+                e.preventDefault();
+                let form = $('#bravo-form-verify-otp');
+                verifyAlert.hide();
+                verifyAlertContent.empty();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                    }
+                });
+                $.ajax({
+                    'url':  `{{ route('user.candidate.verifyNumber') }}`,
+                    'data': {
+                        'id': form.find('input[name=candidate_id]').val(),
+                        'otp': form.find('input[name=otp]').val(),
+                    },
+                    'type': 'POST',
+                    beforeSend: function () {
+                        form.find('.error').hide();
+                        form.find('.icon-loading').css("display", 'inline-block');
+                    },
+                    success: function (data) {
+                        form.find('.icon-loading').hide();
+                        if (data.error === true) {
+                            if (data.messages !== undefined) {
+                                for(var item in data.messages) {
+                                    console.log(item);
+                                    var msg = data.messages[item];
+                                    verifyAlertContent.append(`<li>${msg}</li>`);
+                                }
+                            }
+                            verifyAlert.show();
+                        } else {
+                            window.location.reload()
+                        }
+                    
+                    },
+                    error:function (e) {
+                        form.find('.icon-loading').hide();
+                        console.log(e);
+                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                        // }
+                    }
+                });
+            });
+
+        @endif
 
         $(function() {
 

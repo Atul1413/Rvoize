@@ -8,7 +8,11 @@ Route::group(['prefix'=>config('companies.companies_route_prefix')],function(){
 
     Route::post('/contact/store','CompanyController@storeContact')->name("company.contact.store");
 });
+
 Route::group(['middleware'=>'auth'],function() {
     Route::get('/user/company/profile', 'ManageCompanyController@companyProfile')->name("user.company.profile");
     Route::post('/user/company/update', 'ManageCompanyController@companyUpdate')->name("user.company.update");
+
+    Route::post('/user/company/profile/send-otp','ManageCompanyController@sendOtp')->name('user.company.sendOtp');
+    Route::post('/user/company/profile/verify-phone','ManageCompanyController@verifyNumber')->name('user.company.verifyNumber');
 });
