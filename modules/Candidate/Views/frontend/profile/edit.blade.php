@@ -159,7 +159,7 @@
                 <div class="col-lg-9 col-12">
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
-                            <div class="widget-title"><h4>{{ __("Candidate Info") }}</h4></div>
+                            <div class="widget-title"><h4>{{ __("Basic Information") }}</h4></div>
                             <div class="widget-content">
 
                                 <div class="form-group">
@@ -180,7 +180,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Phone Number')}} <span class="text-danger">*</span></label>
+                                                <label>{{ __('Contact Number')}} <span class="text-danger">*</span></label>
                                                 <input type="text" value="{{old('phone',@$row->phone)}}" placeholder="{{ __('Phone')}}" name="phone" class="form-control" required   >
                                             </div>
                                         </div>
@@ -196,7 +196,99 @@
                                     </div>
                                 </div>
                                 <hr>
-                                @include('Candidate::admin.candidate.form',['row'=>$user])
+                                <!-- Basic Extra -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("Current position")}} <span class="text-danger">*</span></label>
+                                                <input type="text" value="{{old('title',@$user->candidate->title)}}" name="title" placeholder="{{__("Current position")}}" required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("Website")}}</label>
+                                                <input type="text" value="{{old('website',@$user->candidate->website)}}" name="website" placeholder="{{__("Website")}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gender">{{__("Gender")}}</label>
+                                                <select class="form-control" id="gender" name="gender">
+                                                    <option value="" @if(old('gender',@$user->candidate->gender) == '') selected @endif >{{ __("Select") }}</option>
+                                                    <option value="male" @if(old('gender',@$user->candidate->gender) == 'male') selected @endif >{{ __("Male") }}</option>
+                                                    <option value="female" @if(old('gender',@$user->candidate->gender) == 'female') selected @endif >{{ __("Female") }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("Expected Salary")}}</label>
+                                                <div class="input-group">
+                                                    <input type="text" value="{{ old('expected_salary',@$user->candidate->expected_salary) }}" placeholder="{{__("Expected Salary")}}" name="expected_salary" class="form-control">
+                                                    <div class="input-group-append">
+                                                        <select class="form-control" name="salary_type">
+                                                            <option value="hourly" @if(old('salary_type',@$user->candidate->salary_type) == 'hourly') selected @endif > {{ currency_symbol().__("/hourly") }} </option>
+                                                            <option value="daily" @if(old('salary_type',@$user->candidate->salary_type) == 'daily') selected @endif >{{ currency_symbol().__("/daily") }}</option>
+                                                            <option value="weekly" @if(old('salary_type',@$user->candidate->salary_type) == 'weekly') selected @endif >{{ currency_symbol().__("/weekly") }}</option>
+                                                            <option value="monthly" @if(old('salary_type',@$user->candidate->salary_type) == 'monthly') selected @endif >{{ currency_symbol().__("/monthly") }}</option>
+                                                            <option value="yearly" @if(old('salary_type',@$user->candidate->salary_type) == 'yearly') selected @endif >{{ currency_symbol().__("/yearly") }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("Experience")}}</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="{{ __("Experience") }}" name="experience_year" value="{{ old('experience_year',@$user->candidate->experience_year) }}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="font-size: 14px;">{{ __("year(s)") }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="education_level">{{__("Education Level")}}</label>
+                                                <select class="form-control" id="education_level" name="education_level">
+                                                    <option value="" @if(old('education_level',@$user->candidate->education_level) == '') selected @endif >{{ __("Select") }}</option>
+                                                    <option value="certificate" @if(old('education_level',@$user->candidate->education_level) == 'certificate') selected @endif >{{ __("Certificate") }}</option>
+                                                    <option value="diploma" @if(old('education_level',@$user->candidate->education_level) == 'diploma') selected @endif >{{ __("Diploma") }}</option>
+                                                    <option value="associate" @if(old('education_level',@$user->candidate->education_level) == 'associate') selected @endif >{{ __("Associate") }}</option>
+                                                    <option value="bachelor" @if(old('education_level',@$user->candidate->education_level) == 'bachelor') selected @endif >{{ __("Bachelor") }}</option>
+                                                    <option value="master" @if(old('education_level',@$user->candidate->education_level) == 'master') selected @endif >{{ __("Master") }}</option>
+                                                    <option value="professional" @if(old('education_level',@$user->candidate->education_level) == 'professional') selected @endif >{{ __("Professional") }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("Language")}}</label>
+                                                <select id="languages" name="languages[]" class="form-control" multiple="multiple">
+                                                    <option value="">{{__("-- Please Select --")}}</option>
+                                                    <?php
+                                                    foreach ($languages as $language) {
+                                                        $selected = '';
+                                                        if (!empty($user->candidate->languages)){
+                                                            $lang = explode(",",$user->candidate->languages);
+                                                            $lang = array_map('trim', $lang);
+                                                            if(in_array($language,$lang))
+                                                            {
+                                                                $selected = 'selected';
+                                                            }
+                                                        }
+                                                        printf("<option value='%s' %s>%s</option>", $language, $selected, $language);
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                <!--  Basic Extra End -->
                             </div>
                         </div>
                     </div>
@@ -204,7 +296,7 @@
                         <div class="tabs-box">
                             <div class="widget-title"><h4>{{ __("About") }}</h4></div>
                             <div class="widget-content">
-                                <textarea name="bio" rows="5" class="form-control">{{ strip_tags(old('bio',$user->bio)) }}</textarea>
+                                <textarea name="bio" rows="12" class="form-control">{{ strip_tags(old('bio',$user->bio)) }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -212,7 +304,107 @@
                         <div class="tabs-box">
                             <div class="widget-title"><h4>{{ __("Location Info") }}</h4></div>
                             <div class="widget-content">
-                                @include('Candidate::admin.candidate.location',['row'=>$user])
+                                <!--Location -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="">{{__("Country")}}</label>
+                                                <select name="country" class="form-control" id="country-sms-testing">
+                                                    <option value="">{{__('-- Select --')}}</option>
+                                                    @foreach(get_country_lists() as $id=>$name)
+                                                        <option @if(@$user->candidate->country==$id) selected @endif value="{{$id}}">{{$name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{__("City")}}</label>
+                                                <input type="text" value="{{old('city',@$user->candidate->city)}}" name="city" placeholder="{{__("City")}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>{{ __('Address Line')}}</label>
+                                                <input type="text" value="{{old('address',@$user->candidate->address)}}" placeholder="{{ __('Address')}}" name="address" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{__("Location")}}</label>
+                                        @if(!empty($is_smart_search))
+                                            <div class="form-group-smart-search">
+                                                <div class="form-content">
+                                                    @php
+                                                        $location_name = "";
+                                                        $list_json = [];
+                                                        $candidate = $user->candidate;
+                                                        $traverse = function ($locations, $prefix = '') use (&$traverse, &$list_json , &$location_name, $candidate) {
+                                                            foreach ($locations as $location) {
+                                                                $translate = $location->translateOrOrigin(app()->getLocale());
+                                                                if (@$candidate->location_id == $location->id){
+                                                                    $location_name = $translate->name;
+                                                                }
+                                                                $list_json[] = [
+                                                                    'id' => $location->id,
+                                                                    'title' => $prefix . ' ' . $translate->name,
+                                                                ];
+                                                                $traverse($location->children, $prefix . '-');
+                                                            }
+                                                        };
+                                                        $traverse($locations);
+                                                    @endphp
+                                                    <div class="smart-search">
+                                                        <input type="text" class="smart-search-location parent_text form-control" placeholder="{{__("-- Please Select --")}}" value="{{ $location_name }}" data-onLoad="{{__("Loading...")}}"
+                                                            data-default="{{ json_encode($list_json) }}">
+                                                        <input type="hidden" class="child_id" name="location_id" value="{{@$user->candidate->location_id ?? Request::query('location_id')}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="">
+                                                <select name="location_id" class="form-control">
+                                                    <option value="">{{__("-- Please Select --")}}</option>
+                                                    @php
+                                                        $candidate = $user->candidate;
+                                                        $traverse = function ($locations, $prefix = '') use (&$traverse, $candidate) {
+                                                            foreach ($locations as $location) {
+                                                                $selected = '';
+                                                                if (@$candidate->location_id == $location->id)
+                                                                    $selected = 'selected';
+                                                                printf("<option value='%s' %s>%s</option>", $location->id, $selected, $prefix . ' ' . $location->name);
+                                                                $traverse($location->children, $prefix . '-');
+                                                            }
+                                                        };
+                                                        $traverse($locations);
+                                                    @endphp
+                                                </select>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">{{__("The geographic coordinate")}}</label>
+                                        <div class="control-map-group">
+                                            <div id="map_content"></div>
+                                            <input type="text" placeholder="{{__("Search by name...")}}" class="bravo_searchbox form-control" autocomplete="off" onkeydown="return event.key !== 'Enter';">
+                                            <div class="g-control">
+                                                <div class="form-group">
+                                                    <label>{{__("Map Latitude")}}:</label>
+                                                    <input type="text" name="map_lat" class="form-control" value="{{@$user->candidate->map_lat ?? "51.505"}}" onkeydown="return event.key !== 'Enter';">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{__("Map Longitude")}}:</label>
+                                                    <input type="text" name="map_lng" class="form-control" value="{{@$user->candidate->map_lng ?? "-0.09"}}" onkeydown="return event.key !== 'Enter';">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{__("Map Zoom")}}:</label>
+                                                    <input type="text" name="map_zoom" class="form-control" value="{{@$user->candidate->map_zoom ?? "8"}}" onkeydown="return event.key !== 'Enter';">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!--Location End --> 
+
                             </div>
                         </div>
                     </div>
@@ -220,10 +412,247 @@
                         <div class="tabs-box">
                             <div class="widget-title"><strong>{{ __("Education - Experience - Award") }}</strong></div>
                             <div class="widget-content">
-                                @include('Candidate::admin.candidate.sub_information',['row'=>$user])
+                               <!-- EEA -->
+                               
+                                <h3 class="panel-body-title">{{__('Education')}}</h3>
+                                <div class="form-group-item">
+                                    <div class="g-items-header">
+                                        <div class="row">
+                                            <div class="col-md-2">{{__("Year")}}</div>
+                                            <div class="col-md-3">{{__('Location')}}</div>
+                                            <div class="col-md-3">{{__('Reward')}}</div>
+                                            <div class="col-md-3">{{__('More Information')}}</div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="g-items">
+                                        @php $educations = @$user->candidate->education; @endphp
+                                        @if(!empty($educations))
+                                            @foreach($educations as $key=>$item)
+                                                <div class="item" data-number="{{$key}}">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="education[{{$key}}][from]" class="form-control" value="{{@$item['from']}}" placeholder="{{__('From')}}">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="education[{{$key}}][to]" class="form-control" value="{{@$item['to']}}" placeholder="{{__('To')}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="education[{{$key}}][location]" class="form-control" value="{{@$item['location']}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="education[{{$key}}][reward]" class="form-control" value="{{@$item['reward']}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea name="education[{{$key}}][information]" class="form-control" >{{@$item['information']}}</textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> {{__('Add item')}}</span>
+                                    </div>
+                                    <div class="g-more hide">
+                                        <div class="item" data-number="__number__">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="education[__number__][from]" class="form-control" value="" placeholder="{{__('From')}}">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="education[__number__][to]" class="form-control" value="" placeholder="{{__('To')}}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="education[__number__][location]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="education[__number__][reward]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea __name__="education[__number__][information]" class="form-control" ></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <hr>
+                                <h3 class="panel-body-title">{{__('Experience')}}</h3>
+                                <div class="form-group-item">
+                                    <div class="g-items-header">
+                                        <div class="row">
+                                            <div class="col-md-2">{{__("Year")}}</div>
+                                            <div class="col-md-3">{{__('Location')}}</div>
+                                            <div class="col-md-3">{{__('Position')}}</div>
+                                            <div class="col-md-3">{{__('More Information')}}</div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="g-items">
+                                        @php $experiences = @$user->candidate->experience; @endphp
+                                        @if(!empty($experiences))
+                                            @foreach($experiences as $key=>$item)
+                                                <div class="item" data-number="{{$key}}">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="experience[{{$key}}][from]" class="form-control" value="{{@$item['from']}}" placeholder="{{__('From')}}">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="experience[{{$key}}][to]" class="form-control" value="{{@$item['to']}}" placeholder="{{__('To')}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="experience[{{$key}}][location]" class="form-control" value="{{@$item['location']}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="experience[{{$key}}][position]" class="form-control" value="{{@$item['position']}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea name="experience[{{$key}}][information]" class="form-control" >{{@$item['information']}}</textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> {{__('Add item')}}</span>
+                                    </div>
+                                    <div class="g-more hide">
+                                        <div class="item" data-number="__number__">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="experience[__number__][from]" class="form-control" value="" placeholder="{{__('From')}}">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="experience[__number__][to]" class="form-control" value="" placeholder="{{__('To')}}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="experience[__number__][location]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="experience[__number__][position]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea __name__="experience[__number__][information]" class="form-control" value=""></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <h3 class="panel-body-title">{{__('Skills')}}</h3>
+                                <div class="form-group">
+                                    <div class="">
+                                        <select id="skills" name="skills[]" class="form-control" multiple="multiple">
+                                            <option value="">{{__("-- Please Select --")}}</option>
+                                            <?php
+                                            foreach ($skills as $oneSkill) {
+                                                $selected = '';
+                                                if (!empty($row->skills)){
+                                                    foreach ($row->skills as $skill){
+                                                        if($oneSkill->id == $skill->id){
+                                                            $selected = 'selected';
+                                                        }
+                                                    }
+                                                }
+                                                $trans = $oneSkill->translateOrOrigin(app()->getLocale());
+                                                printf("<option value='%s' %s>%s</option>", $oneSkill->id, $selected, $trans->name);
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <h3 class="panel-body-title">{{__('Certifications')}}</h3>
+                                <div class="form-group-item">
+                                    <div class="g-items-header">
+                                        <div class="row">
+                                            <div class="col-md-2">{{__("Year")}}</div>
+                                            <div class="col-md-3">{{__('Location')}}</div>
+                                            <div class="col-md-3">{{__('Reward')}}</div>
+                                            <div class="col-md-3">{{__('More Information')}}</div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="g-items">
+                                        @php $awards = @$candidate->award; @endphp
+                                        @if(!empty($awards))
+                                            @foreach($awards as $key=>$item)
+                                                <div class="item" data-number="{{$key}}">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="award[{{$key}}][from]" class="form-control" value="{{@$item['from']}}" placeholder="{{__('From')}}">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="award[{{$key}}][to]" class="form-control" value="{{@$item['to']}}" placeholder="{{__('To')}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="award[{{$key}}][location]" class="form-control" value="{{@$item['location']}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="award[{{$key}}][reward]" class="form-control" value="{{@$item['reward']}}">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea name="award[{{$key}}][information]" class="form-control" >{{@$item['information']}}</textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> {{__('Add item')}}</span>
+                                    </div>
+                                    <div class="g-more hide">
+                                        <div class="item" data-number="__number__">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="award[__number__][from]" class="form-control" value="" placeholder="{{__('From')}}">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="award[__number__][to]" class="form-control" value="" placeholder="{{__('To')}}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="award[__number__][location]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="award[__number__][reward]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea __name__="award[__number__][information]" class="form-control" ></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                               <!-- EEA End -->
                             </div>
                         </div>
                     </div>
+
+                    
 
                     @include('Core::frontend.seo-meta.seo-meta')
 
@@ -235,7 +664,7 @@
                 <div class="col-lg-3 col-12">
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong>{{ __('Avatar')}}</strong></div>
+                            <div class="widget-title"><strong>{{ __('Profile')}}</strong></div>
                             <div class="widget-content">
                                 <div class="form-group">
                                     {!! \Modules\Media\Helpers\FileHelper::fieldUpload('avatar_id',old('avatar_id',$user->avatar_id)) !!}
@@ -286,34 +715,7 @@
                             </div>
                         </div>
 
-                        <div class="ls-widget mb-4">
-                            <div class="tabs-box">
-                                <div class="widget-title"><strong>{{__("Skills")}}</strong></div>
-                                <div class="widget-content">
-                                    <div class="form-group">
-                                        <div class="">
-                                            <select id="skills" name="skills[]" class="form-control" multiple="multiple">
-                                                <option value="">{{__("-- Please Select --")}}</option>
-                                                <?php
-                                                foreach ($skills as $oneSkill) {
-                                                    $selected = '';
-                                                    if (!empty($row->skills)){
-                                                        foreach ($row->skills as $skill){
-                                                            if($oneSkill->id == $skill->id){
-                                                                $selected = 'selected';
-                                                            }
-                                                        }
-                                                    }
-                                                    $trans = $oneSkill->translateOrOrigin(app()->getLocale());
-                                                    printf("<option value='%s' %s>%s</option>", $oneSkill->id, $selected, $trans->name);
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                         <div class="ls-widget mb-4 card-social">
                             <div class="tabs-box">

@@ -5,7 +5,7 @@
     <div class="form-group-item">
         <div class="g-items-header">
             <div class="row">
-                <div class="col-md-2">{{__("Time")}}</div>
+                <div class="col-md-2">{{__("Year")}}</div>
                 <div class="col-md-3">{{__('Location')}}</div>
                 <div class="col-md-3">{{__('Reward')}}</div>
                 <div class="col-md-3">{{__('More Information')}}</div>
@@ -75,7 +75,7 @@
     <div class="form-group-item">
         <div class="g-items-header">
             <div class="row">
-                <div class="col-md-2">{{__("Time")}}</div>
+                <div class="col-md-2">{{__("Year")}}</div>
                 <div class="col-md-3">{{__('Location')}}</div>
                 <div class="col-md-3">{{__('Position')}}</div>
                 <div class="col-md-3">{{__('More Information')}}</div>
@@ -141,11 +141,11 @@
     </div>
 
     <hr>
-    <h3 class="panel-body-title">{{__('Award')}}</h3>
+    <h3 class="panel-body-title">{{__('Certifications')}}</h3>
     <div class="form-group-item">
         <div class="g-items-header">
             <div class="row">
-                <div class="col-md-2">{{__("Time")}}</div>
+                <div class="col-md-2">{{__("Year")}}</div>
                 <div class="col-md-3">{{__('Location')}}</div>
                 <div class="col-md-3">{{__('Reward')}}</div>
                 <div class="col-md-3">{{__('More Information')}}</div>
