@@ -9,6 +9,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::get('/intro','\App\Http\Controllers\LandingpageController@index');
 Route::get('/', '\App\Http\Controllers\HomeController@index')->name('home');
 Route::post('/install/check-db', '\App\Http\Controllers\HomeController@checkConnectDatabase');
@@ -40,33 +42,51 @@ Route::get('admin/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@inde
 Route::get('bc-helper/icons', '\App\Http\Controllers\BCController@index')->middleware(['auth'])->name('bc.icons');
 
 
-/*
-Route::get('testing-sms', function() {
-    $sender ='SEMPWR';
-    $mob ='7350442484';
-    $auth='D!~7363OldbDTVDFK';
-    $entity_id = '1201160637699734120';
-    $template_id = '1207162695833282772';
-    $otp = 122131;
-    $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '. $otp); 
+// Route::get('test',function(Illuminate\Http\Request $request) {
+//     $row = Job::select([
+//         "id", "title",'slug', "category_id", "location_id", "company_id", "create_user"
+//     ])->with([
+//         'company:id,name',
+//         'skills:id,name,slug,status',
+//         'user:id,first_name,last_name,name'
+//         ])->find(16);
+
+//     $skillsIdList = [];
+//     if(!empty($row->skills)) {
+//         foreach($row->skills as $skill) {
+//             if($skill->status === 'publish' && !empty($skill->id)) {
+//                 $skillsIdList[] = $skill->id;
+//             } else {
+//                 continue;
+//             }
+//         }
+//     }
+
+//     $relatedLocation = Candidate::where('location_id',$row->location_id)->pluck('id')?->toArray();
+//     $relatedSkills = DB::table('bc_candidate_skills')->whereIn('skill_id',$skillsIdList)->pluck('origin_id')?->toArray();
+//     $relatedCandIds = array_unique(array_merge($relatedLocation,$relatedSkills));
+
+//     $relatedCandidates = Candidate::select(['id','title','slug','experience_year','location_id'])->whereIn('id',$relatedCandIds)->get();
     
-    $url = 'http://aquicksms.com/API/sms-api.php?auth='.$auth.'&msisdn='.$mob.'&senderid='.$sender.'&entity_id='.$entity_id.'&template_id='.$template_id.'&message='.$msg.'';  // API URL
-    
-    echo $sender . "<br/>";
-    
-    function SendSMS($hostUrl){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $hostUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_POST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // change to 1 to verify cert
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-        $result = curl_exec($ch);
-        return $result;
-    }
-    
-    $result=SendSMS($url);  // call function that return response with code
-    echo $result;
-});
-*/
+//     if(!$relatedCandidates->isEmpty()) {
+//         foreach($relatedCandidates as $candidate) {
+//             $data = [
+//                 'id' => $candidate->id,
+//                 'event' => $row->company?->name ?? '',
+//                 'to' => 'candidate',
+//                 'name' => $candidate->title ?? '',
+//                 'avatar' => $row->company?->getAuthor?->avatar_url ?? ($row->jobInfo?->user?->avatar_url ?? ''),
+//                 'link' => route('job.particular',['slug' => $row->slug]),
+//                 'type' => 'job_alert',
+//                 'message' => __(':company posted job for :job position that you might be Interested in.', ['company' => $row->company?->name ?? '', 'job' => $row->title ?? ''])
+//             ];
+
+//             event(new CandidateAlertJob($data));
+//         }
+        
+//     }
+
+   
+
+
+// });

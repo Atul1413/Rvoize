@@ -145,7 +145,7 @@
                 <div class="col-lg-9 col-12">
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
-                            <div class="widget-title"><h4><?php echo e(__("Candidate Info")); ?></h4></div>
+                            <div class="widget-title"><h4><?php echo e(__("Basic Information")); ?></h4></div>
                             <div class="widget-content">
 
                                 <div class="form-group">
@@ -166,7 +166,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label><?php echo e(__('Phone Number')); ?> <span class="text-danger">*</span></label>
+                                                <label><?php echo e(__('Contact Number')); ?> <span class="text-danger">*</span></label>
                                                 <input type="text" value="<?php echo e(old('phone',@$row->phone)); ?>" placeholder="<?php echo e(__('Phone')); ?>" name="phone" class="form-control" required   >
                                             </div>
                                         </div>
@@ -182,7 +182,99 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <?php echo $__env->make('Candidate::admin.candidate.form',['row'=>$user], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                <!-- Basic Extra -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__("Current position")); ?> <span class="text-danger">*</span></label>
+                                                <input type="text" value="<?php echo e(old('title',@$user->candidate->title)); ?>" name="title" placeholder="<?php echo e(__("Current position")); ?>" required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__("Website")); ?></label>
+                                                <input type="text" value="<?php echo e(old('website',@$user->candidate->website)); ?>" name="website" placeholder="<?php echo e(__("Website")); ?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gender"><?php echo e(__("Gender")); ?></label>
+                                                <select class="form-control" id="gender" name="gender">
+                                                    <option value="" <?php if(old('gender',@$user->candidate->gender) == ''): ?> selected <?php endif; ?> ><?php echo e(__("Select")); ?></option>
+                                                    <option value="male" <?php if(old('gender',@$user->candidate->gender) == 'male'): ?> selected <?php endif; ?> ><?php echo e(__("Male")); ?></option>
+                                                    <option value="female" <?php if(old('gender',@$user->candidate->gender) == 'female'): ?> selected <?php endif; ?> ><?php echo e(__("Female")); ?></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__("Expected Salary")); ?></label>
+                                                <div class="input-group">
+                                                    <input type="text" value="<?php echo e(old('expected_salary',@$user->candidate->expected_salary)); ?>" placeholder="<?php echo e(__("Expected Salary")); ?>" name="expected_salary" class="form-control">
+                                                    <div class="input-group-append">
+                                                        <select class="form-control" name="salary_type">
+                                                            <option value="hourly" <?php if(old('salary_type',@$user->candidate->salary_type) == 'hourly'): ?> selected <?php endif; ?> > <?php echo e(currency_symbol().__("/hourly")); ?> </option>
+                                                            <option value="daily" <?php if(old('salary_type',@$user->candidate->salary_type) == 'daily'): ?> selected <?php endif; ?> ><?php echo e(currency_symbol().__("/daily")); ?></option>
+                                                            <option value="weekly" <?php if(old('salary_type',@$user->candidate->salary_type) == 'weekly'): ?> selected <?php endif; ?> ><?php echo e(currency_symbol().__("/weekly")); ?></option>
+                                                            <option value="monthly" <?php if(old('salary_type',@$user->candidate->salary_type) == 'monthly'): ?> selected <?php endif; ?> ><?php echo e(currency_symbol().__("/monthly")); ?></option>
+                                                            <option value="yearly" <?php if(old('salary_type',@$user->candidate->salary_type) == 'yearly'): ?> selected <?php endif; ?> ><?php echo e(currency_symbol().__("/yearly")); ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__("Experience")); ?></label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="<?php echo e(__("Experience")); ?>" name="experience_year" value="<?php echo e(old('experience_year',@$user->candidate->experience_year)); ?>">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="font-size: 14px;"><?php echo e(__("year(s)")); ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="education_level"><?php echo e(__("Education Level")); ?></label>
+                                                <select class="form-control" id="education_level" name="education_level">
+                                                    <option value="" <?php if(old('education_level',@$user->candidate->education_level) == ''): ?> selected <?php endif; ?> ><?php echo e(__("Select")); ?></option>
+                                                    <option value="certificate" <?php if(old('education_level',@$user->candidate->education_level) == 'certificate'): ?> selected <?php endif; ?> ><?php echo e(__("Certificate")); ?></option>
+                                                    <option value="diploma" <?php if(old('education_level',@$user->candidate->education_level) == 'diploma'): ?> selected <?php endif; ?> ><?php echo e(__("Diploma")); ?></option>
+                                                    <option value="associate" <?php if(old('education_level',@$user->candidate->education_level) == 'associate'): ?> selected <?php endif; ?> ><?php echo e(__("Associate")); ?></option>
+                                                    <option value="bachelor" <?php if(old('education_level',@$user->candidate->education_level) == 'bachelor'): ?> selected <?php endif; ?> ><?php echo e(__("Bachelor")); ?></option>
+                                                    <option value="master" <?php if(old('education_level',@$user->candidate->education_level) == 'master'): ?> selected <?php endif; ?> ><?php echo e(__("Master")); ?></option>
+                                                    <option value="professional" <?php if(old('education_level',@$user->candidate->education_level) == 'professional'): ?> selected <?php endif; ?> ><?php echo e(__("Professional")); ?></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__("Language")); ?></label>
+                                                <select id="languages" name="languages[]" class="form-control" multiple="multiple">
+                                                    <option value=""><?php echo e(__("-- Please Select --")); ?></option>
+                                                    <?php
+                                                    foreach ($languages as $language) {
+                                                        $selected = '';
+                                                        if (!empty($user->candidate->languages)){
+                                                            $lang = explode(",",$user->candidate->languages);
+                                                            $lang = array_map('trim', $lang);
+                                                            if(in_array($language,$lang))
+                                                            {
+                                                                $selected = 'selected';
+                                                            }
+                                                        }
+                                                        printf("<option value='%s' %s>%s</option>", $language, $selected, $language);
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                <!--  Basic Extra End -->
                             </div>
                         </div>
                     </div>
@@ -190,7 +282,7 @@
                         <div class="tabs-box">
                             <div class="widget-title"><h4><?php echo e(__("About")); ?></h4></div>
                             <div class="widget-content">
-                                <textarea name="bio" rows="5" class="form-control"><?php echo e(strip_tags(old('bio',$user->bio))); ?></textarea>
+                                <textarea name="bio" rows="12" class="form-control"><?php echo e(strip_tags(old('bio',$user->bio))); ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -198,7 +290,107 @@
                         <div class="tabs-box">
                             <div class="widget-title"><h4><?php echo e(__("Location Info")); ?></h4></div>
                             <div class="widget-content">
-                                <?php echo $__env->make('Candidate::admin.candidate.location',['row'=>$user], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                <!--Location -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class=""><?php echo e(__("Country")); ?></label>
+                                                <select name="country" class="form-control" id="country-sms-testing">
+                                                    <option value=""><?php echo e(__('-- Select --')); ?></option>
+                                                    <?php $__currentLoopData = get_country_lists(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$name): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option <?php if(@$user->candidate->country==$id): ?> selected <?php endif; ?> value="<?php echo e($id); ?>"><?php echo e($name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__("City")); ?></label>
+                                                <input type="text" value="<?php echo e(old('city',@$user->candidate->city)); ?>" name="city" placeholder="<?php echo e(__("City")); ?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label><?php echo e(__('Address Line')); ?></label>
+                                                <input type="text" value="<?php echo e(old('address',@$user->candidate->address)); ?>" placeholder="<?php echo e(__('Address')); ?>" name="address" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo e(__("Location")); ?></label>
+                                        <?php if(!empty($is_smart_search)): ?>
+                                            <div class="form-group-smart-search">
+                                                <div class="form-content">
+                                                    <?php
+                                                        $location_name = "";
+                                                        $list_json = [];
+                                                        $candidate = $user->candidate;
+                                                        $traverse = function ($locations, $prefix = '') use (&$traverse, &$list_json , &$location_name, $candidate) {
+                                                            foreach ($locations as $location) {
+                                                                $translate = $location->translateOrOrigin(app()->getLocale());
+                                                                if (@$candidate->location_id == $location->id){
+                                                                    $location_name = $translate->name;
+                                                                }
+                                                                $list_json[] = [
+                                                                    'id' => $location->id,
+                                                                    'title' => $prefix . ' ' . $translate->name,
+                                                                ];
+                                                                $traverse($location->children, $prefix . '-');
+                                                            }
+                                                        };
+                                                        $traverse($locations);
+                                                    ?>
+                                                    <div class="smart-search">
+                                                        <input type="text" class="smart-search-location parent_text form-control" placeholder="<?php echo e(__("-- Please Select --")); ?>" value="<?php echo e($location_name); ?>" data-onLoad="<?php echo e(__("Loading...")); ?>"
+                                                            data-default="<?php echo e(json_encode($list_json)); ?>">
+                                                        <input type="hidden" class="child_id" name="location_id" value="<?php echo e(@$user->candidate->location_id ?? Request::query('location_id')); ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="">
+                                                <select name="location_id" class="form-control">
+                                                    <option value=""><?php echo e(__("-- Please Select --")); ?></option>
+                                                    <?php
+                                                        $candidate = $user->candidate;
+                                                        $traverse = function ($locations, $prefix = '') use (&$traverse, $candidate) {
+                                                            foreach ($locations as $location) {
+                                                                $selected = '';
+                                                                if (@$candidate->location_id == $location->id)
+                                                                    $selected = 'selected';
+                                                                printf("<option value='%s' %s>%s</option>", $location->id, $selected, $prefix . ' ' . $location->name);
+                                                                $traverse($location->children, $prefix . '-');
+                                                            }
+                                                        };
+                                                        $traverse($locations);
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo e(__("The geographic coordinate")); ?></label>
+                                        <div class="control-map-group">
+                                            <div id="map_content"></div>
+                                            <input type="text" placeholder="<?php echo e(__("Search by name...")); ?>" class="bravo_searchbox form-control" autocomplete="off" onkeydown="return event.key !== 'Enter';">
+                                            <div class="g-control">
+                                                <div class="form-group">
+                                                    <label><?php echo e(__("Map Latitude")); ?>:</label>
+                                                    <input type="text" name="map_lat" class="form-control" value="<?php echo e(@$user->candidate->map_lat ?? "51.505"); ?>" onkeydown="return event.key !== 'Enter';">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><?php echo e(__("Map Longitude")); ?>:</label>
+                                                    <input type="text" name="map_lng" class="form-control" value="<?php echo e(@$user->candidate->map_lng ?? "-0.09"); ?>" onkeydown="return event.key !== 'Enter';">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><?php echo e(__("Map Zoom")); ?>:</label>
+                                                    <input type="text" name="map_zoom" class="form-control" value="<?php echo e(@$user->candidate->map_zoom ?? "8"); ?>" onkeydown="return event.key !== 'Enter';">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!--Location End --> 
+
                             </div>
                         </div>
                     </div>
@@ -206,10 +398,247 @@
                         <div class="tabs-box">
                             <div class="widget-title"><strong><?php echo e(__("Education - Experience - Award")); ?></strong></div>
                             <div class="widget-content">
-                                <?php echo $__env->make('Candidate::admin.candidate.sub_information',['row'=>$user], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                               <!-- EEA -->
+                               
+                                <h3 class="panel-body-title"><?php echo e(__('Education')); ?></h3>
+                                <div class="form-group-item">
+                                    <div class="g-items-header">
+                                        <div class="row">
+                                            <div class="col-md-2"><?php echo e(__("Year")); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Location')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Reward')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="g-items">
+                                        <?php $educations = @$user->candidate->education; ?>
+                                        <?php if(!empty($educations)): ?>
+                                            <?php $__currentLoopData = $educations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="item" data-number="<?php echo e($key); ?>">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="education[<?php echo e($key); ?>][from]" class="form-control" value="<?php echo e(@$item['from']); ?>" placeholder="<?php echo e(__('From')); ?>">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="education[<?php echo e($key); ?>][to]" class="form-control" value="<?php echo e(@$item['to']); ?>" placeholder="<?php echo e(__('To')); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="education[<?php echo e($key); ?>][location]" class="form-control" value="<?php echo e(@$item['location']); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="education[<?php echo e($key); ?>][reward]" class="form-control" value="<?php echo e(@$item['reward']); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea name="education[<?php echo e($key); ?>][information]" class="form-control" ><?php echo e(@$item['information']); ?></textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> <?php echo e(__('Add item')); ?></span>
+                                    </div>
+                                    <div class="g-more hide">
+                                        <div class="item" data-number="__number__">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="education[__number__][from]" class="form-control" value="" placeholder="<?php echo e(__('From')); ?>">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="education[__number__][to]" class="form-control" value="" placeholder="<?php echo e(__('To')); ?>">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="education[__number__][location]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="education[__number__][reward]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea __name__="education[__number__][information]" class="form-control" ></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <hr>
+                                <h3 class="panel-body-title"><?php echo e(__('Experience')); ?></h3>
+                                <div class="form-group-item">
+                                    <div class="g-items-header">
+                                        <div class="row">
+                                            <div class="col-md-2"><?php echo e(__("Year")); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Location')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Position')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="g-items">
+                                        <?php $experiences = @$user->candidate->experience; ?>
+                                        <?php if(!empty($experiences)): ?>
+                                            <?php $__currentLoopData = $experiences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="item" data-number="<?php echo e($key); ?>">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="experience[<?php echo e($key); ?>][from]" class="form-control" value="<?php echo e(@$item['from']); ?>" placeholder="<?php echo e(__('From')); ?>">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="experience[<?php echo e($key); ?>][to]" class="form-control" value="<?php echo e(@$item['to']); ?>" placeholder="<?php echo e(__('To')); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="experience[<?php echo e($key); ?>][location]" class="form-control" value="<?php echo e(@$item['location']); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="experience[<?php echo e($key); ?>][position]" class="form-control" value="<?php echo e(@$item['position']); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea name="experience[<?php echo e($key); ?>][information]" class="form-control" ><?php echo e(@$item['information']); ?></textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> <?php echo e(__('Add item')); ?></span>
+                                    </div>
+                                    <div class="g-more hide">
+                                        <div class="item" data-number="__number__">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="experience[__number__][from]" class="form-control" value="" placeholder="<?php echo e(__('From')); ?>">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="experience[__number__][to]" class="form-control" value="" placeholder="<?php echo e(__('To')); ?>">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="experience[__number__][location]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="experience[__number__][position]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea __name__="experience[__number__][information]" class="form-control" value=""></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <h3 class="panel-body-title"><?php echo e(__('Skills')); ?></h3>
+                                <div class="form-group">
+                                    <div class="">
+                                        <select id="skills" name="skills[]" class="form-control" multiple="multiple">
+                                            <option value=""><?php echo e(__("-- Please Select --")); ?></option>
+                                            <?php
+                                            foreach ($skills as $oneSkill) {
+                                                $selected = '';
+                                                if (!empty($row->skills)){
+                                                    foreach ($row->skills as $skill){
+                                                        if($oneSkill->id == $skill->id){
+                                                            $selected = 'selected';
+                                                        }
+                                                    }
+                                                }
+                                                $trans = $oneSkill->translateOrOrigin(app()->getLocale());
+                                                printf("<option value='%s' %s>%s</option>", $oneSkill->id, $selected, $trans->name);
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <h3 class="panel-body-title"><?php echo e(__('Certifications')); ?></h3>
+                                <div class="form-group-item">
+                                    <div class="g-items-header">
+                                        <div class="row">
+                                            <div class="col-md-2"><?php echo e(__("Year")); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Location')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Reward')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="g-items">
+                                        <?php $awards = @$candidate->award; ?>
+                                        <?php if(!empty($awards)): ?>
+                                            <?php $__currentLoopData = $awards; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="item" data-number="<?php echo e($key); ?>">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="award[<?php echo e($key); ?>][from]" class="form-control" value="<?php echo e(@$item['from']); ?>" placeholder="<?php echo e(__('From')); ?>">
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input type="text" name="award[<?php echo e($key); ?>][to]" class="form-control" value="<?php echo e(@$item['to']); ?>" placeholder="<?php echo e(__('To')); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="award[<?php echo e($key); ?>][location]" class="form-control" value="<?php echo e(@$item['location']); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="award[<?php echo e($key); ?>][reward]" class="form-control" value="<?php echo e(@$item['reward']); ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea name="award[<?php echo e($key); ?>][information]" class="form-control" ><?php echo e(@$item['information']); ?></textarea>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> <?php echo e(__('Add item')); ?></span>
+                                    </div>
+                                    <div class="g-more hide">
+                                        <div class="item" data-number="__number__">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="award[__number__][from]" class="form-control" value="" placeholder="<?php echo e(__('From')); ?>">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="text" __name__="award[__number__][to]" class="form-control" value="" placeholder="<?php echo e(__('To')); ?>">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="award[__number__][location]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" __name__="award[__number__][reward]" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea __name__="award[__number__][information]" class="form-control" ></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                               <!-- EEA End -->
                             </div>
                         </div>
                     </div>
+
+                    
 
                     <?php echo $__env->make('Core::frontend.seo-meta.seo-meta', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -221,7 +650,7 @@
                 <div class="col-lg-3 col-12">
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong><?php echo e(__('Avatar')); ?></strong></div>
+                            <div class="widget-title"><strong><?php echo e(__('Profile')); ?></strong></div>
                             <div class="widget-content">
                                 <div class="form-group">
                                     <?php echo \Modules\Media\Helpers\FileHelper::fieldUpload('avatar_id',old('avatar_id',$user->avatar_id)); ?>
@@ -273,34 +702,7 @@
                             </div>
                         </div>
 
-                        <div class="ls-widget mb-4">
-                            <div class="tabs-box">
-                                <div class="widget-title"><strong><?php echo e(__("Skills")); ?></strong></div>
-                                <div class="widget-content">
-                                    <div class="form-group">
-                                        <div class="">
-                                            <select id="skills" name="skills[]" class="form-control" multiple="multiple">
-                                                <option value=""><?php echo e(__("-- Please Select --")); ?></option>
-                                                <?php
-                                                foreach ($skills as $oneSkill) {
-                                                    $selected = '';
-                                                    if (!empty($row->skills)){
-                                                        foreach ($row->skills as $skill){
-                                                            if($oneSkill->id == $skill->id){
-                                                                $selected = 'selected';
-                                                            }
-                                                        }
-                                                    }
-                                                    $trans = $oneSkill->translateOrOrigin(app()->getLocale());
-                                                    printf("<option value='%s' %s>%s</option>", $oneSkill->id, $selected, $trans->name);
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                         <div class="ls-widget mb-4 card-social">
                             <div class="tabs-box">

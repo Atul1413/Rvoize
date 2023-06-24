@@ -20,6 +20,9 @@ use Modules\Job\Models\JobType;
 use Modules\Language\Models\Language;
 use Modules\Location\Models\Location;
 use Modules\Skill\Models\Skill;
+use Illuminate\Support\Facades\DB;
+use Modules\Candidate\Models\Candidate;
+use Modules\Job\Events\CandidateAlertJob;
 
 class ManageJobController extends FrontendController
 {
@@ -203,6 +206,40 @@ class ManageJobController extends FrontendController
             if($id > 0 ){
                 return back()->with('success',  __('Job updated') );
             }else{
+                $skillsIdList = [];
+                if(!empty($row->skills)) {
+                    foreach($row->skills as $skill) {
+                        if($skill->status === 'publish' && !empty($skill->id)) {
+                            $skillsIdList[] = $skill->id;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+
+                $relatedLocation = Candidate::where('location_id',$row->location_id)->pluck('id')?->toArray();
+                $relatedSkills = DB::table('bc_candidate_skills')->whereIn('skill_id',$skillsIdList)->pluck('origin_id')?->toArray();
+                $relatedCandIds = array_unique(array_merge($relatedLocation,$relatedSkills));
+
+                $relatedCandidates = Candidate::select(['id','title','slug','experience_year','location_id'])->whereIn('id',$relatedCandIds)->get();
+                
+                if(!$relatedCandidates->isEmpty()) {
+                    foreach($relatedCandidates as $candidate) {
+                        $data = [
+                            'id' => $candidate->id,
+                            'event' => $row->company?->name ?? '',
+                            'to' => 'candidate',
+                            'name' => $candidate->title ?? '',
+                            'avatar' => $row->company?->getAuthor?->avatar_url ?? ($row->jobInfo?->user?->avatar_url ?? ''),
+                            'link' => route('job.particular',['slug' => $row->slug]),
+                            'type' => 'job_alert',
+                            'message' => __(':company posted job for :job position. Check Job details', ['company' => $row->company?->name ?? '', 'job' => $row->title ?? ''])
+                        ];
+
+                        event(new CandidateAlertJob($data));
+                    }
+                    
+                }
                 return redirect(route('user.edit.job', ['id' => $row->id]))->with('success', __('Job created') );
             }
         }

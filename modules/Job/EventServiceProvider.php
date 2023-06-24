@@ -2,9 +2,11 @@
 namespace Modules\Job;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Modules\Job\Events\CandidateAlertJob;
 use Modules\Job\Events\CandidateApplyJobSubmit;
 use Modules\Job\Events\CandidateDeleteApplied;
 use Modules\Job\Events\EmployerChangeApplicantsStatus;
+use Modules\Job\Listeners\SendNotifyJobAlertListener;
 use Modules\Job\Listeners\SendMailApplyJobSubmitListener;
 use Modules\Job\Listeners\SendMailChangeApplicantsStatusListen;
 use Modules\Job\Listeners\SendNotifyApplyJobSubmitListener;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        CandidateAlertJob::class => [
+            SendNotifyJobAlertListener::class,
+        ],
         CandidateApplyJobSubmit::class => [
             SendNotifyApplyJobSubmitListener::class,
             SendMailApplyJobSubmitListener::class
