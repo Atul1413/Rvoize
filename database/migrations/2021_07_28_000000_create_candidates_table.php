@@ -20,6 +20,10 @@ class CreateCandidatesTable extends Migration
             $table->string('website',255)->nullable();
             $table->string('gender',255)->nullable();
             $table->string('gallery', 255)->nullable();
+            $table->string('phone',30)->nullable();
+            $table->timestamp('phone_verified_at')->nullable();
+            $table->string('otp',10)->nullable();
+            $table->timestamp('otp_expired_at')->nullable();
             $table->string('video', 255)->nullable();
             $table->string('allow_search',255)->nullable();
             $table->text('education')->nullable();
