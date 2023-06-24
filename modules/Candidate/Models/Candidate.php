@@ -15,6 +15,7 @@ use Modules\Skill\Models\Skill;
 use Modules\User\Models\UserViews;
 use Modules\User\Models\UserWishList;
 use function Clue\StreamFilter\fun;
+use Illuminate\Support\Arr;
 
 class Candidate extends BaseModel
 {
@@ -503,4 +504,5 @@ class Candidate extends BaseModel
     public function getNameAttribute(){
         return $this->user->name ?? '';
     }
+
 }

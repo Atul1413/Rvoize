@@ -13,4 +13,11 @@
 			'sid'=>env('SMS_TWILIO_ACCOUNTSID',''),
 			'token'=>env('SMS_TWILIO_TOKEN',''),
 		],
+		'aquicksms' => [
+			'url' => 'http://aquicksms.com/API/sms-api.php',
+			'auth' => env('SMS_AQUICKSMS_AUTH', 'D!~7363OldbDTVDFK'),
+			'entity_id' => env('SMS_AQUICKSMS_ENTITY', '1201160637699734120'),
+			'template_id' => env('SMS_AQUICKSMS_TEMPLATE', '1207162695833282772'),
+			'from' => env('SMS_AQUICKSMS_FROM','SEMPWR'),
+		],
 	];

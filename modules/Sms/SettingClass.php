@@ -7,7 +7,7 @@
 	class SettingClass extends BaseSettingsClass
 	{
 		const SMS_DRIVER = [
-			"log", "nexmo", "twilio"
+			"log", "nexmo", "twilio",'aquicksms'
 		];
 
 		public static function getSettingPages()
@@ -27,6 +27,10 @@
 						'sms_twilio_account_sid',
 						'sms_twilio_account_token',
 
+						'sms_aquicksms_auth',
+						'sms_aquicksms_entity_id',
+						'sms_aquicksms_template_id',
+						'sms_aquicksms_from',
 
 //						 Admin phonenumber config
 						'admin_phone_has_booking',

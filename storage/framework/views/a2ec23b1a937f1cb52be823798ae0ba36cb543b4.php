@@ -1,5 +1,77 @@
 
 
+<?php $__env->startSection('head'); ?>
+<style>
+    .progress {
+            width: 150px;
+            height: 150px;
+            background: none;
+            position: relative;
+        }
+
+        .progress::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #eee;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress>span {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+        }
+
+        .progress .progress-left {
+            left: 0;
+        }
+
+        .progress .progress-bar {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border-width: 6px;
+            border-style: solid;
+            position: absolute;
+            top: 0;
+        }
+
+        .progress .progress-left .progress-bar {
+            left: 100%;
+            border-top-right-radius: 80px;
+            border-bottom-right-radius: 80px;
+            border-left: 0;
+            -webkit-transform-origin: center left;
+            transform-origin: center left;
+        }
+
+        .progress .progress-right {
+            right: 0;
+        }
+
+        .progress .progress-right .progress-bar {
+            left: -100%;
+            border-top-left-radius: 80px;
+            border-bottom-left-radius: 80px;
+            border-right: 0;
+            -webkit-transform-origin: center right;
+            transform-origin: center right;
+        }
+
+        .progress .progress-value {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+</style>
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <?php
         $languages = \Modules\Language\Models\Language::getActive();
@@ -21,6 +93,58 @@
             <?php if($row->id): ?>
                 <?php echo $__env->make('Language::admin.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <?php endif; ?>
+
+             <!-- Profile Progress Bar -->
+            <?php if(count($percentage) > 0): ?>
+                <div class="row justify-content-center">
+                    <?php $__currentLoopData = $percentage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $percentName => $percentValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($percentName === 'errors' && !empty($percentValue)): ?>
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <?php echo e(__('Please fill the following below to complete the Profile progress')); ?>
+
+                                    <ul class="pl-2">
+                                        <?php $__currentLoopData = $percentValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fillUpMessage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <li><?php echo e($fillUpMessage); ?></li>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </ul>
+                                </div>
+                                <?php continue; ?>;
+                            </div>
+                        <?php endif; ?>
+                        <div class="col-xl-3 col-md-4 col-sm-6 mb-5">
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;"><?php echo e($percentName); ?>
+
+                                    Percentage
+                                </h2>
+
+                                <!-- Progress bar 3 -->
+                                <div class="progress mx-auto" data-value='<?php echo e($percentValue); ?>'>
+
+                                    <span class="progress-left">
+                                        <span class="progress-bar border-primary"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar border-primary"></span>
+                                    </span>
+                                    <div
+                                        class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                        <div class="h3 font-weight-bold"><?php echo e($percentValue); ?> <span class="small">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END -->
+
+                                
+                            </div>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                </div>
+            <?php endif; ?>
+            <!-- Profile Progress Bar End-->
 
             <div class="row">
                 <div class="col-lg-9 col-12">
@@ -70,7 +194,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><?php echo e(__('Est. Since')); ?></label>
-                                                <input type="text" value="<?php echo e(old('founded_in',$row->founded_in ? date("d/m/Y",strtotime($row->founded_in)) :'')); ?>" placeholder="<?php echo e(__('Est. Since')); ?>" name="founded_in" class="form-control has-datepicker input-group date">
+                                                <input type="text" value="<?php echo e(old('founded_in',$row->founded_in ? date("Y/m/d",strtotime($row->founded_in)) :'')); ?>" placeholder="<?php echo e(__('Est. Since')); ?>" name="founded_in" class="form-control has-datepicker input-group date">
                                             </div>
                                         </div>
                                     <?php endif; ?>
@@ -421,112 +545,138 @@
 
         <?php if(!empty($row->phone)): ?>
 
-        const verifyAlert = $('#verifyNumberAlert');
-        const verifyAlertContent = $('#verifyNumberAlertContent');
+            const verifyAlert = $('#verifyNumberAlert');
+            const verifyAlertContent = $('#verifyNumberAlertContent');
 
-        verifyAlert.hide();
-
-        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
-            event.preventDefault();
-            this.blur();
-            $("#verifyNumber").modal({
-                fadeDuration: 300,
-                fadeDelay: 0.15
-            });
-        });
-
-        $('#sendOtp').on('click',function (e) {
-            e.preventDefault();
-            let form = $('#bravo-form-verify-otp');
             verifyAlert.hide();
-            verifyAlertContent.empty();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
-                }
+
+            $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+                event.preventDefault();
+                this.blur();
+                $("#verifyNumber").modal({
+                    fadeDuration: 300,
+                    fadeDelay: 0.15
+                });
             });
-            $.ajax({
-                'url':  `<?php echo e(route('user.company.sendOtp')); ?>`,
-                'data': {
-                    'id': form.find('input[name=company_id]').val(),
-                },
-                'type': 'POST',
-                beforeSend: function () {
-                    form.find('.error').hide();
-                    form.find('.icon-loading').css("display", 'inline-block');
-                },
-                success: function (data) {
-                    form.find('.icon-loading').hide();
-                    console.log(data);
-                    if (data.error === true) {
-                        if (data.messages !== undefined) {
-                            for(var item in data.messages) {
-                                var msg = data.messages[item];
-                                verifyAlertContent.append(`<li>${msg}</li>`);
+
+            $('#sendOtp').on('click',function (e) {
+                e.preventDefault();
+                let form = $('#bravo-form-verify-otp');
+                verifyAlert.hide();
+                verifyAlertContent.empty();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                    }
+                });
+                $.ajax({
+                    'url':  `<?php echo e(route('user.company.sendOtp')); ?>`,
+                    'data': {
+                        'id': form.find('input[name=company_id]').val(),
+                    },
+                    'type': 'POST',
+                    beforeSend: function () {
+                        form.find('.error').hide();
+                        form.find('.icon-loading').css("display", 'inline-block');
+                    },
+                    success: function (data) {
+                        form.find('.icon-loading').hide();
+                        console.log(data);
+                        if (data.error === true) {
+                            if (data.messages !== undefined) {
+                                for(var item in data.messages) {
+                                    var msg = data.messages[item];
+                                    verifyAlertContent.append(`<li>${msg}</li>`);
+                                }
                             }
+                        
+                            verifyAlert.show();
+                        } 
+                    },
+                    error:function (e) {
+                        form.find('.icon-loading').hide();
+                        console.log(e);
+                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                        // }
+                    }
+                });
+            });
+
+            $('#verifyOtp').on('click',function (e) {
+                e.preventDefault();
+                let form = $('#bravo-form-verify-otp');
+                verifyAlert.hide();
+                verifyAlertContent.empty();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                    }
+                });
+                $.ajax({
+                    'url':  `<?php echo e(route('user.company.verifyNumber')); ?>`,
+                    'data': {
+                        'id': form.find('input[name=company_id]').val(),
+                        'otp': form.find('input[name=otp]').val(),
+                    },
+                    'type': 'POST',
+                    beforeSend: function () {
+                        form.find('.error').hide();
+                        form.find('.icon-loading').css("display", 'inline-block');
+                    },
+                    success: function (data) {
+                        form.find('.icon-loading').hide();
+                        if (data.error === true) {
+                            if (data.messages !== undefined) {
+                                for(var item in data.messages) {
+                                    console.log(item);
+                                    var msg = data.messages[item];
+                                    verifyAlertContent.append(`<li>${msg}</li>`);
+                                }
+                            }
+                            verifyAlert.show();
+                        } else {
+                            window.location.reload()
                         }
                     
-                        verifyAlert.show();
-                    } 
-                },
-                error:function (e) {
-                    form.find('.icon-loading').hide();
-                    console.log(e);
-                    // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
-                    //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
-                    // }
-                }
-            });
-        });
-
-        $('#verifyOtp').on('click',function (e) {
-            e.preventDefault();
-            let form = $('#bravo-form-verify-otp');
-            verifyAlert.hide();
-            verifyAlertContent.empty();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
-                }
-            });
-            $.ajax({
-                'url':  `<?php echo e(route('user.company.verifyNumber')); ?>`,
-                'data': {
-                    'id': form.find('input[name=company_id]').val(),
-                    'otp': form.find('input[name=otp]').val(),
-                },
-                'type': 'POST',
-                beforeSend: function () {
-                    form.find('.error').hide();
-                    form.find('.icon-loading').css("display", 'inline-block');
-                },
-                success: function (data) {
-                    form.find('.icon-loading').hide();
-                    if (data.error === true) {
-                        if (data.messages !== undefined) {
-                            for(var item in data.messages) {
-                                console.log(item);
-                                var msg = data.messages[item];
-                                verifyAlertContent.append(`<li>${msg}</li>`);
-                            }
-                        }
-                        verifyAlert.show();
-                    } else {
-                        window.location.reload()
+                    },
+                    error:function (e) {
+                        form.find('.icon-loading').hide();
+                        console.log(e);
+                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                        // }
                     }
-                
-                },
-                error:function (e) {
-                    form.find('.icon-loading').hide();
-                    console.log(e);
-                    // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
-                    //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
-                    // }
-                }
+                });
             });
-        });
 
         <?php endif; ?>
+
+        $(function() {
+
+            $(".progress").each(function() {
+
+                var value = $(this).attr('data-value');
+                var left = $(this).find('.progress-left .progress-bar');
+                var right = $(this).find('.progress-right .progress-bar');
+
+                if (value > 0) {
+                    if (value <= 50) {
+                        right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                    } else {
+                        right.css('transform', 'rotate(180deg)')
+                        left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                    }
+                }
+
+            })
+
+            function percentageToDegrees(percentage) {
+
+                return percentage / 100 * 360
+
+            }
+        });
         
     </script>
     <script>

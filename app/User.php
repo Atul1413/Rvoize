@@ -513,6 +513,25 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return true;
     }
 
+    public function checkCompanyProgress() {
+        if(empty($this->company)) return false;
+        if(empty($this->company->name)) return false;
+        if(empty($this->company->phone)) return false;
+        if(empty($this->company->email)) return false;
+        if(empty($this->company->phone_verified_at)) return false; 
+        if(empty($this->company->website)) return false; 
+        if(empty($this->company->founded_in)) return false; 
+        if(empty($this->company->about)) return false; 
+        if(empty($this->company->city)) return false; 
+        if(empty($this->company->state)) return false; 
+        if(empty($this->company->country)) return false; 
+        if(empty($this->company->address)) return false; 
+        if(empty($this->company->category_id)) return false; 
+        if($this->company?->companyTerm->isEmpty()) return false; 
+
+        return true;
+    }
+
     public function checkGigPostingMaximum()
     {
         if (!setting_item('gig_require_plan')) return true;

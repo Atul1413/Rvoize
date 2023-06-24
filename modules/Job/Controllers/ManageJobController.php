@@ -57,7 +57,7 @@ class ManageJobController extends FrontendController
     }
     public function createJob(Request $request){
         $this->checkPermission('job_manage');
-        if(!auth()->user()->checkCompanyInfo()) {
+        if(!auth()->user()->checkCompanyProgress()) {
             return redirect(route('user.company.profile'))->with('error', __('Need to complete Company Profile before posting a job') );
         }
 

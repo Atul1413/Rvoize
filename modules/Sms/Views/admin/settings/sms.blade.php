@@ -87,7 +87,45 @@
             </div>
         </div>
     </div>
+    <div class="row" data-condition="sms_driver:is(aquicksms)">
+        <div class="col-sm-4">
+            <h3 class="form-group-title">{{__('Config Aquicksms Driver')}}</h3>
+        </div>
+        <div class="col-sm-8">
+            <div class="panel">
+                <div class="panel-body">
+                    <div data-condition="sms_driver:is(aquicksms)">
+                        <div class="form-group">
+                            <label class="">{{__("AquickSms Auth")}}</label>
+                            <div class="form-controls">
+                                <input type="text" class="form-control" name="sms_aquicksms_auth" value="{{setting_item('sms_aquicksms_auth',config('sms.aquicksms.auth'))}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="">{{__("AquickSms Entity ID")}}</label>
+                            <div class="form-controls">
+                                <input type="text" class="form-control" name="sms_aquicksms_entity_id" value="{{setting_item('sms_aquicksms_entity_id',config('sms.aquicksms.entity_id'))}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="">{{__("AquickSms Template ID")}}</label>
+                            <div class="form-controls">
+                                <input type="text" class="form-control" name="sms_aquicksms_template_id" value="{{setting_item('sms_aquicksms_template_id',config('sms.aquicksms.template_id'))}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="">{{__("From")}}</label>
+                            <div class="form-controls">
+                                <input type="text" class="form-control" name="sms_aquicksms_from" value="{{setting_item('sms_aquicksms_from',config('sms.aquicksms.from'))}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <hr>
+
 @endif
 
 <div class="row">

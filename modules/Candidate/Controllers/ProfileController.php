@@ -374,7 +374,7 @@ class ProfileController extends FrontendController
         $auth='D!~7363OldbDTVDFK';
         $entity_id = '1201160637699734120';
         $template_id = '1207162695833282772';
-        $otp = random_int(100000, 999999);;
+        $otp = random_int(100000, 999999);
 
 
         $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '. $otp); 

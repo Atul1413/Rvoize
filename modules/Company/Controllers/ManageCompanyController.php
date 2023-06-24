@@ -15,6 +15,7 @@ use Modules\Language\Models\Language;
 use Modules\Location\Models\Location;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Arr;
 use Validator;
 
 class ManageCompanyController extends FrontendController{
@@ -66,6 +67,7 @@ class ManageCompanyController extends FrontendController{
             'menu_active' => 'company_profile',
             "selected_terms"    => $row->companyTerm ? $row->companyTerm->pluck('term_id') : [],
             'is_user_page' => true,
+            'percentage' => $this->getProfilePercent($row),
         ];
         return view('Company::frontend.layouts.manageCompany.detail', $data);
     }
@@ -80,11 +82,13 @@ class ManageCompanyController extends FrontendController{
             'name'=>'required',
             'email'=>'required|email',
             'phone'=>'required|max:30',
+            'founded_in' => 'sometimes|date_format:Y/m/d',
         ]);
-
+       
         if(empty($row)){
             return redirect(route('user.company.profile'))->with('error', __("No company found"));
         }
+
 
         if(!empty($row->phone) && ($row->phone != $input['phone'])) {
             $input['phone_verified_at'] = null;
@@ -124,6 +128,15 @@ class ManageCompanyController extends FrontendController{
             'zip_code',
             'allow_search'
         ];
+        
+        if(!empty($input['founded_in'])) {
+            $date = date('Y-m-d',strtotime($input['founded_in']));
+            $input['founded_in'] = $date;
+
+        } else {
+            $input['founded_in'] = null;
+        }
+
         $input['team_size'] = !empty($input['team_size']) ? $input['team_size'] : 0;
 
         $row->fillByAttr($attr, $input);
@@ -193,7 +206,7 @@ class ManageCompanyController extends FrontendController{
         $auth='D!~7363OldbDTVDFK';
         $entity_id = '1201160637699734120';
         $template_id = '1207162695833282772';
-        $otp = random_int(100000, 999999);;
+        $otp = random_int(100000, 999999);
 
 
         $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '. $otp); 
@@ -301,5 +314,84 @@ class ManageCompanyController extends FrontendController{
         }
 
         
+    }
+
+
+    private function getProfilePercent($company)
+    {
+        $errorMessages = [
+            "name" => 'Name must be filled',
+            "email" => 'Email must be filled',
+            "phone" => 'Please provide Phone number to get updates',
+            "phone_verified_at" => 'Verified phone number is necessary',
+            "website" => 'Website link',
+            "founded_in" => 'Est. Since date is needed',
+            "terms" => 'Provide your company size',
+            "about" => 'Tell us a brief about your company',
+            "city" => 'Which city do live in?',
+            "state" => 'Provide state',
+            "country" => 'Tell us which country you belong to.',
+            "address" => 'Provide residential location',
+            "category_id" => 'What kind of category your company belongs to',
+        ];
+
+        $userAttributes = Arr::only($company->attributesToArray(), [
+            "name",
+            "email",
+            "phone",
+            "phone_verified_at",
+            "website",
+            "founded_in",
+            "about",
+            "city",
+            'terms',
+            "state",
+            "country",
+            "address",
+            "category_id",
+        ]);
+
+        $userAttributes['terms'] = $company?->companyTerm?->count() ?? 0;
+
+        $percentage['Over All Profile'] = $this->calculatePercent($userAttributes);
+        $percentage['Basic Information'] = $this->calculatePercent(Arr::only($userAttributes, [
+            "name",
+            "email",
+            "phone",
+            "phone_verified_at",
+            "website",
+            "founded_in",
+        ]));
+        $percentage['Address Section'] = $this->calculatePercent(Arr::only($userAttributes, [
+            "city",
+            "state",
+            "country",
+            "address",
+        ]));
+        $percentage['About Section'] = $this->calculatePercent(Arr::only($userAttributes, [
+            "about",
+            "terms",
+            "category_id",
+        ]));
+        
+        $errorList = array_diff_assoc($userAttributes, array_filter($userAttributes, function ($value) {
+            return !empty(trim($value));
+        }));
+        foreach ($errorList as $columnId => $v) {
+            $percentage['errors'][] = $errorMessages[$columnId] ?? $columnId;
+        }
+        return $percentage;
+    }
+
+    private function calculatePercent($userAttributes)
+    {
+        if (count($userAttributes) < 1) {
+            return 0;
+        } else {
+            $complete = array_filter($userAttributes, function ($value) {
+                return !empty(trim($value));
+            });
+            return round((count($complete) / count($userAttributes)) * 100, 2);
+        }
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Manager;
 use Modules\Sms\Core\Drivers\NexmoDriver;
 use Modules\Sms\Core\Drivers\NullDriver;
+use Modules\Sms\Core\Drivers\QuickDriver;
 use Modules\Sms\Core\Drivers\TwilioDriver;
 
 class SmsManager extends Manager
@@ -29,6 +30,18 @@ class SmsManager extends Manager
 		\config()->set('sms.twilio.token',setting_item('sms_twilio_account_token',\config('sms.twilio.token')));
 		return new TwilioDriver(config('sms.twilio'));
 	}
+
+    public function createQuickDriver()
+	{
+		
+		\config()->set('sms.aquicksms.auth',setting_item('sms_aquicksms_auth',\config('sms.aquicksms.auth')));
+		\config()->set('sms.aquicksms.entity_id',setting_item('sms_aquicksms_entity_id',\config('sms.aquicksms.entity_id')));
+		\config()->set('sms.aquicksms.template_id',setting_item('sms_aquicksms_template_id',\config('sms.aquicksms.template_id')));
+		\config()->set('sms.aquicksms.from',setting_item('sms_aquicksms_from',\config('sms.aquicksms.from')));
+		return new QuickDriver(config('sms.aquicksms'));
+	}
+
+
 	public function createLogDriver()
 	{
 
