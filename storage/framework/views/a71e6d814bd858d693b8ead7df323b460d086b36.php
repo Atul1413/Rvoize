@@ -167,13 +167,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><?php echo e(__('Contact Number')); ?> <span class="text-danger">*</span></label>
-                                                <input type="text" value="<?php echo e(old('phone',@$row->phone)); ?>" placeholder="<?php echo e(__('Phone')); ?>" name="phone" class="form-control" required   >
+                                                <input type="text" value="<?php echo e(old('phone',@$row->user?->phone)); ?>" placeholder="<?php echo e(__('Contact Number')); ?>" name="phone" class="form-control" required   >
                                             </div>
                                         </div>
-                                        <?php if(empty($row->phone_verified_at) && !empty($row->phone)): ?>
+                                        <?php if(empty($row->user?->phone_verified_at) && !empty($row->user?->phone)): ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label><?php echo e(__("Verify Phone")); ?> </label> 
+                                                    <label><?php echo e(__("Verify Contact Number")); ?> </label> 
                                                     <br/>
                                                     <button class="btn btn-primary bc-call-modal verifyNumber" type="button">Send Verify Status</button>
                                                 </div>
@@ -770,7 +770,7 @@
     <?php endif; ?>
 
     <!-- Modal -->
-    <?php if(empty(@$row->phone_verified_at) && !empty(@$row->phone)): ?>
+    <?php if(empty(@$row->user?->phone_verified_at) && !empty(@$row->user?->phone)): ?>
         <div class="modal fade verifyNumber" id="verifyNumber">
             <div id="login-modal">
                 <div class="login-form default-form">
@@ -787,7 +787,7 @@
                             <form class="form" id="bravo-form-verify-otp" method="post">
                                 <?php echo csrf_field(); ?>
                                 <div class="form-group">
-                                    <input type="hidden" name="candidate_id" value="<?php echo e(@$row->id); ?>">
+                                    <input type="hidden" name="user_id" value="<?php echo e(@$row->create_user); ?>">
                                     <input type="text" name="otp" placeholder="<?php echo e(__('Enter OTP')); ?>" required>
                                 </div>
                                 <div class="form-group d-flex justify-content-around">
@@ -835,7 +835,7 @@
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
         });
 
-        <?php if(!empty($row->phone)): ?>
+       
 
             const verifyAlert = $('#verifyNumberAlert');
             const verifyAlertContent = $('#verifyNumberAlertContent');
@@ -862,9 +862,9 @@
                     }
                 });
                 $.ajax({
-                    'url':  `<?php echo e(route('user.candidate.sendOtp')); ?>`,
+                    'url':  `<?php echo e(route('user.sendOtp')); ?>`,
                     'data': {
-                        'id': form.find('input[name=candidate_id]').val(),
+                        'id': form.find('input[name=user_id]').val(),
                     },
                     'type': 'POST',
                     beforeSend: function () {
@@ -906,9 +906,9 @@
                     }
                 });
                 $.ajax({
-                    'url':  `<?php echo e(route('user.candidate.verifyNumber')); ?>`,
+                    'url':  `<?php echo e(route('user.verifyNumber')); ?>`,
                     'data': {
-                        'id': form.find('input[name=candidate_id]').val(),
+                        'id': form.find('input[name=user_id]').val(),
                         'otp': form.find('input[name=otp]').val(),
                     },
                     'type': 'POST',
@@ -942,7 +942,6 @@
                 });
             });
 
-        <?php endif; ?>
 
         $(function() {
 

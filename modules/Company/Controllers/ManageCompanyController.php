@@ -16,6 +16,7 @@ use Modules\Location\Models\Location;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Arr;
+use App\User;
 use Validator;
 
 class ManageCompanyController extends FrontendController{
@@ -89,26 +90,29 @@ class ManageCompanyController extends FrontendController{
             return redirect(route('user.company.profile'))->with('error', __("No company found"));
         }
 
-
-        if(!empty($row->phone) && ($row->phone != $input['phone'])) {
-            $input['phone_verified_at'] = null;
-            $input['otp'] = null;
-            $input['otp_expired_at'] = null;
-              
+        $user = User::where('id',Auth::id())->first();
+        if(!empty($user->phone) ) {
+            if($user->phone != $input['phone']) {
+                $user->update([
+                    'phone' => $input['phone'],
+                    'phone_verified_at' => null,
+                    'otp' => null,
+                    'otp_expired_at' => null,
+                ]);
+            }
+           
         } else {
-            $input['phone_verified_at'] = $row->phone_verified_at;
-            $input['otp'] = $row->otp;
-            $input['otp_expired_at'] = $row->otp_expired_at;
+            $user->update([
+                'phone' => $input['phone'],
+                'phone_verified_at' => $user->phone_verified_at,
+                'otp' => $user->otp,
+                'otp_expired_at' => $user->otp_expired_at,
+            ]);
         }
-
 
         $attr = [
             'name',
             'email',
-            'phone',
-            'phone_verified_at',
-            'otp',
-            'otp_expired_at',
             'website',
             'location_id',
             'avatar_id',
@@ -132,7 +136,6 @@ class ManageCompanyController extends FrontendController{
         if(!empty($input['founded_in'])) {
             $date = date('Y-m-d',strtotime($input['founded_in']));
             $input['founded_in'] = $date;
-
         } else {
             $input['founded_in'] = null;
         }

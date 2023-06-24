@@ -181,13 +181,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{ __('Contact Number')}} <span class="text-danger">*</span></label>
-                                                <input type="text" value="{{old('phone',@$row->phone)}}" placeholder="{{ __('Phone')}}" name="phone" class="form-control" required   >
+                                                <input type="text" value="{{old('phone',@$row->user?->phone)}}" placeholder="{{ __('Contact Number')}}" name="phone" class="form-control" required   >
                                             </div>
                                         </div>
-                                        @if (empty($row->phone_verified_at) && !empty($row->phone))
+                                        @if (empty($row->user?->phone_verified_at) && !empty($row->user?->phone))
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>{{__("Verify Phone")}} </label> 
+                                                    <label>{{__("Verify Contact Number")}} </label> 
                                                     <br/>
                                                     <button class="btn btn-primary bc-call-modal verifyNumber" type="button">Send Verify Status</button>
                                                 </div>
@@ -821,7 +821,7 @@
     @endif
 
     <!-- Modal -->
-    @if (empty(@$row->phone_verified_at) && !empty(@$row->phone))
+    @if (empty(@$row->user?->phone_verified_at) && !empty(@$row->user?->phone))
         <div class="modal fade verifyNumber" id="verifyNumber">
             <div id="login-modal">
                 <div class="login-form default-form">
@@ -837,7 +837,7 @@
                             <form class="form" id="bravo-form-verify-otp" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="hidden" name="candidate_id" value="{{ @$row->id }}">
+                                    <input type="hidden" name="user_id" value="{{ @$row->create_user }}">
                                     <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
                                 </div>
                                 <div class="form-group d-flex justify-content-around">
@@ -884,7 +884,7 @@
             $(this).val(picker.startDate.format('YYYY/MM/DD'));
         });
 
-        @if(!empty($row->phone))
+       
 
             const verifyAlert = $('#verifyNumberAlert');
             const verifyAlertContent = $('#verifyNumberAlertContent');
@@ -911,9 +911,9 @@
                     }
                 });
                 $.ajax({
-                    'url':  `{{ route('user.candidate.sendOtp') }}`,
+                    'url':  `{{ route('user.sendOtp') }}`,
                     'data': {
-                        'id': form.find('input[name=candidate_id]').val(),
+                        'id': form.find('input[name=user_id]').val(),
                     },
                     'type': 'POST',
                     beforeSend: function () {
@@ -955,9 +955,9 @@
                     }
                 });
                 $.ajax({
-                    'url':  `{{ route('user.candidate.verifyNumber') }}`,
+                    'url':  `{{ route('user.verifyNumber') }}`,
                     'data': {
-                        'id': form.find('input[name=candidate_id]').val(),
+                        'id': form.find('input[name=user_id]').val(),
                         'otp': form.find('input[name=otp]').val(),
                     },
                     'type': 'POST',
@@ -991,7 +991,6 @@
                 });
             });
 
-        @endif
 
         $(function() {
 

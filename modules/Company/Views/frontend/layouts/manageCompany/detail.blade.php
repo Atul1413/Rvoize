@@ -175,17 +175,18 @@
                                             </div>
                                         </div>
                                     @endif
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>{{ __('Phone Number')}} <span class="text-danger">*</span></label>
-                                            <input type="text" value="{{old('phone',$row->phone)}}" placeholder="{{ __('Phone')}}" name="phone" class="form-control" required   >
+                                            <label>{{ __('Contact Number')}} <span class="text-danger">*</span></label>
+                                            <input type="text" value="{{old('phone',$row->getAuthor?->phone)}}" placeholder="{{ __('Contact Number')}}" name="phone" class="form-control" required   >
                                         </div>
                                     </div>
                                     
-                                    @if (empty($row->phone_verified_at) && !empty($row->phone))
+                                    @if (empty($row->getAuthor?->phone_verified_at) && !empty($row->getAuthor?->phone))
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{__("Verify Phone")}} </label> 
+                                                <label>{{__("Verify Contact Number")}} </label> 
                                                 <br/>
                                                 <button class="btn btn-primary bc-call-modal verifyNumber" type="button">Send Verify Status</button>
                                             </div>
@@ -472,43 +473,43 @@
         </form>
     </div>
 
-    <!-- Modal -->
-    @if (empty(@$row->phone_verified_at) && !empty(@$row->phone))
-    <div class="modal fade verifyNumber" id="verifyNumber">
-        <div id="login-modal">
-            <div class="login-form default-form">
-                <div class="form-inner">
-                    <div class="form-inner">
-                        <h3>Verify Phone Number</h3>
-                        <div class="alert alert-danger " id="verifyNumberAlert">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            {{__("Please check the form below for problems")}}
-                            <ul class="pl-2" id="verifyNumberAlertContent">
-                            </ul>
+       <!-- Modal -->
+       @if (empty(@$row->getAuthor?->phone_verified_at) && !empty(@$row->getAuthor?->phone))
+            <div class="modal fade verifyNumber" id="verifyNumber">
+                <div id="login-modal">
+                    <div class="login-form default-form">
+                        <div class="form-inner">
+                            <div class="form-inner">
+                                <h3>Verify Phone Number</h3>
+                                <div class="alert alert-danger " id="verifyNumberAlert">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    {{__("Please check the form below for problems")}}
+                                    <ul class="pl-2" id="verifyNumberAlertContent">
+                                    </ul>
+                                </div>
+                                <form class="form" id="bravo-form-verify-otp" method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input type="hidden" name="user_id" value="{{ @$row->create_user }}">
+                                        <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
+                                    </div>
+                                    <div class="form-group d-flex justify-content-around">
+                                        <button class="btn btn-primary" id="sendOtp" type="button">SEND OTP 
+                                            <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                        </button>
+                                        <button class="btn btn-success" id="verifyOtp" type="button">VERIFY 
+                                            <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                    
+                            </div>
                         </div>
-                        <form class="form" id="bravo-form-verify-otp" method="post">
-                            @csrf
-                            <div class="form-group">
-                                <input type="hidden" name="company_id" value="{{ @$row->id }}">
-                                <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
-                            </div>
-                            <div class="form-group d-flex justify-content-around">
-                                <button class="btn btn-primary" id="sendOtp" type="button">SEND OTP 
-                                    <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
-                                </button>
-                                <button class="btn btn-success" id="verifyOtp" type="button">VERIFY 
-                                    <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
-                                </button>
-                            </div>
-                        </form>
-        
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    @endif
-    <!-- Modal End -->
+       @endif
+       <!-- Modal End -->
 
 @endsection
 
@@ -545,114 +546,111 @@
             });
         });
 
-        @if(!empty($row->phone))
+        const verifyAlert = $('#verifyNumberAlert');
+        const verifyAlertContent = $('#verifyNumberAlertContent');
 
-            const verifyAlert = $('#verifyNumberAlert');
-            const verifyAlertContent = $('#verifyNumberAlertContent');
+        verifyAlert.hide();
 
+        $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
+            event.preventDefault();
+            this.blur();
+            $("#verifyNumber").modal({
+                fadeDuration: 300,
+                fadeDelay: 0.15
+            });
+        });
+
+        $('#sendOtp').on('click',function (e) {
+            e.preventDefault();
+            let form = $('#bravo-form-verify-otp');
             verifyAlert.hide();
-
-            $(document).on('click', '.bc-call-modal.verifyNumber', function(event) {
-                event.preventDefault();
-                this.blur();
-                $("#verifyNumber").modal({
-                    fadeDuration: 300,
-                    fadeDelay: 0.15
-                });
+            verifyAlertContent.empty();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                }
             });
-
-            $('#sendOtp').on('click',function (e) {
-                e.preventDefault();
-                let form = $('#bravo-form-verify-otp');
-                verifyAlert.hide();
-                verifyAlertContent.empty();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
-                    }
-                });
-                $.ajax({
-                    'url':  `{{ route('user.company.sendOtp') }}`,
-                    'data': {
-                        'id': form.find('input[name=company_id]').val(),
-                    },
-                    'type': 'POST',
-                    beforeSend: function () {
-                        form.find('.error').hide();
-                        form.find('.icon-loading').css("display", 'inline-block');
-                    },
-                    success: function (data) {
-                        form.find('.icon-loading').hide();
-                        console.log(data);
-                        if (data.error === true) {
-                            if (data.messages !== undefined) {
-                                for(var item in data.messages) {
-                                    var msg = data.messages[item];
-                                    verifyAlertContent.append(`<li>${msg}</li>`);
-                                }
+            $.ajax({
+                'url':  `{{ route('user.sendOtp') }}`,
+                'data': {
+                    'id': form.find('input[name=user_id]').val(),
+                },
+                'type': 'POST',
+                beforeSend: function () {
+                    form.find('.error').hide();
+                    form.find('.icon-loading').css("display", 'inline-block');
+                },
+                success: function (data) {
+                    form.find('.icon-loading').hide();
+                    console.log(data);
+                    if (data.error === true) {
+                        if (data.messages !== undefined) {
+                            for(var item in data.messages) {
+                                var msg = data.messages[item];
+                                verifyAlertContent.append(`<li>${msg}</li>`);
                             }
-                        
-                            verifyAlert.show();
-                        } 
-                    },
-                    error:function (e) {
-                        form.find('.icon-loading').hide();
-                        console.log(e);
-                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
-                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
-                        // }
-                    }
-                });
-            });
-
-            $('#verifyOtp').on('click',function (e) {
-                e.preventDefault();
-                let form = $('#bravo-form-verify-otp');
-                verifyAlert.hide();
-                verifyAlertContent.empty();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
-                    }
-                });
-                $.ajax({
-                    'url':  `{{ route('user.company.verifyNumber') }}`,
-                    'data': {
-                        'id': form.find('input[name=company_id]').val(),
-                        'otp': form.find('input[name=otp]').val(),
-                    },
-                    'type': 'POST',
-                    beforeSend: function () {
-                        form.find('.error').hide();
-                        form.find('.icon-loading').css("display", 'inline-block');
-                    },
-                    success: function (data) {
-                        form.find('.icon-loading').hide();
-                        if (data.error === true) {
-                            if (data.messages !== undefined) {
-                                for(var item in data.messages) {
-                                    console.log(item);
-                                    var msg = data.messages[item];
-                                    verifyAlertContent.append(`<li>${msg}</li>`);
-                                }
-                            }
-                            verifyAlert.show();
-                        } else {
-                            window.location.reload()
                         }
                     
-                    },
-                    error:function (e) {
-                        form.find('.icon-loading').hide();
-                        console.log(e);
-                        // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
-                        //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
-                        // }
-                    }
-                });
+                        verifyAlert.show();
+                    } 
+                },
+                error:function (e) {
+                    form.find('.icon-loading').hide();
+                    console.log(e);
+                    // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                    //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                    // }
+                }
             });
+        });
 
-        @endif
+        $('#verifyOtp').on('click',function (e) {
+            e.preventDefault();
+            let form = $('#bravo-form-verify-otp');
+            verifyAlert.hide();
+            verifyAlertContent.empty();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': form.find('input[name="_token"]').val()
+                }
+            });
+            $.ajax({
+                'url':  `{{ route('user.verifyNumber') }}`,
+                'data': {
+                    'id': form.find('input[name=user_id]').val(),
+                    'otp': form.find('input[name=otp]').val(),
+                },
+                'type': 'POST',
+                beforeSend: function () {
+                    form.find('.error').hide();
+                    form.find('.icon-loading').css("display", 'inline-block');
+                },
+                success: function (data) {
+                    form.find('.icon-loading').hide();
+                    if (data.error === true) {
+                        if (data.messages !== undefined) {
+                            for(var item in data.messages) {
+                                console.log(item);
+                                var msg = data.messages[item];
+                                verifyAlertContent.append(`<li>${msg}</li>`);
+                            }
+                        }
+                        verifyAlert.show();
+                    } else {
+                        window.location.reload()
+                    }
+                
+                },
+                error:function (e) {
+                    form.find('.icon-loading').hide();
+                    console.log(e);
+                    // if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                    //     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
+                    // }
+                }
+            });
+        });
+
 
         $(function() {
 

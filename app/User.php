@@ -57,6 +57,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         'address',
         'address2',
         'phone',
+        'phone_verified_at',
+        'otp',
+        'otp_expired_at',
         'birthday',
         'city',
         'state',
@@ -85,6 +88,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
+        'otp_expired_at' => 'datetime',
     ];
 
     protected $attributes = [
@@ -531,6 +536,16 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 
         return true;
     }
+
+    public function checkCandidateProgress() {
+        if(empty($this->candidate)) return false;
+        if(empty($this->candidate->first_name)) return false;
+        if(empty($this->candidate->last_name)) return false;
+        if(empty($this->candidate->phone)) return false;
+        return true;
+    }
+
+
 
     public function checkGigPostingMaximum()
     {

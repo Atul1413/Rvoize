@@ -549,7 +549,9 @@ jQuery(function ($) {
                             $("#apply-job").modal('hide').parent().removeClass("blocker").remove();
                             $("body").css({overflow : 'auto'});
                         }, 2000);
-                    }else{
+                    }else if (res.status == 3){
+                        window.location.href = superio.url + '/user/candidate/profile';
+                    } else {
                         t.prepend('<div class="apply-alert message-box error">' + res.message + '</div>');
                     }
                 },

@@ -19,7 +19,6 @@ Route::group(['middleware' => ['auth','verified']],function() {
     Route::get('/user/candidate/profile','ProfileController@index')->name('user.candidate.index');
     Route::post('/user/candidate/profile/store','ProfileController@store')->name('user.candidate.store');
 
-    Route::post('/user/candidate/profile/send-otp','ProfileController@sendOtp')->name('user.candidate.sendOtp');
-    Route::post('/user/candidate/profile/verify-phone','ProfileController@verifyNumber')->name('user.candidate.verifyNumber');
+   
 });
 

@@ -9,6 +9,10 @@ Route::group(['prefix'=>'user','middleware' => ['auth','verified']],function(){
     Route::get('/permanently_deleted','UserController@permanentlyDelete')->name("user.permanently.delete");
     Route::get('/profile/change-password','PasswordController@changePassword')->name("user.change_password");
     Route::post('/profile/change-password','PasswordController@changePasswordUpdate')->name("user.change_password.update");
+
+    Route::post('/profile/send-otp','UserController@sendOtp')->name('user.sendOtp');
+    Route::post('/profile/verify-phone','UserController@verifyNumber')->name('user.verifyNumber');
+    
     Route::get('/booking-history','UserController@bookingHistory')->name("user.booking_history");
     Route::get('/enquiry-report','UserController@enquiryReport')->name("vendor.enquiry_report");
     Route::get('/enquiry-report/bulkEdit/{id}','UserController@enquiryReportBulkEdit')->name("vendor.enquiry_report.bulk_edit");

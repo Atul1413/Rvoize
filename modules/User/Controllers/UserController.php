@@ -23,6 +23,7 @@ use Modules\Booking\Models\Enquiry;
 use Modules\Company\Models\Company;
 use Modules\Company\Models\CompanyRequest;
 
+
 class UserController extends FrontendController
 {
     use AuthenticatesUsers;
@@ -320,4 +321,140 @@ class UserController extends FrontendController
         }
         return redirect()->back()->with('success', __('Request company success!'));
     }
+
+
+    public function sendOtp(Request $request) {
+
+        $user = User::where('id', Auth::id())->first() ?? [];
+        if(empty($user)) {
+            $errors = new MessageBag(['user' => __('No User found')]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+
+        if(empty($user->phone)) {
+            $errors = new MessageBag(['phone' => __('Phone must be filled in order to send OTP')]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+
+        $sender ='SEMPWR';
+        $mob = (int) trim($user->phone);
+        $auth='D!~7363OldbDTVDFK';
+        $entity_id = '1201160637699734120';
+        $template_id = '1207162695833282772';
+        $otp = random_int(100000, 999999);
+
+
+        $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '. $otp); 
+        
+        $url = 'http://aquicksms.com/API/sms-api.php?auth='.$auth.'&msisdn='.$mob.'&senderid='.$sender.'&entity_id='.$entity_id.'&template_id='.$template_id.'&message='.$msg;  // API URL
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_POST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // change to 1 to verify cert
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        try {
+            $result = json_decode(curl_exec($ch),true);
+        } catch(\Exception $exception) {
+            Log::warning("Failed to Send SMS : ". $exception->getMessage());
+            $errors = new MessageBag(['failed' => $exception->getMessage()]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+
+        if($result['status'] == 'success' && $result['code'] == 100) {
+            $user->update([
+                'otp' => $otp,
+                'otp_expired_at' => now()->addMinutes(5),
+            ]);
+            return response()->json([
+                'error'    => false,
+                'messages' => 'SMS Sent'
+            ], 200);
+        } else {
+            $errors = new MessageBag(['failed' => __('Oops! Failed to Send SMS')]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+        
+    
+        
+    }
+
+    public function verifyNumber(Request $request) {
+        $rules = [ 'otp' => ['required','digits:6'] ];
+        $messages = ['otp.required' => __('OTP is required'), 'otp.digits' => __('OTP must exactly be of 6 digits') ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'error'    => true,
+                'messages' => $validator->errors()
+            ], 200);
+        }
+
+        $user = User::where('id', Auth::id())->first() ?? [];
+
+        if(empty($user->phone)) {
+            $errors = new MessageBag(['phone' => __('Phone must be filled in order to send OTP')]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+
+        if(empty($user->otp)) {
+            $errors = new MessageBag(['phone' => __('OTP request not given yet. Please click Send OTP')]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+        if(new \DateTime() <= $user->otp_expired_at) {
+            if($user->otp == $request->otp) {
+                $user->update([
+                    'phone_verified_at' => now(),
+                    'otp' => null,
+                    'otp_expired_at' => null,
+                ]);
+                return response()->json([
+                    'error'    => false,
+                    'messages' => 'Profile Verified'
+                ], 200);
+                
+            } {
+                $errors = new MessageBag(['phone' => __('Oops! OTP does not match. Please check again')]);
+                return response()->json([
+                    'error'    => true,
+                    'messages' => $errors
+                ], 200);
+            }
+        } else {
+            $user->update([
+                'otp' => null,
+                'otp_expired_at' => null,
+            ]);
+            $errors = new MessageBag(['phone' => __('OTP has exceeded expiry time. Please request a another OTP')]);
+            return response()->json([
+                'error'    => true,
+                'messages' => $errors
+            ], 200);
+        }
+
+        
+    }
+
+
 }
