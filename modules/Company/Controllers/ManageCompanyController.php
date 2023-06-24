@@ -79,18 +79,24 @@ class ManageCompanyController extends FrontendController{
 
         $row = $this->company::where('owner_id', Auth::id())->first();
 
+        
         $request->validate([
             'name'=>'required',
-            'email'=>'required|email',
+            'email'=>'required|email|unique:bc_companies,email,'.$row->id,
             'phone'=>'required|max:30',
             'founded_in' => 'sometimes|date_format:Y/m/d',
         ]);
-       
+        
         if(empty($row)){
             return redirect(route('user.company.profile'))->with('error', __("No company found"));
         }
-
+        
         $user = User::where('id',Auth::id())->first();
+        // if($user->email != $input['email']) {
+        //     $user->update(['email' => $input['email']]);
+        //     $row->update(['email' => $input['email']]);
+        // }
+
 
         if(!empty($user->phone) ) {
             if($user->phone != $input['phone']) {
@@ -101,7 +107,6 @@ class ManageCompanyController extends FrontendController{
                     'otp_expired_at' => null,
                 ]);
             }
-           
         } else {
             $user->update([
                 'phone' => $input['phone'],
