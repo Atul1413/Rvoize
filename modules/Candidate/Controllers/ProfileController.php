@@ -70,8 +70,6 @@ class ProfileController extends FrontendController
             "country" => 'Country candidate is residing in',
             "city" => 'City candidate lives in',
             "address" => 'Help us to reach you by filling up address',
-            "map_lat" => 'Map Latitude',
-            "map_lng" => 'Map Longitude',
             "education" => 'Atleast one Education details must be provided',
             "experience" => 'Atleast one Experience details must be provided',
             "award" => 'Atleast one Award/Certifications detail must be given',

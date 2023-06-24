@@ -129,7 +129,7 @@ class JobController extends Controller{
 
         if(!auth()->user()->checkCandidateProgress()) {
             return $this->sendSuccess(['status'=> 3],'Please complete candidate profile');
-        }
+        } 
 
         $cv_file = $request->file('cv_file');
         $apply_cv_id = $request->input('apply_cv_id');

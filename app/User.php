@@ -519,29 +519,50 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     }
 
     public function checkCompanyProgress() {
+        if(empty($this->phone)) return false;
+        if(empty($this->phone_verified_at)) return false; 
         if(empty($this->company)) return false;
-        if(empty($this->company->name)) return false;
-        if(empty($this->company->phone)) return false;
-        if(empty($this->company->email)) return false;
-        if(empty($this->company->phone_verified_at)) return false; 
-        if(empty($this->company->website)) return false; 
-        if(empty($this->company->founded_in)) return false; 
-        if(empty($this->company->about)) return false; 
-        if(empty($this->company->city)) return false; 
-        if(empty($this->company->state)) return false; 
-        if(empty($this->company->country)) return false; 
-        if(empty($this->company->address)) return false; 
-        if(empty($this->company->category_id)) return false; 
+        if(empty($this->company?->name)) return false;
+        if(empty($this->company?->phone)) return false;
+        if(empty($this->company?->email)) return false;
+        if(empty($this->company?->website)) return false; 
+        if(empty($this->company?->founded_in)) return false; 
+        if(empty($this->company?->about)) return false; 
+        if(empty($this->company?->city)) return false; 
+        if(empty($this->company?->state)) return false; 
+        if(empty($this->company?->country)) return false; 
+        if(empty($this->company?->address)) return false; 
+        if(empty($this->company?->category_id)) return false; 
         if($this->company?->companyTerm->isEmpty()) return false; 
 
         return true;
     }
 
     public function checkCandidateProgress() {
+        if(empty($this->first_name)) return false;
+        if(empty($this->last_name)) return false;
+        if(empty($this->email)) return false;
+        if(empty($this->bio)) return false;
+        if(empty($this->phone)) return false;
+        if(empty($this->phone_verified_at)) return false;
         if(empty($this->candidate)) return false;
-        if(empty($this->candidate->first_name)) return false;
-        if(empty($this->candidate->last_name)) return false;
-        if(empty($this->candidate->phone)) return false;
+        if(empty($this->candidate?->title)) return false;
+        if(empty($this->candidate?->gender)) return false;
+        if(empty($this->candidate?->expected_salary)) return false;
+        if(empty($this->candidate?->salary_type)) return false;
+        if(empty($this->candidate?->experience_year)) return false;
+        if(empty($this->candidate?->education_level)) return false;
+        if(empty($this->candidate?->languages)) return false;
+        if(empty($this->candidate?->country)) return false;
+        if(empty($this->candidate?->city)) return false;
+        if(empty($this->candidate?->address)) return false;
+        if(empty($this->candidate?->education)) return false;
+        if(empty($this->candidate?->experience)) return false;
+        if(empty($this->candidate?->award)) return false;
+        // if(empty($this->social_media)) return false;
+        if(empty($this->candidate?->categories)) return false;
+        if(empty($this->candidate?->skills)) return false;
+        
         return true;
     }
 

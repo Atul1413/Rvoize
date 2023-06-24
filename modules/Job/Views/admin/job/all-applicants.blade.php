@@ -156,10 +156,10 @@
                                                                             <div class="applied-item">
                                                                                 <div class="label">{{ __("Candidate:") }}</div>
                                                                                 <div class="val">
-                                                                                    @if(!empty($row->candidateInfo->user->getDisplayName()))
-                                                                                        <a href="{{ $row->candidateInfo->getDetailUrl().'?apply_id='.$row->id }}" target="_blank">
-                                                                                            <img src="{{ $row->candidateInfo->user->getAvatarUrl() }}" style="border-radius: 50%" class="company-logo" />
-                                                                                            {{$row->candidateInfo->user->getDisplayName() ?? ''}}
+                                                                                    @if(!empty($row->candidateInfo?->user?->getDisplayName()))
+                                                                                        <a href="{{ $row->candidateInfo?->getDetailUrl().'?apply_id='.$row->id }}" target="_blank">
+                                                                                            <img src="{{ $row->candidateInfo?->user?->getAvatarUrl() }}" style="border-radius: 50%" class="company-logo" />
+                                                                                            {{$row->candidateInfo?->user?->getDisplayName() ?? ''}}
                                                                                         </a>
                                                                                     @endif
                                                                                 </div>

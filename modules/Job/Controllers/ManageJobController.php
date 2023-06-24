@@ -233,7 +233,7 @@ class ManageJobController extends FrontendController
                             'avatar' => $row->company?->getAuthor?->avatar_url ?? ($row->jobInfo?->user?->avatar_url ?? ''),
                             'link' => route('job.particular',['slug' => $row->slug]),
                             'type' => 'job_alert',
-                            'message' => __(':company posted job for :job position. Check Job details', ['company' => $row->company?->name ?? '', 'job' => $row->title ?? ''])
+                            'message' => __(':company posted a job for :job position. Check Job details', ['company' => $row->company?->name ?? '', 'job' => $row->title ?? ''])
                         ];
 
                         event(new CandidateAlertJob($data));

@@ -161,10 +161,10 @@
                                                                             <div class="applied-item">
                                                                                 <div class="label"><?php echo e(__("Candidate:")); ?></div>
                                                                                 <div class="val">
-                                                                                    <?php if(!empty($row->candidateInfo->user->getDisplayName())): ?>
-                                                                                        <a href="<?php echo e($row->candidateInfo->getDetailUrl().'?apply_id='.$row->id); ?>" target="_blank">
-                                                                                            <img src="<?php echo e($row->candidateInfo->user->getAvatarUrl()); ?>" style="border-radius: 50%" class="company-logo" />
-                                                                                            <?php echo e($row->candidateInfo->user->getDisplayName() ?? ''); ?>
+                                                                                    <?php if(!empty($row->candidateInfo?->user?->getDisplayName())): ?>
+                                                                                        <a href="<?php echo e($row->candidateInfo?->getDetailUrl().'?apply_id='.$row->id); ?>" target="_blank">
+                                                                                            <img src="<?php echo e($row->candidateInfo?->user?->getAvatarUrl()); ?>" style="border-radius: 50%" class="company-logo" />
+                                                                                            <?php echo e($row->candidateInfo?->user?->getDisplayName() ?? ''); ?>
 
                                                                                         </a>
                                                                                     <?php endif; ?>
