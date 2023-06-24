@@ -55,9 +55,9 @@ class CandidateController extends FrontendController
                     "title"   => $row->title,
                     "lat"     => (float)$row->map_lat,
                     "lng"     => (float)$row->map_lng,
-//                    "gallery" => $row->getGallery(true),
+                    // "gallery" => $row->getGallery(true),
                     "infobox" => view('Candidate::frontend.layouts.details.candidate-marker-infobox', ['row' => $row,'disable_lazyload'=>1,'wrap_class'=>'infobox-item'])->render(),
-//                    'marker'  => asset('images/icons/png/pin.png'),
+                    //'marker'  => asset('images/icons/png/pin.png'),
                     'customMarker' => view('Candidate::frontend.layouts.details.candidate-marker-avatar', ['row' => $row,'disable_lazyload'=>1])->render(),
                 ];
             }

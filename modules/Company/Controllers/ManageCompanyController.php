@@ -16,6 +16,7 @@ use Modules\Location\Models\Location;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Arr;
+use Propaganistas\LaravelPhone\PhoneNumber;
 use App\User;
 use Validator;
 
@@ -82,9 +83,16 @@ class ManageCompanyController extends FrontendController{
         
         $request->validate([
             'name'=>'required',
-            'email'=>'required|email|unique:bc_companies,email,'.$row->id,
-            'phone'=>'required|max:30',
+            'email'=>'required|email|max:255|unique:bc_companies,email,'.$row->id,
+            'phone'=>'required|max:30|phone:AUTO',
             'founded_in' => 'sometimes|date_format:Y/m/d',
+        ],[
+            'email.required' => 'Email is required.',
+            'email.max' => 'Email must not be greater than 255 characters.',
+            'email.unique' => 'Email is already taken by another Company',
+            'phone.phone' => 'Contact number must be a E.164 number. Such as +[Country Code][Subscriber Number] i.e +91898XXX95080 .',
+            'phone.max' => 'Contact number must not be greater than 30 characters.',
+            'founded_in.date_format' => 'Est. Since date must be in YYYY/mm/dd format'
         ]);
         
         if(empty($row)){
@@ -92,16 +100,11 @@ class ManageCompanyController extends FrontendController{
         }
         
         $user = User::where('id',Auth::id())->first();
-        // if($user->email != $input['email']) {
-        //     $user->update(['email' => $input['email']]);
-        //     $row->update(['email' => $input['email']]);
-        // }
-
 
         if(!empty($user->phone) ) {
-            if($user->phone != $input['phone']) {
+            if(($user->phone != $input['phone']) && !empty($input['phone'])) {
                 $user->update([
-                    'phone' => $input['phone'],
+                    'phone' => (string) PhoneNumber::make($input['phone']),
                     'phone_verified_at' => null,
                     'otp' => null,
                     'otp_expired_at' => null,
@@ -109,7 +112,7 @@ class ManageCompanyController extends FrontendController{
             }
         } else {
             $user->update([
-                'phone' => $input['phone'],
+                'phone' => (string) PhoneNumber::make($input['phone']),
                 'phone_verified_at' => $user->phone_verified_at,
                 'otp' => $user->otp,
                 'otp_expired_at' => $user->otp_expired_at,

@@ -343,7 +343,7 @@ class UserController extends FrontendController
         }
 
         $sender ='SEMPWR';
-        $mob = (int) trim($user->phone);
+        $mob =  str_replace("+","",$user->phone);
         $auth='D!~7363OldbDTVDFK';
         $entity_id = '1201160637699734120';
         $template_id = '1207162695833282772';

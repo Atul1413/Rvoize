@@ -15,6 +15,7 @@ use Modules\FrontendController;
 use Modules\Location\Models\Location;
 use Modules\Skill\Models\Skill;
 use Illuminate\Support\Arr;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 
 class ProfileController extends FrontendController
@@ -175,8 +176,17 @@ class ProfileController extends FrontendController
             'first_name'              => 'required|max:255',
             'last_name'              => 'required|max:255',
             'title'              => 'required|max:255',
-            'phone'              => 'required|max:30',
+            'phone'              => 'required|max:30|phone:AUTO',
             'email'              => 'required|max:255|unique:users,email,'.$user->id,
+        ],[
+            'first_name.required' => 'First name is required.',
+            'last_name.required' => 'Last name is required.',
+            'title.required' => 'Current position is required.',
+            'email.required' => 'Email is required.',
+            'email.max' => 'Email must not be greater than 255 characters.',
+            'email.unique' => 'Email is already taken by another user.',
+            'phone.phone' => 'Contact number must be a E.164 number. Such as +[Country Code][Subscriber Number] i.e +91898XXX95080 .',
+            'phone.max' => 'Contact number must not be greater than 30 characters.',
         ]);
 
         
@@ -184,13 +194,20 @@ class ProfileController extends FrontendController
         $candidate->id = $user->id;
 
 
+
         if(!empty($user->phone) && ($user->phone != $request->phone)) {
             $request->merge([
+                'phone' => (string) PhoneNumber::make($request->phone),
                 'phone_verified_at' => null,
                 'otp' => null,
                 'otp_expired_at' => null,
             ]);
         } else {
+            if(empty($user->phone) && !empty($request->phone)) {
+                $request->merge([
+                    'phone' => (string) PhoneNumber::make($request->phone),
+                ]);
+            }
             $request->merge([
                 'phone_verified_at' => $user->phone_verified_at,
                 'otp' => $user->otp,
