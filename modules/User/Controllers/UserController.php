@@ -230,7 +230,7 @@ class UserController extends FrontendController
                     $candidate = new Candidate();
                     $candidate_data = [
                         'id'=>$user->id,
-                        'title'=>$user->display_name
+                        // 'title'=>$user->display_name
                     ];
                     $candidate->fillByAttr(array_keys($candidate_data),$candidate_data);
                     $candidate->save();
@@ -429,6 +429,11 @@ class UserController extends FrontendController
                     'otp' => null,
                     'otp_expired_at' => null,
                 ]);
+
+                if($user?->company()->exists()) {
+                    Company::where('id',$user->company?->id)->first()?->update(['phone' => $user->phone]);
+                }
+
                 return response()->json([
                     'error'    => false,
                     'messages' => 'Profile Verified'

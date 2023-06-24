@@ -179,7 +179,14 @@
                                                 </div>
                                             </div>
                                         <?php endif; ?>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><?php echo e(__('E-mail')); ?> <span class="text-danger">*</span></label>
+                                                <input type="email" required value="<?php echo e(old('email',$row->user?->email)); ?>" placeholder="<?php echo e(__('Email')); ?>" name="email" class="form-control"  >
+                                            </div>
+                                        </div>  
                                     </div>
+                                    
                                 </div>
                                 <hr>
                                 <!-- Basic Extra -->

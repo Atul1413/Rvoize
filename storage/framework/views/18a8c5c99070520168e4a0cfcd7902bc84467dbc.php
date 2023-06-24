@@ -5,7 +5,7 @@
     <div class="form-group-item">
         <div class="g-items-header">
             <div class="row">
-                <div class="col-md-2"><?php echo e(__("Time")); ?></div>
+                <div class="col-md-2"><?php echo e(__("Year")); ?></div>
                 <div class="col-md-3"><?php echo e(__('Location')); ?></div>
                 <div class="col-md-3"><?php echo e(__('Reward')); ?></div>
                 <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
@@ -75,7 +75,7 @@
     <div class="form-group-item">
         <div class="g-items-header">
             <div class="row">
-                <div class="col-md-2"><?php echo e(__("Time")); ?></div>
+                <div class="col-md-2"><?php echo e(__("Year")); ?></div>
                 <div class="col-md-3"><?php echo e(__('Location')); ?></div>
                 <div class="col-md-3"><?php echo e(__('Position')); ?></div>
                 <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
@@ -141,11 +141,11 @@
     </div>
 
     <hr>
-    <h3 class="panel-body-title"><?php echo e(__('Award')); ?></h3>
+    <h3 class="panel-body-title"><?php echo e(__('Certifications')); ?></h3>
     <div class="form-group-item">
         <div class="g-items-header">
             <div class="row">
-                <div class="col-md-2"><?php echo e(__("Time")); ?></div>
+                <div class="col-md-2"><?php echo e(__("Year")); ?></div>
                 <div class="col-md-3"><?php echo e(__('Location')); ?></div>
                 <div class="col-md-3"><?php echo e(__('Reward')); ?></div>
                 <div class="col-md-3"><?php echo e(__('More Information')); ?></div>

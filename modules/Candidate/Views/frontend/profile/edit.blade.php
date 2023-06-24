@@ -193,7 +193,14 @@
                                                 </div>
                                             </div>
                                         @endif
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ __('E-mail')}} <span class="text-danger">*</span></label>
+                                                <input type="email" required value="{{old('email',$row->user?->email)}}" placeholder="{{ __('Email')}}" name="email" class="form-control"  >
+                                            </div>
+                                        </div>  
                                     </div>
+                                    
                                 </div>
                                 <hr>
                                 <!-- Basic Extra -->
