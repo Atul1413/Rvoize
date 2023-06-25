@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(new ScanExpiredUserPlan())->everyTwoHours()->withoutOverlapping();
         $schedule->call(new AutoCompleteGigOrder())->hourly()->withoutOverlapping();
         $schedule->command(CreatePayoutsCommand::class)->monthlyOn(15);
-        // $schedule->call(new UserPlanExpired())->daily()->withoutOverlapping();
+        // $schedule->command(UserPlanExpired::class)->daily()->withoutOverlapping();
     }
 
     /**
