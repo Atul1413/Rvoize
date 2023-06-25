@@ -567,7 +567,7 @@
                             <form class="form" id="bravo-form-verify-otp" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="hidden" name="user_id" value="{{ @$row->create_user }}">
+                                    <input type="hidden" name="user_id" value="{{ @$row->owner_id }}">
                                     <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
                                 </div>
                                 <div class="form-group d-flex flex-column flex-sm-row justify-content-around">

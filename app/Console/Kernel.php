@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\AutoCompleteGigOrder;
 use App\Console\Commands\ScanExpiredUserPlan;
+use App\Console\Commands\UserPlanExpired;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Modules\Payout\Commands\CreatePayoutsCommand;
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(new ScanExpiredUserPlan())->everyTwoHours()->withoutOverlapping();
         $schedule->call(new AutoCompleteGigOrder())->hourly()->withoutOverlapping();
         $schedule->command(CreatePayoutsCommand::class)->monthlyOn(15);
+        // $schedule->call(new UserPlanExpired())->daily()->withoutOverlapping();
     }
 
     /**
