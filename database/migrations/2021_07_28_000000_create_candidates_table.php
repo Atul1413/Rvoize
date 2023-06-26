@@ -24,6 +24,9 @@ class CreateCandidatesTable extends Migration
             $table->string('allow_search',255)->nullable();
             $table->text('education')->nullable();
             $table->text('experience')->nullable();
+            $table->unsignedBigInteger('job_type_id')->nullable();
+            $table->string('relocate',5)->nullable();
+            $table->string('work_type',30)->nullable();
             $table->text('award')->nullable();
             $table->text('social_media')->nullable();
             $table->string('languages',255)->nullable();

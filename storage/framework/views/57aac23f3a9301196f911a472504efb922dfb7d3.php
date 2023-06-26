@@ -1,5 +1,5 @@
-@extends('layouts.user')
-@section('head')
+
+<?php $__env->startSection('head'); ?>
     <style>
         #permanentlyDeleteAccount .close-modal {
             top: 35px;
@@ -74,52 +74,47 @@
             left: 0;
         }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <div class="bravo_user_profile p-0">
         <div class="d-flex justify-content-between mb20">
             <div class="upper-title-box">
-                <h3 class="title">{{ __('My Profile') }}</h3>
-                <div class="text">{{ __('Ready to jump back in?') }}</div>
+                <h3 class="title"><?php echo e(__('My Profile')); ?></h3>
+                <div class="text"><?php echo e(__('Ready to jump back in?')); ?></div>
             </div>
-            {{--
-            <div class="title-actions">
-                <a href="{{route('user.upgrade_company')}}" class="btn btn-warning text-light">{{__("Become a Company")}}</a>
-                 @if ($url = $row->getDetailUrl())
-                    <a href="{{$url}}" class="btn btn-info text-light ml-3"><i class="la la-eye"></i> {{__("View profile")}}</a>
-                @endif 
-            </div>
-            --}}
+            
         </div>
 
-        @include('admin.message')
+        <?php echo $__env->make('admin.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <!-- Profile Progress Bar -->
-        @if (count($percentage) > 0)
+        <?php if(count($percentage) > 0): ?>
             <div class="row justify-content-center">
-                @foreach ($percentage as $percentName => $percentValue)
-                    @if ($percentName === 'errors' && !empty($percentValue))
+                <?php $__currentLoopData = $percentage; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $percentName => $percentValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if($percentName === 'errors' && !empty($percentValue)): ?>
                         <div class="col-12">
                             <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
-                                {{ __('Please fill the following below to complete the Profile progress') }}
+                                <?php echo e(__('Please fill the following below to complete the Profile progress')); ?>
+
                                 <ul class="pl-2">
-                                    @foreach ($percentValue as $fillUpMessage)
-                                        <li>{{ $fillUpMessage }}</li>
-                                    @endforeach
+                                    <?php $__currentLoopData = $percentValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fillUpMessage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li><?php echo e($fillUpMessage); ?></li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </ul>
                             </div>
                         </div>
-                        @continue;
-                    @endif
+                        <?php continue; ?>;
+                    <?php endif; ?>
                     <div class="col-xl-3 col-md-4 col-sm-6 mb-5">
                         <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;">{{ $percentName }}
+                            <h2 class="h6 font-weight-bold text-center mb-4" style="height:30px;"><?php echo e($percentName); ?>
+
                                 Percentage
                             </h2>
 
                             <!-- Progress bar 3 -->
-                            <div class="progress mx-auto" data-value='{{ $percentValue }}'>
+                            <div class="progress mx-auto" data-value='<?php echo e($percentValue); ?>'>
 
                                 <span class="progress-left">
                                     <span class="progress-bar border-primary"></span>
@@ -129,7 +124,7 @@
                                 </span>
                                 <div
                                     class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                    <div class="h3 font-weight-bold">{{ $percentValue }} <span class="small">%</span>
+                                    <div class="h3 font-weight-bold"><?php echo e($percentValue); ?> <span class="small">%</span>
                                     </div>
                                 </div>
                             </div>
@@ -138,21 +133,21 @@
 
                         </div>
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-        @endif
+        <?php endif; ?>
         <!-- Profile Progress Bar End-->
 
 
-        <form action="{{ route('user.candidate.store') }}" method="post" class="default-form">
-            @csrf
+        <form action="<?php echo e(route('user.candidate.store')); ?>" method="post" class="default-form">
+            <?php echo csrf_field(); ?>
             <div class="row">
                 <div class="col-lg-9 col-12">
                     <!-- Basic Information -->
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
                             <div class="widget-title">
-                                <h4>{{ __('Basic Information') }}</h4>
+                                <h4><?php echo e(__('Basic Information')); ?></h4>
                             </div>
                             <div class="widget-content">
 
@@ -160,17 +155,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('First name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" value="{{ old('first_name', $user->first_name) }}"
-                                                    name="first_name" placeholder="{{ __('First name') }}"
+                                                <label><?php echo e(__('First name')); ?> <span class="text-danger">*</span></label>
+                                                <input type="text" value="<?php echo e(old('first_name', $user->first_name)); ?>"
+                                                    name="first_name" placeholder="<?php echo e(__('First name')); ?>"
                                                     class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Last name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" value="{{ old('last_name', $user->last_name) }}"
-                                                    name="last_name" placeholder="{{ __('Last name') }}"
+                                                <label><?php echo e(__('Last name')); ?> <span class="text-danger">*</span></label>
+                                                <input type="text" value="<?php echo e(old('last_name', $user->last_name)); ?>"
+                                                    name="last_name" placeholder="<?php echo e(__('Last name')); ?>"
                                                     class="form-control">
                                             </div>
                                         </div>
@@ -178,22 +173,22 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('E-mail') }} <span class="text-danger">*</span></label>
+                                                <label><?php echo e(__('E-mail')); ?> <span class="text-danger">*</span></label>
                                                 <input type="email" required
-                                                    value="{{ old('email', $row->user?->email) }}"
-                                                    placeholder="{{ __('Email') }}" name="email" class="form-control">
+                                                    value="<?php echo e(old('email', $row->user?->email)); ?>"
+                                                    placeholder="<?php echo e(__('Email')); ?>" name="email" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="gender">{{ __('Gender') }}</label>
+                                                <label for="gender"><?php echo e(__('Gender')); ?></label>
                                                 <select class="form-control" id="gender" name="gender">
-                                                    <option value="" @if (old('gender', @$user->candidate->gender) == '') selected @endif>
-                                                        {{ __('Select') }}</option>
-                                                    <option value="male" @if (old('gender', @$user->candidate->gender) == 'male') selected @endif>
-                                                        {{ __('Male') }}</option>
-                                                    <option value="female" @if (old('gender', @$user->candidate->gender) == 'female') selected @endif>
-                                                        {{ __('Female') }}</option>
+                                                    <option value="" <?php if(old('gender', @$user->candidate->gender) == ''): ?> selected <?php endif; ?>>
+                                                        <?php echo e(__('Select')); ?></option>
+                                                    <option value="male" <?php if(old('gender', @$user->candidate->gender) == 'male'): ?> selected <?php endif; ?>>
+                                                        <?php echo e(__('Male')); ?></option>
+                                                    <option value="female" <?php if(old('gender', @$user->candidate->gender) == 'female'): ?> selected <?php endif; ?>>
+                                                        <?php echo e(__('Female')); ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -201,30 +196,30 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Contact Number') }} <span
+                                                <label><?php echo e(__('Contact Number')); ?> <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" value="{{ old('phone', @$row->user?->phone) }}"
-                                                    placeholder="{{ __('Contact Number') }}" name="phone"
+                                                <input type="text" value="<?php echo e(old('phone', @$row->user?->phone)); ?>"
+                                                    placeholder="<?php echo e(__('Contact Number')); ?>" name="phone"
                                                     class="form-control" required>
                                             </div>
                                         </div>
-                                        @if (empty($row->user?->phone_verified_at) && !empty($row->user?->phone))
+                                        <?php if(empty($row->user?->phone_verified_at) && !empty($row->user?->phone)): ?>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>{{ __('Verify Contact Number') }} </label>
+                                                    <label><?php echo e(__('Verify Contact Number')); ?> </label>
                                                     <br />
                                                     <button class="btn btn-primary bc-call-modal mt-1 verifyNumber"
                                                         type="button">Send Verify Status</button>
                                                 </div>
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
                                         
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Spoken Languages known') }}</label>
+                                                <label><?php echo e(__('Spoken Languages known')); ?></label>
                                                 <select id="languages" name="languages[]" class="form-control"
                                                     multiple="multiple">
-                                                    <option value="">{{ __('-- Please Select --') }}</option>
+                                                    <option value=""><?php echo e(__('-- Please Select --')); ?></option>
                                                     <?php
                                                     foreach ($languages as $language) {
                                                         $selected = '';
@@ -248,22 +243,22 @@
                                    
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Website') }}</label>
-                                                <input type="text" value="{{ old('website', @$user->candidate->website) }}"
-                                                    name="website" placeholder="{{ __('Website') }}" class="form-control">
+                                                <label><?php echo e(__('Website')); ?></label>
+                                                <input type="text" value="<?php echo e(old('website', @$user->candidate->website)); ?>"
+                                                    name="website" placeholder="<?php echo e(__('Website')); ?>" class="form-control">
                                             </div>
                                         </div>
                                        
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Work Experience') }}</label>
+                                                <label><?php echo e(__('Work Experience')); ?></label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ __('Work Experience') }}" name="experience_year"
-                                                        value="{{ old('experience_year', @$user->candidate->experience_year) }}">
+                                                        placeholder="<?php echo e(__('Work Experience')); ?>" name="experience_year"
+                                                        value="<?php echo e(old('experience_year', @$user->candidate->experience_year)); ?>">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text"
-                                                            style="font-size: 14px;">{{ __('year(s)') }}</span>
+                                                            style="font-size: 14px;"><?php echo e(__('year(s)')); ?></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,7 +271,7 @@
                                             <div class="form-group">
                                                 <label for="bio">About me</label>
                                                 <div>
-                                                    <textarea name="bio" id="bio" rows="12" class="form-control">{{ strip_tags(old('bio', $user->bio)) }}</textarea>
+                                                    <textarea name="bio" id="bio" rows="12" class="form-control"><?php echo e(strip_tags(old('bio', $user->bio))); ?></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,38 +280,38 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="">{{ __('Country') }}</label>
+                                                <label class=""><?php echo e(__('Country')); ?></label>
                                                 <select name="country" class="form-control" id="country-sms-testing">
-                                                    <option value="">{{ __('-- Select --') }}</option>
-                                                    @foreach (get_country_lists() as $id => $name)
-                                                        <option @if (@$user->candidate->country == $id) selected @endif
-                                                            value="{{ $id }}">{{ $name }}</option>
-                                                    @endforeach
+                                                    <option value=""><?php echo e(__('-- Select --')); ?></option>
+                                                    <?php $__currentLoopData = get_country_lists(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $name): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option <?php if(@$user->candidate->country == $id): ?> selected <?php endif; ?>
+                                                            value="<?php echo e($id); ?>"><?php echo e($name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('City') }}</label>
-                                                <input type="text" value="{{ old('city', @$user->candidate->city) }}"
-                                                    name="city" placeholder="{{ __('City') }}" class="form-control">
+                                                <label><?php echo e(__('City')); ?></label>
+                                                <input type="text" value="<?php echo e(old('city', @$user->candidate->city)); ?>"
+                                                    name="city" placeholder="<?php echo e(__('City')); ?>" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>{{ __('Address Line') }}</label>
+                                                <label><?php echo e(__('Address Line')); ?></label>
                                                 <input type="text"
-                                                    value="{{ old('address', @$user->candidate->address) }}"
-                                                    placeholder="{{ __('Address') }}" name="address" class="form-control">
+                                                    value="<?php echo e(old('address', @$user->candidate->address)); ?>"
+                                                    placeholder="<?php echo e(__('Address')); ?>" name="address" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label">{{ __('Location') }}</label>
-                                                @if (!empty($is_smart_search))
+                                                <label class="control-label"><?php echo e(__('Location')); ?></label>
+                                                <?php if(!empty($is_smart_search)): ?>
                                                     <div class="form-group-smart-search">
                                                         <div class="form-content">
-                                                            @php
+                                                            <?php
                                                                 $location_name = '';
                                                                 $list_json = [];
                                                                 $candidate = $user->candidate;
@@ -334,24 +329,24 @@
                                                                     }
                                                                 };
                                                                 $traverse($locations);
-                                                            @endphp
+                                                            ?>
                                                             <div class="smart-search">
                                                                 <input type="text"
                                                                     class="smart-search-location parent_text form-control"
-                                                                    placeholder="{{ __('-- Please Select --') }}"
-                                                                    value="{{ $location_name }}"
-                                                                    data-onLoad="{{ __('Loading...') }}"
-                                                                    data-default="{{ json_encode($list_json) }}">
+                                                                    placeholder="<?php echo e(__('-- Please Select --')); ?>"
+                                                                    value="<?php echo e($location_name); ?>"
+                                                                    data-onLoad="<?php echo e(__('Loading...')); ?>"
+                                                                    data-default="<?php echo e(json_encode($list_json)); ?>">
                                                                 <input type="hidden" class="child_id" name="location_id"
-                                                                    value="{{ @$user->candidate->location_id ?? Request::query('location_id') }}">
+                                                                    value="<?php echo e(@$user->candidate->location_id ?? Request::query('location_id')); ?>">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @else
+                                                <?php else: ?>
                                                     <div class="">
                                                         <select name="location_id" class="form-control">
-                                                            <option value="">{{ __('-- Please Select --') }}</option>
-                                                            @php
+                                                            <option value=""><?php echo e(__('-- Please Select --')); ?></option>
+                                                            <?php
                                                                 $candidate = $user->candidate;
                                                                 $traverse = function ($locations, $prefix = '') use (&$traverse, $candidate) {
                                                                     foreach ($locations as $location) {
@@ -364,35 +359,35 @@
                                                                     }
                                                                 };
                                                                 $traverse($locations);
-                                                            @endphp
+                                                            ?>
                                                         </select>
                                                     </div>
-                                                @endif
+                                                <?php endif; ?>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">{{ __('The geographic coordinate') }}</label>
+                                                <label class="control-label"><?php echo e(__('The geographic coordinate')); ?></label>
                                                 <div class="control-map-group">
                                                     <div id="map_content"></div>
-                                                    <input type="text" placeholder="{{ __('Search by name...') }}"
+                                                    <input type="text" placeholder="<?php echo e(__('Search by name...')); ?>"
                                                         class="bravo_searchbox form-control" autocomplete="off"
                                                         onkeydown="return event.key !== 'Enter';">
                                                     <div class="g-control">
                                                         <div class="form-group">
-                                                            <label>{{ __('Map Latitude') }}:</label>
+                                                            <label><?php echo e(__('Map Latitude')); ?>:</label>
                                                             <input type="text" name="map_lat" class="form-control"
-                                                                value="{{ @$user->candidate->map_lat ?? '51.505' }}"
+                                                                value="<?php echo e(@$user->candidate->map_lat ?? '51.505'); ?>"
                                                                 onkeydown="return event.key !== 'Enter';">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>{{ __('Map Longitude') }}:</label>
+                                                            <label><?php echo e(__('Map Longitude')); ?>:</label>
                                                             <input type="text" name="map_lng" class="form-control"
-                                                                value="{{ @$user->candidate->map_lng ?? '-0.09' }}"
+                                                                value="<?php echo e(@$user->candidate->map_lng ?? '-0.09'); ?>"
                                                                 onkeydown="return event.key !== 'Enter';">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>{{ __('Map Zoom') }}:</label>
+                                                            <label><?php echo e(__('Map Zoom')); ?>:</label>
                                                             <input type="text" name="map_zoom" class="form-control"
-                                                                value="{{ @$user->candidate->map_zoom ?? '8' }}"
+                                                                value="<?php echo e(@$user->candidate->map_zoom ?? '8'); ?>"
                                                                 onkeydown="return event.key !== 'Enter';">
                                                         </div>
                                                     </div>
@@ -415,34 +410,34 @@
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
                             <div class="widget-title">
-                                <h4>{{ __('Qualification Information') }}</h4>
+                                <h4><?php echo e(__('Qualification Information')); ?></h4>
                             </div>
                             <div class="widget-content">
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="education_level">{{ __('Highest Qualification') }}</label>
+                                            <label for="education_level"><?php echo e(__('Highest Qualification')); ?></label>
                                             <select class="form-control" id="education_level" name="education_level">
-                                                <option value="" @if (old('education_level', @$user->candidate->education_level) == '') selected @endif>
-                                                    {{ __('Select') }}</option>
+                                                <option value="" <?php if(old('education_level', @$user->candidate->education_level) == ''): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Select')); ?></option>
                                                 <option value="certificate"
-                                                    @if (old('education_level', @$user->candidate->education_level) == 'certificate') selected @endif>
-                                                    {{ __('Certificate') }}</option>
+                                                    <?php if(old('education_level', @$user->candidate->education_level) == 'certificate'): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Certificate')); ?></option>
                                                 <option value="diploma"
-                                                    @if (old('education_level', @$user->candidate->education_level) == 'diploma') selected @endif>
-                                                    {{ __('Diploma') }}</option>
+                                                    <?php if(old('education_level', @$user->candidate->education_level) == 'diploma'): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Diploma')); ?></option>
                                                 <option value="associate"
-                                                    @if (old('education_level', @$user->candidate->education_level) == 'associate') selected @endif>
-                                                    {{ __('Associate') }}</option>
+                                                    <?php if(old('education_level', @$user->candidate->education_level) == 'associate'): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Associate')); ?></option>
                                                 <option value="bachelor"
-                                                    @if (old('education_level', @$user->candidate->education_level) == 'bachelor') selected @endif>
-                                                    {{ __('Bachelor') }}</option>
-                                                <option value="master" @if (old('education_level', @$user->candidate->education_level) == 'master') selected @endif>
-                                                    {{ __('Master') }}</option>
+                                                    <?php if(old('education_level', @$user->candidate->education_level) == 'bachelor'): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Bachelor')); ?></option>
+                                                <option value="master" <?php if(old('education_level', @$user->candidate->education_level) == 'master'): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Master')); ?></option>
                                                 <option value="professional"
-                                                    @if (old('education_level', @$user->candidate->education_level) == 'professional') selected @endif>
-                                                    {{ __('Professional') }}</option>
+                                                    <?php if(old('education_level', @$user->candidate->education_level) == 'professional'): ?> selected <?php endif; ?>>
+                                                    <?php echo e(__('Professional')); ?></option>
                                             </select>
                                         </div>
                                     </div>
@@ -450,47 +445,47 @@
                                
                                 <!-- EEA -->
 
-                                <h3 class="panel-body-title">{{ __('Education') }}</h3>
+                                <h3 class="panel-body-title"><?php echo e(__('Education')); ?></h3>
                                 <div class="form-group-item">
                                     <div class="g-items-header">
                                         <div class="row">
-                                            <div class="col-md-2">{{ __('Year') }}</div>
-                                            <div class="col-md-3">{{ __('Location') }}</div>
-                                            <div class="col-md-3">{{ __('Reward') }}</div>
-                                            <div class="col-md-3">{{ __('More Information') }}</div>
+                                            <div class="col-md-2"><?php echo e(__('Year')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Location')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Reward')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
                                             <div class="col-md-1"></div>
                                         </div>
                                     </div>
                                     <div class="g-items">
-                                        @php $educations = @$user->candidate->education; @endphp
-                                        @if (!empty($educations))
-                                            @foreach ($educations as $key => $item)
-                                                <div class="item" data-number="{{ $key }}">
+                                        <?php $educations = @$user->candidate->education; ?>
+                                        <?php if(!empty($educations)): ?>
+                                            <?php $__currentLoopData = $educations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="item" data-number="<?php echo e($key); ?>">
                                                     <div class="row">
                                                         <div class="col-md-1">
                                                             <input type="text"
-                                                                name="education[{{ $key }}][from]"
-                                                                class="form-control" value="{{ @$item['from'] }}"
-                                                                placeholder="{{ __('From') }}">
+                                                                name="education[<?php echo e($key); ?>][from]"
+                                                                class="form-control" value="<?php echo e(@$item['from']); ?>"
+                                                                placeholder="<?php echo e(__('From')); ?>">
                                                         </div>
                                                         <div class="col-md-1">
                                                             <input type="text"
-                                                                name="education[{{ $key }}][to]"
-                                                                class="form-control" value="{{ @$item['to'] }}"
-                                                                placeholder="{{ __('To') }}">
+                                                                name="education[<?php echo e($key); ?>][to]"
+                                                                class="form-control" value="<?php echo e(@$item['to']); ?>"
+                                                                placeholder="<?php echo e(__('To')); ?>">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="text"
-                                                                name="education[{{ $key }}][location]"
-                                                                class="form-control" value="{{ @$item['location'] }}">
+                                                                name="education[<?php echo e($key); ?>][location]"
+                                                                class="form-control" value="<?php echo e(@$item['location']); ?>">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="text"
-                                                                name="education[{{ $key }}][reward]"
-                                                                class="form-control" value="{{ @$item['reward'] }}">
+                                                                name="education[<?php echo e($key); ?>][reward]"
+                                                                class="form-control" value="<?php echo e(@$item['reward']); ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <textarea name="education[{{ $key }}][information]" class="form-control">{{ @$item['information'] }}</textarea>
+                                                            <textarea name="education[<?php echo e($key); ?>][information]" class="form-control"><?php echo e(@$item['information']); ?></textarea>
                                                         </div>
                                                         <div class="col-md-1">
                                                             <span class="btn btn-danger btn-sm btn-remove-item"><i
@@ -498,12 +493,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        @endif
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="text-right">
                                         <span class="btn btn-info btn-sm btn-add-item"><i
-                                                class="icon ion-ios-add-circle-outline"></i> {{ __('Add item') }}</span>
+                                                class="icon ion-ios-add-circle-outline"></i> <?php echo e(__('Add item')); ?></span>
                                     </div>
                                     <div class="g-more hide">
                                         <div class="item" data-number="__number__">
@@ -511,12 +506,12 @@
                                                 <div class="col-md-1">
                                                     <input type="text" __name__="education[__number__][from]"
                                                         class="form-control" value=""
-                                                        placeholder="{{ __('From') }}">
+                                                        placeholder="<?php echo e(__('From')); ?>">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <input type="text" __name__="education[__number__][to]"
                                                         class="form-control" value=""
-                                                        placeholder="{{ __('To') }}">
+                                                        placeholder="<?php echo e(__('To')); ?>">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="text" __name__="education[__number__][location]"
@@ -539,47 +534,47 @@
                                 </div>
 
                                 <hr>
-                                <h3 class="panel-body-title">{{ __('Experience') }}</h3>
+                                <h3 class="panel-body-title"><?php echo e(__('Experience')); ?></h3>
                                 <div class="form-group-item">
                                     <div class="g-items-header">
                                         <div class="row">
-                                            <div class="col-md-2">{{ __('Year') }}</div>
-                                            <div class="col-md-3">{{ __('Location') }}</div>
-                                            <div class="col-md-3">{{ __('Position') }}</div>
-                                            <div class="col-md-3">{{ __('More Information') }}</div>
+                                            <div class="col-md-2"><?php echo e(__('Year')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Location')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Position')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
                                             <div class="col-md-1"></div>
                                         </div>
                                     </div>
                                     <div class="g-items">
-                                        @php $experiences = @$user->candidate->experience; @endphp
-                                        @if (!empty($experiences))
-                                            @foreach ($experiences as $key => $item)
-                                                <div class="item" data-number="{{ $key }}">
+                                        <?php $experiences = @$user->candidate->experience; ?>
+                                        <?php if(!empty($experiences)): ?>
+                                            <?php $__currentLoopData = $experiences; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="item" data-number="<?php echo e($key); ?>">
                                                     <div class="row">
                                                         <div class="col-md-1">
                                                             <input type="text"
-                                                                name="experience[{{ $key }}][from]"
-                                                                class="form-control" value="{{ @$item['from'] }}"
-                                                                placeholder="{{ __('From') }}">
+                                                                name="experience[<?php echo e($key); ?>][from]"
+                                                                class="form-control" value="<?php echo e(@$item['from']); ?>"
+                                                                placeholder="<?php echo e(__('From')); ?>">
                                                         </div>
                                                         <div class="col-md-1">
                                                             <input type="text"
-                                                                name="experience[{{ $key }}][to]"
-                                                                class="form-control" value="{{ @$item['to'] }}"
-                                                                placeholder="{{ __('To') }}">
+                                                                name="experience[<?php echo e($key); ?>][to]"
+                                                                class="form-control" value="<?php echo e(@$item['to']); ?>"
+                                                                placeholder="<?php echo e(__('To')); ?>">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="text"
-                                                                name="experience[{{ $key }}][location]"
-                                                                class="form-control" value="{{ @$item['location'] }}">
+                                                                name="experience[<?php echo e($key); ?>][location]"
+                                                                class="form-control" value="<?php echo e(@$item['location']); ?>">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="text"
-                                                                name="experience[{{ $key }}][position]"
-                                                                class="form-control" value="{{ @$item['position'] }}">
+                                                                name="experience[<?php echo e($key); ?>][position]"
+                                                                class="form-control" value="<?php echo e(@$item['position']); ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <textarea name="experience[{{ $key }}][information]" class="form-control">{{ @$item['information'] }}</textarea>
+                                                            <textarea name="experience[<?php echo e($key); ?>][information]" class="form-control"><?php echo e(@$item['information']); ?></textarea>
                                                         </div>
                                                         <div class="col-md-1">
                                                             <span class="btn btn-danger btn-sm btn-remove-item"><i
@@ -587,12 +582,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        @endif
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="text-right">
                                         <span class="btn btn-info btn-sm btn-add-item"><i
-                                                class="icon ion-ios-add-circle-outline"></i> {{ __('Add item') }}</span>
+                                                class="icon ion-ios-add-circle-outline"></i> <?php echo e(__('Add item')); ?></span>
                                     </div>
                                     <div class="g-more hide">
                                         <div class="item" data-number="__number__">
@@ -600,12 +595,12 @@
                                                 <div class="col-md-1">
                                                     <input type="text" __name__="experience[__number__][from]"
                                                         class="form-control" value=""
-                                                        placeholder="{{ __('From') }}">
+                                                        placeholder="<?php echo e(__('From')); ?>">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <input type="text" __name__="experience[__number__][to]"
                                                         class="form-control" value=""
-                                                        placeholder="{{ __('To') }}">
+                                                        placeholder="<?php echo e(__('To')); ?>">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="text" __name__="experience[__number__][location]"
@@ -628,11 +623,11 @@
                                 </div>
 
                                 <hr>
-                                <h3 class="panel-body-title">{{ __('Skills') }}</h3>
+                                <h3 class="panel-body-title"><?php echo e(__('Skills')); ?></h3>
                                 <div class="form-group">
                                     <div class="">
                                         <select id="skills" name="skills[]" class="form-control" multiple="multiple">
-                                            <option value="">{{ __('-- Please Select --') }}</option>
+                                            <option value=""><?php echo e(__('-- Please Select --')); ?></option>
                                             <?php
                                             foreach ($skills as $oneSkill) {
                                                 $selected = '';
@@ -652,46 +647,46 @@
                                 </div>
 
                                 <hr>
-                                <h3 class="panel-body-title">{{ __('Certifications') }}</h3>
+                                <h3 class="panel-body-title"><?php echo e(__('Certifications')); ?></h3>
                                 <div class="form-group-item">
                                     <div class="g-items-header">
                                         <div class="row">
-                                            <div class="col-md-2">{{ __('Year') }}</div>
-                                            <div class="col-md-3">{{ __('Location') }}</div>
-                                            <div class="col-md-3">{{ __('Reward') }}</div>
-                                            <div class="col-md-3">{{ __('More Information') }}</div>
+                                            <div class="col-md-2"><?php echo e(__('Year')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Location')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('Reward')); ?></div>
+                                            <div class="col-md-3"><?php echo e(__('More Information')); ?></div>
                                             <div class="col-md-1"></div>
                                         </div>
                                     </div>
                                     <div class="g-items">
-                                        @php $awards = @$candidate->award; @endphp
-                                        @if (!empty($awards))
-                                            @foreach ($awards as $key => $item)
-                                                <div class="item" data-number="{{ $key }}">
+                                        <?php $awards = @$candidate->award; ?>
+                                        <?php if(!empty($awards)): ?>
+                                            <?php $__currentLoopData = $awards; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="item" data-number="<?php echo e($key); ?>">
                                                     <div class="row">
                                                         <div class="col-md-1">
                                                             <input type="text"
-                                                                name="award[{{ $key }}][from]"
-                                                                class="form-control" value="{{ @$item['from'] }}"
-                                                                placeholder="{{ __('From') }}">
+                                                                name="award[<?php echo e($key); ?>][from]"
+                                                                class="form-control" value="<?php echo e(@$item['from']); ?>"
+                                                                placeholder="<?php echo e(__('From')); ?>">
                                                         </div>
                                                         <div class="col-md-1">
-                                                            <input type="text" name="award[{{ $key }}][to]"
-                                                                class="form-control" value="{{ @$item['to'] }}"
-                                                                placeholder="{{ __('To') }}">
+                                                            <input type="text" name="award[<?php echo e($key); ?>][to]"
+                                                                class="form-control" value="<?php echo e(@$item['to']); ?>"
+                                                                placeholder="<?php echo e(__('To')); ?>">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="text"
-                                                                name="award[{{ $key }}][location]"
-                                                                class="form-control" value="{{ @$item['location'] }}">
+                                                                name="award[<?php echo e($key); ?>][location]"
+                                                                class="form-control" value="<?php echo e(@$item['location']); ?>">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="text"
-                                                                name="award[{{ $key }}][reward]"
-                                                                class="form-control" value="{{ @$item['reward'] }}">
+                                                                name="award[<?php echo e($key); ?>][reward]"
+                                                                class="form-control" value="<?php echo e(@$item['reward']); ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <textarea name="award[{{ $key }}][information]" class="form-control">{{ @$item['information'] }}</textarea>
+                                                            <textarea name="award[<?php echo e($key); ?>][information]" class="form-control"><?php echo e(@$item['information']); ?></textarea>
                                                         </div>
                                                         <div class="col-md-1">
                                                             <span class="btn btn-danger btn-sm btn-remove-item"><i
@@ -699,12 +694,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        @endif
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="text-right">
                                         <span class="btn btn-info btn-sm btn-add-item"><i
-                                                class="icon ion-ios-add-circle-outline"></i> {{ __('Add item') }}</span>
+                                                class="icon ion-ios-add-circle-outline"></i> <?php echo e(__('Add item')); ?></span>
                                     </div>
                                     <div class="g-more hide">
                                         <div class="item" data-number="__number__">
@@ -712,12 +707,12 @@
                                                 <div class="col-md-1">
                                                     <input type="text" __name__="award[__number__][from]"
                                                         class="form-control" value=""
-                                                        placeholder="{{ __('From') }}">
+                                                        placeholder="<?php echo e(__('From')); ?>">
                                                 </div>
                                                 <div class="col-md-1">
                                                     <input type="text" __name__="award[__number__][to]"
                                                         class="form-control" value=""
-                                                        placeholder="{{ __('To') }}">
+                                                        placeholder="<?php echo e(__('To')); ?>">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="text" __name__="award[__number__][location]"
@@ -748,61 +743,61 @@
                     <!-- Job Preferences -->
                     <div class="ls-widget mb-4 card-sub_information">
                         <div class="tabs-box">
-                            <div class="widget-title"><h4>{{ __('Job Preferences') }}</h4></div>
+                            <div class="widget-title"><h4><?php echo e(__('Job Preferences')); ?></h4></div>
                             <div class="widget-content">
                                 <div class="row">
                                     
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>{{ __('Job title') }} <span class="text-danger">*</span></label>
-                                            <input type="text" value="{{ old('title', @$user->candidate->title) }}"
-                                                name="title" placeholder="{{ __('Job title') }}" required
+                                            <label><?php echo e(__('Job title')); ?> <span class="text-danger">*</span></label>
+                                            <input type="text" value="<?php echo e(old('title', @$user->candidate->title)); ?>"
+                                                name="title" placeholder="<?php echo e(__('Job title')); ?>" required
                                                 class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="job_type_id">{{ __('Job Type') }}</label>
+                                            <label for="job_type_id"><?php echo e(__('Job Type')); ?></label>
                                             <select name="job_type_id" id="job_type_id" class="form-control">
-                                                <option value="">{{__(" Select Job Type")}}</option>
-                                                @php
+                                                <option value=""><?php echo e(__(" Select Job Type")); ?></option>
+                                                <?php
                                                 foreach ($job_types as $job_type) {
                                                     $selected = '';
                                                     if (old('job_type_id', $user->candidate?->job_type_id) == $job_type->id)
                                                         $selected = 'selected';
                                                     printf("<option value='%s' %s>%s</option>", $job_type->id, $selected, $job_type->name);
                                                 }
-                                                @endphp
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>{{ __('Expected Pay') }}</label>
+                                            <label><?php echo e(__('Expected Pay')); ?></label>
                                             <div class="input-group">
                                                 <input type="text"
-                                                    value="{{ old('expected_salary', @$user->candidate->expected_salary) }}"
-                                                    placeholder="{{ __('Expected Pay') }}" name="expected_salary"
+                                                    value="<?php echo e(old('expected_salary', @$user->candidate->expected_salary)); ?>"
+                                                    placeholder="<?php echo e(__('Expected Pay')); ?>" name="expected_salary"
                                                     class="form-control">
                                                 <div class="input-group-append">
                                                     <select class="form-control" name="salary_type">
                                                         <option value="hourly"
-                                                            @if (old('salary_type', @$user->candidate->salary_type) == 'hourly') selected @endif>
-                                                            {{ currency_symbol() . __('/hourly') }} </option>
+                                                            <?php if(old('salary_type', @$user->candidate->salary_type) == 'hourly'): ?> selected <?php endif; ?>>
+                                                            <?php echo e(currency_symbol() . __('/hourly')); ?> </option>
                                                         <option value="daily"
-                                                            @if (old('salary_type', @$user->candidate->salary_type) == 'daily') selected @endif>
-                                                            {{ currency_symbol() . __('/daily') }}</option>
+                                                            <?php if(old('salary_type', @$user->candidate->salary_type) == 'daily'): ?> selected <?php endif; ?>>
+                                                            <?php echo e(currency_symbol() . __('/daily')); ?></option>
                                                         <option value="weekly"
-                                                            @if (old('salary_type', @$user->candidate->salary_type) == 'weekly') selected @endif>
-                                                            {{ currency_symbol() . __('/weekly') }}</option>
+                                                            <?php if(old('salary_type', @$user->candidate->salary_type) == 'weekly'): ?> selected <?php endif; ?>>
+                                                            <?php echo e(currency_symbol() . __('/weekly')); ?></option>
                                                         <option value="monthly"
-                                                            @if (old('salary_type', @$user->candidate->salary_type) == 'monthly') selected @endif>
-                                                            {{ currency_symbol() . __('/monthly') }}</option>
+                                                            <?php if(old('salary_type', @$user->candidate->salary_type) == 'monthly'): ?> selected <?php endif; ?>>
+                                                            <?php echo e(currency_symbol() . __('/monthly')); ?></option>
                                                         <option value="yearly"
-                                                            @if (old('salary_type', @$user->candidate->salary_type) == 'yearly') selected @endif>
-                                                            {{ currency_symbol() . __('/yearly') }}</option>
+                                                            <?php if(old('salary_type', @$user->candidate->salary_type) == 'yearly'): ?> selected <?php endif; ?>>
+                                                            <?php echo e(currency_symbol() . __('/yearly')); ?></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -815,11 +810,11 @@
                                             <label>Are you willing to relocate ? (Yes / No) </label>
                                             <br>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" {{ $user->candidate?->relocate === 'Yes' ? 'checked' : '' }} type="radio" name="relocate" id="relocateyes" value="Yes">
+                                                <input class="form-check-input" <?php echo e($user->candidate?->relocate === 'Yes' ? 'checked' : ''); ?> type="radio" name="relocate" id="relocateyes" value="Yes">
                                                 <label class="form-check-label" for="relocateyes">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" {{ $user->candidate?->relocate === 'No' ? 'checked' : '' }} type="radio" name="relocate" id="relocateno" value="No">
+                                                <input class="form-check-input" <?php echo e($user->candidate?->relocate === 'No' ? 'checked' : ''); ?> type="radio" name="relocate" id="relocateno" value="No">
                                                 <label class="form-check-label" for="relocateno">No</label>
                                             </div>
                                         </div>
@@ -830,10 +825,10 @@
                                         <div class="form-group">
                                             <label for="work_type"> Desired work setting ( Remote / In Office / Hybrid)  </label>
                                             <select name="work_type" id="work_type" class="form-control">
-                                                <option value="">{{__(" Select Work Type")}}</option>
-                                                <option {{$user->candidate?->work_type === 'Remote' ? 'selected' : ''}} value="Remote">Remote</option>
-                                                <option {{$user->candidate?->work_type === 'In-office' ? 'selected' : ''}} value="In-office">In-Office</option>
-                                                <option {{$user->candidate?->work_type === 'Hybrid' ? 'selected' : ''}} value="Hybrid">Hybrid</option>
+                                                <option value=""><?php echo e(__(" Select Work Type")); ?></option>
+                                                <option <?php echo e($user->candidate?->work_type === 'Remote' ? 'selected' : ''); ?> value="Remote">Remote</option>
+                                                <option <?php echo e($user->candidate?->work_type === 'In-office' ? 'selected' : ''); ?> value="In-office">In-Office</option>
+                                                <option <?php echo e($user->candidate?->work_type === 'Hybrid' ? 'selected' : ''); ?> value="Hybrid">Hybrid</option>
                                             </select>
                                         </div>
                                     </div>
@@ -853,21 +848,22 @@
 
 
 
-                    @include('Core::frontend.seo-meta.seo-meta')
+                    <?php echo $__env->make('Core::frontend.seo-meta.seo-meta', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                     <div class="mb-4 d-none d-md-block">
                         <button class="theme-btn btn-style-one" type="submit"><i class="fa fa-save"
-                                style="padding-right: 5px"></i> {{ __('Save Changes') }}</button>
+                                style="padding-right: 5px"></i> <?php echo e(__('Save Changes')); ?></button>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-12">
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong>{{ __('Profile') }}</strong></div>
+                            <div class="widget-title"><strong><?php echo e(__('Profile')); ?></strong></div>
                             <div class="widget-content">
                                 <div class="form-group">
-                                    {!! \Modules\Media\Helpers\FileHelper::fieldUpload('avatar_id', old('avatar_id', $user->avatar_id)) !!}
+                                    <?php echo \Modules\Media\Helpers\FileHelper::fieldUpload('avatar_id', old('avatar_id', $user->avatar_id)); ?>
+
                                 </div>
                             </div>
                         </div>
@@ -876,14 +872,14 @@
 
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong>{{ __('Visibility') }}</strong></div>
+                            <div class="widget-title"><strong><?php echo e(__('Visibility')); ?></strong></div>
                             <div class="widget-content">
                                 <div class="form-group">
                                     <select required class="custom-select" name="allow_search">
-                                        <option @if (old('allow_search', @$row->allow_search) == 'hide') selected @endif value="hide">
-                                            {{ __('Hide') }}</option>
-                                        <option @if (old('allow_search', @$row->allow_search) == 'publish') selected @endif value="publish">
-                                            {{ __('Publish') }}</option>
+                                        <option <?php if(old('allow_search', @$row->allow_search) == 'hide'): ?> selected <?php endif; ?> value="hide">
+                                            <?php echo e(__('Hide')); ?></option>
+                                        <option <?php if(old('allow_search', @$row->allow_search) == 'publish'): ?> selected <?php endif; ?> value="publish">
+                                            <?php echo e(__('Publish')); ?></option>
                                     </select>
                                 </div>
                             </div>
@@ -891,12 +887,12 @@
                     </div>
                     <div class="ls-widget mb-4">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong>{{ __('Categories') }}</strong></div>
+                            <div class="widget-title"><strong><?php echo e(__('Categories')); ?></strong></div>
                             <div class="widget-content">
                                 <div class="form-group">
                                     <select id="categories" class="form-control" name="categories[]"
                                         multiple="multiple">
-                                        <option value="">{{ __('-- Please Select --') }}</option>
+                                        <option value=""><?php echo e(__('-- Please Select --')); ?></option>
                                         <?php
                                         foreach ($categories as $oneCategories) {
                                             $selected = '';
@@ -921,66 +917,25 @@
 
                     <div class="ls-widget mb-4 card-social">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong>{{ __('Social Media') }}</strong></div>
+                            <div class="widget-title"><strong><?php echo e(__('Social Media')); ?></strong></div>
                             <div class="widget-content">
                                 <?php $socialMediaData = !empty($row) ? $row->social_media : []; ?>
-                                {{-- <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-skype"><i class="fab fa-skype"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[skype]" value="{{@$socialMediaData['skype']}}" placeholder="{{__('Skype')}}" aria-label="{{__('Skype')}}" aria-describedby="social-skype">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-facebook"><i class="fab fa-facebook"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[facebook]" value="{{@$socialMediaData['facebook']}}" placeholder="{{__('Facebook')}}" aria-label="{{__('Facebook')}}" aria-describedby="social-facebook">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-twitter"><i class="fab fa-twitter"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[twitter]" value="{{@$socialMediaData['twitter']}}" placeholder="{{__('Twitter')}}" aria-label="{{__('Twitter')}}" aria-describedby="social-twitter">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-instagram"><i class="fab fa-instagram"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[instagram]" value="{{@$socialMediaData['instagram']}}" placeholder="{{__('Instagram')}}" aria-label="{{__('Instagram')}}" aria-describedby="social-instagram">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-pinterest"><i class="fab fa-pinterest"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[pinterest]" value="{{@$socialMediaData['pinterest']}}" placeholder="{{__('Pinterest')}}" aria-label="{{__('Pinterest')}}" aria-describedby="social-pinterest">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-dribbble"><i class="fab fa-dribbble"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[dribbble]" value="{{@$socialMediaData['dribbble']}}" placeholder="{{__('Dribbble')}}" aria-label="{{__('Dribbble')}}" aria-describedby="social-dribbble">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="social-google"><i class="fab fa-google"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" name="social_media[google]" value="{{@$socialMediaData['google']}}" placeholder="{{__('Google')}}" aria-label="{{__('Google')}}" aria-describedby="social-google">
-                                    </div> --}}
+                                
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="social-google"><i
                                                 class="fab fa-linkedin"></i></span>
                                     </div>
                                     <input type="text" class="form-control" name="social_media[linkedin]"
-                                        value="{{ @$socialMediaData['linkedin'] }}" placeholder="{{ __('Linkedin') }}"
-                                        aria-label="{{ __('Linkedin') }}" aria-describedby="social-linkedin">
+                                        value="<?php echo e(@$socialMediaData['linkedin']); ?>" placeholder="<?php echo e(__('Linkedin')); ?>"
+                                        aria-label="<?php echo e(__('Linkedin')); ?>" aria-describedby="social-linkedin">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-4 text-center">
                         <button class="theme-btn btn-style-one" type="submit"><i class="fa fa-save"
-                                style="padding-right: 5px"></i> {{ __('Save Changes') }}</button>
+                                style="padding-right: 5px"></i> <?php echo e(__('Save Changes')); ?></button>
                     </div>
                 </div>
             </div>
@@ -989,18 +944,19 @@
 
     </div>
 
-    @if (!empty(setting_item('user_enable_permanently_delete')) and !is_admin())
+    <?php if(!empty(setting_item('user_enable_permanently_delete')) and !is_admin()): ?>
         <div class="row">
             <div class="col-lg-9">
                 <div class="ls-widget">
                     <div class="widget-title">
                         <h4 class="text-danger">
-                            {{ __('Delete account') }}
+                            <?php echo e(__('Delete account')); ?>
+
                         </h4>
                     </div>
                     <div class="widget-content">
                         <div class="mb-4 mt-2">
-                            {!! clean(
+                            <?php echo clean(
                                 setting_item_with_lang(
                                     'user_permanently_delete_content',
                                     '',
@@ -1008,10 +964,11 @@
                                         'Your account will be permanently deleted. Once you delete your account, there is no going back. Please be certain.',
                                     ),
                                 ),
-                            ) !!}
+                            ); ?>
+
                         </div>
                         <a rel="modal:open" class="btn btn-danger"
-                            href="#permanentlyDeleteAccount">{{ __('Delete your account') }}</a>
+                            href="#permanentlyDeleteAccount"><?php echo e(__('Delete your account')); ?></a>
                     </div>
                 </div>
             </div>
@@ -1020,25 +977,26 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Confirm permanently delete account') }}</h5>
+                        <h5 class="modal-title"><?php echo e(__('Confirm permanently delete account')); ?></h5>
                     </div>
                     <div class="modal-body ">
                         <div class="my-3">
-                            {!! clean(setting_item_with_lang('user_permanently_delete_content_confirm')) !!}
+                            <?php echo clean(setting_item_with_lang('user_permanently_delete_content_confirm')); ?>
+
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#close-modal" rel="modal:close" class="btn btn-secondary">{{ __('Close') }}</a>
-                        <a href="{{ route('user.permanently.delete') }}"
-                            class="btn btn-danger">{{ __('Confirm') }}</a>
+                        <a href="#close-modal" rel="modal:close" class="btn btn-secondary"><?php echo e(__('Close')); ?></a>
+                        <a href="<?php echo e(route('user.permanently.delete')); ?>"
+                            class="btn btn-danger"><?php echo e(__('Confirm')); ?></a>
                     </div>
                 </div>
             </div>
         </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Modal -->
-    @if (empty(@$row->user?->phone_verified_at) && !empty(@$row->user?->phone))
+    <?php if(empty(@$row->user?->phone_verified_at) && !empty(@$row->user?->phone)): ?>
         <div class="modal fade verifyNumber" id="verifyNumber">
             <div id="login-modal">
                 <div class="login-form default-form">
@@ -1047,15 +1005,16 @@
                             <h3>Verify Phone Number</h3>
                             <div class="alert alert-danger " id="verifyNumberAlert">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
-                                {{ __('Please check the form below for problems') }}
+                                <?php echo e(__('Please check the form below for problems')); ?>
+
                                 <ul class="pl-2" id="verifyNumberAlertContent">
                                 </ul>
                             </div>
                             <form class="form" id="bravo-form-verify-otp" method="post">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="form-group">
-                                    <input type="hidden" name="user_id" value="{{ @$row->user?->id }}">
-                                    <input type="text" name="otp" placeholder="{{ __('Enter OTP') }}" required>
+                                    <input type="hidden" name="user_id" value="<?php echo e(@$row->user?->id); ?>">
+                                    <input type="text" name="otp" placeholder="<?php echo e(__('Enter OTP')); ?>" required>
                                 </div>
                                 <div class="form-group d-flex flex-column flex-sm-row  justify-content-around">
                                     <button class="btn btn-primary m-1" id="sendOtp" type="button">SEND OTP
@@ -1074,16 +1033,17 @@
                 </div>
             </div>
         </div>
-    @endif
+    <?php endif; ?>
     <!-- Modal End -->
 
 
-@endsection
-@section('footer')
-    {!! App\Helpers\MapEngine::scripts() !!}
-    <script type="text/javascript" src="{{ asset('libs/daterange/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('libs/daterange/daterangepicker.min.js') }}"></script>
-    <script src="{{ asset('libs/select2/js/select2.min.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('footer'); ?>
+    <?php echo App\Helpers\MapEngine::scripts(); ?>
+
+    <script type="text/javascript" src="<?php echo e(asset('libs/daterange/moment.min.js')); ?>"></script>
+    <script type="text/javascript" src="<?php echo e(asset('libs/daterange/daterangepicker.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('libs/select2/js/select2.min.js')); ?>"></script>
     <script>
         $('.has-datepicker').daterangepicker({
             singleDatePicker: true,
@@ -1130,7 +1090,7 @@
                 }
             });
             $.ajax({
-                'url': `{{ route('user.sendOtp') }}`,
+                'url': `<?php echo e(route('user.sendOtp')); ?>`,
                 'data': {
                     'id': form.find('input[name=user_id]').val(),
                 },
@@ -1174,7 +1134,7 @@
                 }
             });
             $.ajax({
-                'url': `{{ route('user.verifyNumber') }}`,
+                'url': `<?php echo e(route('user.verifyNumber')); ?>`,
                 'data': {
                     'id': form.find('input[name=user_id]').val(),
                     'otp': form.find('input[name=otp]').val(),
@@ -1238,16 +1198,16 @@
         });
     </script>
     <script>
-        @if (is_candidate() || !empty($candidate_create))
+        <?php if(is_candidate() || !empty($candidate_create)): ?>
             $(document).ready(function() {
                 $('#categories').select2();
                 $('#skills').select2();
                 $('#languages').select2();
             });
 
-            let mapLat = {{ $row->map_lat ?? setting_item('default_location_lat', '51.505') }};
-            let mapLng = {{ $row->map_lng ?? setting_item('default_location_lng', '-0.09') }};
-            let mapZoom = {{ $row->map_zoom ?? '8' }};
+            let mapLat = <?php echo e($row->map_lat ?? setting_item('default_location_lat', '51.505')); ?>;
+            let mapLng = <?php echo e($row->map_lng ?? setting_item('default_location_lng', '-0.09')); ?>;
+            let mapZoom = <?php echo e($row->map_zoom ?? '8'); ?>;
 
             jQuery(function($) {
                 new BravoMapEngine('map_content', {
@@ -1290,6 +1250,8 @@
                 });
 
             })
-        @endif
+        <?php endif; ?>
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.user', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\rvoize\modules/Candidate/Views/frontend/profile/edit.blade.php ENDPATH**/ ?>

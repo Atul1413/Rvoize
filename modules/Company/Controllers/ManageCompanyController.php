@@ -189,7 +189,6 @@ class ManageCompanyController extends FrontendController{
             "email" => 'Email must be filled',
             "phone" => 'Please provide Phone number to get updates',
             "phone_verified_at" => 'Verified phone number is necessary',
-            "website" => 'Website link',
             "founded_in" => 'Est. Since date is needed',
             "terms" => 'Provide your company size',
             "about" => 'Tell us a brief about your company',
@@ -205,7 +204,6 @@ class ManageCompanyController extends FrontendController{
             "email",
             "phone",
             "phone_verified_at",
-            "website",
             "founded_in",
             "about",
             "city",
@@ -225,7 +223,6 @@ class ManageCompanyController extends FrontendController{
             "email",
             "phone",
             "phone_verified_at",
-            "website",
             "founded_in",
         ]));
         $percentage['Address Section'] = $this->calculatePercent(Arr::only($userAttributes, [

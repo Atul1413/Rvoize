@@ -3,19 +3,20 @@
 namespace Modules\Candidate\Controllers;
 
 use DateTime;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Modules\Candidate\Models\Candidate;
-use Modules\Candidate\Models\CandidateCategories;
-use Modules\Candidate\Models\CandidateCvs;
-use Modules\Candidate\Models\CandidateSkills;
-use Modules\Candidate\Models\Category;
-use Modules\FrontendController;
-use Modules\Location\Models\Location;
-use Modules\Skill\Models\Skill;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use Modules\FrontendController;
+use Modules\Job\Models\JobType;
+use Modules\Skill\Models\Skill;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Modules\Location\Models\Location;
+use Modules\Candidate\Models\Category;
+use Modules\Candidate\Models\Candidate;
+use Modules\Candidate\Models\CandidateCvs;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Modules\Candidate\Models\CandidateSkills;
+use Modules\Candidate\Models\CandidateCategories;
 
 
 class ProfileController extends FrontendController
@@ -45,6 +46,7 @@ class ProfileController extends FrontendController
             'categories' => Category::get()->toTree(),
             'skills' => Skill::query()->where('status', 'publish')->get(),
             'cvs'   => CandidateCvs::query()->where('origin_id', $user->id)->with('media')->get(),
+            'job_types' => JobType::query()->where('status', 'publish')->get(),
             'menu_active' => 'user_profile',
             'languages' => config('languages.locales'),
             'percentage' => $this->getProfilePercent($user)
@@ -64,18 +66,17 @@ class ProfileController extends FrontendController
             "title" => 'Current position of candidate',
             "gender" => 'Gender of candidate',
             "expected_salary" => 'Expected salary must be mentioned',
-            "salary_type" => 'Provide salary type',
             "experience_year" => 'Experience is essential to get you selected. Provide',
             "education_level" => 'Highest Qualification Level is mandatory',
             "languages" => 'Verbal languages known',
             "country" => 'Country candidate is residing in',
             "city" => 'City candidate lives in',
+            'job_type_id' => 'Job type must be given',
+            'relocate' => 'Are you willing to relocate?',
+            'work_type' => 'Let us know your desired work preference',
             "address" => 'Help us to reach you by filling up address',
             "education" => 'Atleast one Education details must be provided',
             "experience" => 'Atleast one Experience details must be provided',
-            "award" => 'Atleast one Award/Certifications detail must be given',
-            "social_media" => 'Atleast one Social link must be provided',
-            "categories" => 'Atleast one Category must be selected',
             "skills" => 'Atleast one Skill must be selected',
         ];
 
@@ -94,7 +95,6 @@ class ProfileController extends FrontendController
                 "title",
                 "gender",
                 "expected_salary",
-                "salary_type",
                 "experience_year",
                 "education_level",
                 "languages",
@@ -103,10 +103,11 @@ class ProfileController extends FrontendController
                 "address",
                 "education",
                 "experience",
-                "award",
-                "social_media",
+                'job_type_id',
+                'relocate',
+                'work_type',
             ]);
-            $candidateRelationAttributes['categories'] = $user->candidate?->categories?->count() ?? 0;
+            // $candidateRelationAttributes['categories'] = $user->candidate?->categories?->count() ?? 0;
             $candidateRelationAttributes['skills'] = $user->candidate?->skills?->count() ?? 0;
             $userAttributes = array_merge($userAttributes, $candidateRelationAttributes);
         }
@@ -132,22 +133,21 @@ class ProfileController extends FrontendController
             "city",
             "country",
             "languages",
+            "experience_year",
         ]));
         
         $percentage['Qualification Section'] = $this->calculatePercent(Arr::only($userAttributes, [
+            "education_level",
             "education",
             "experience",
-            "award",
             'skills',
         ]));
         $percentage['Job Preferences'] = $this->calculatePercent(Arr::only($userAttributes, [
             "title",
-            "social_media",
+            'relocate',
+            'work_type',
+            'job_type_id',
             "expected_salary",
-            "salary_type",
-            "experience_year",
-            "education_level",
-            'categories',
         ]));
         $errorList = array_diff_assoc($userAttributes, array_filter($userAttributes, function ($value) {
             return !empty(trim($value));
@@ -244,6 +244,9 @@ class ProfileController extends FrontendController
             'experience_year',
             'languages',
             'allow_search',
+            'job_type_id',
+            'relocate',
+            'work_type',
          
             'address',
             'city',

@@ -217,8 +217,8 @@ class ManageJobController extends FrontendController
                     }
                 }
 
-                $relatedLocation = Candidate::where('location_id',$row->location_id)->pluck('id')?->toArray();
-                $relatedSkills = DB::table('bc_candidate_skills')->whereIn('skill_id',$skillsIdList)->pluck('origin_id')?->toArray();
+                $relatedLocation = Candidate::where('location_id',$row->location_id ?? 0)->pluck('id')?->toArray();
+                $relatedSkills = DB::table('bc_candidate_skills')->whereIn('skill_id',$skillsIdList ?? [])->pluck('origin_id')?->toArray();
                 $relatedCandIds = array_unique(array_merge($relatedLocation,$relatedSkills));
 
                 $relatedCandidates = Candidate::select(['id','title','slug','experience_year','location_id'])->whereIn('id',$relatedCandIds)->get();
