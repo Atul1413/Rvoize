@@ -4,12 +4,12 @@ namespace Modules\Advertisement\Controllers;
 use Illuminate\Http\Request;
 use Modules\Advertisement\Models\Advertisement;
 use Modules\FrontendController;
-use Modules\Location\Models\Location;
+use Modules\Media\Traits\HasUpload;
 
 class AdvertisementController extends FrontendController
 {
 
-
+    use HasUpload;
    
     public function __construct()
     {
@@ -50,6 +50,66 @@ class AdvertisementController extends FrontendController
             'is_user_page' => true
         ];
         return view('Advertisement::frontend.layouts.manage-ads.edit-ads', $data);    
+    }
+
+    public function storeAd(Request $request, $id){
+        $this->checkPermission('advertisement_manage');
+
+        $check = Validator::make($request->input(), [
+            'title' => 'required',
+            'url' => 'required|url',
+            'start_date' => 'required|date_format:Y/m/d',
+            'end_date' => 'required|date_format:Y/m/d',
+            'location' => 'required',
+            'position' => 'required',
+        ]);
+
+        if (!$check->validated()) {
+            return back()->withInput($request->input());
+        }
+        
+
+        if($id>0){
+            $row = Advertisement::find($id);
+            if (empty($row)) {
+                return redirect(route('user.manage.jobs'));
+            }
+        }else{
+
+            $row = new Advertisement();
+            $row->status = "publish";
+        }
+
+        $input = $request->input();
+        $attr = [
+            'title',
+            'url',
+            'banner',
+            'company_id',
+            'start_date',
+            'end_date',
+            'position',
+            'priority',
+            'status',
+            'is_approved',
+            'create_user',
+            'update_user',
+        ];
+        
+        $input['is_approved'] = 1;
+        $row->fillByAttr($attr, $input);
+
+        // Check Plan
+        if($row->status == 'publish' and !auth()->user()->checkJobPlan()){
+            return back()->with('error',__("Maximum published items reached. Please buy more plan"));
+        }
+
+        
+        if(empty($request->input('create_user'))){
+            $row->create_user = auth()->user()->id;
+        }
+
+        
     }
   
 }

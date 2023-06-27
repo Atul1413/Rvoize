@@ -61,6 +61,7 @@ class CreateUserPlanTable extends Migration
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->integer('max_service')->nullable()->default(0);
+            $table->integer('max_ads')->nullable()->default(0);
             $table->decimal('price',12,2)->nullable();
             $table->text("plan_data")->nullable();
 
