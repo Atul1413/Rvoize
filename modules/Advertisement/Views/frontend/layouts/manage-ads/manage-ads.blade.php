@@ -47,8 +47,8 @@
                                                 <a href="#">{{$row->title}}</a>
                                             </td>
                                             <td> 
-                                                @if(!empty($row->image))
-                                                    <img src="{{ $row->image }}" style="height:30px;width:auto;object-fit:contain;" />
+                                                @if(!empty($row->banner))
+                                                    <img src="{{ $row->banner }}" style="height:30px;width:auto;object-fit:contain;" />
                                                 @endif
                                             </td>
                                             <td>{{$row->location ?? ''}}</td>

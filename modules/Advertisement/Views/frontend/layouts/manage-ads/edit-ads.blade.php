@@ -2,13 +2,13 @@
 
 @section('content')
   
-    <form method="post" class="default-form">
+    <form method="post" enctype="multipart/form-data" class="default-form">
         @csrf
         <input type="hidden" name="id" value="{{$row->id}}">
         <div class="upper-title-box">
             <div class="row">
                 <div class="col-md-9">
-                    <h3>{{$row->id ? __('Edit: ').$row->title : __('New Advertisement')}}</h3>
+                    <h4>{{$row->id ? __('Edit: ').$row->title : __('New Advertisement')}}</h4>
                 </div>
               
             </div>
@@ -24,11 +24,23 @@
                 <!-- Ls widget -->
                 <div class="ls-widget">
                     <div class="tabs-box">
-                        <div class="widget-title"><h4>{{ __("Advertise Content") }}</h4></div>
+                        <div class="widget-title"><h4>{{ __("Advertise Contents") }}</h4></div>
                         <div class="widget-content">
-                            <div class="form-group">
-                                <label>{{__("Title")}} <span class="required">*</span></label>
-                                <input type="text" value="{{ old('title', $row->title) }}" placeholder="{{__("Title")}}" name="title" required class="form-control">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>{{__("Title")}} <span class="required">*</span></label>
+                                        <input type="text" value="{{ old('title', $row->title) }}" placeholder="{{__("Title")}}" name="title" required class="form-control">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">{{__("Advertisement URL")}}</label>
+                                        <input type="text" name="url" required class="form-control" value="{{old('url',$row->url)}}" placeholder="{{__("Advertisement URL")}}">
+                                    </div>
+                                </div>
                             </div>
                          
                             @if(is_default_lang())
@@ -48,49 +60,34 @@
                                     
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>{{__("Experience")}}</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="{{ __("Experience") }}" name="experience" value="{{ old('experience',$row->experience) }}">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" style="font-size: 14px;">{{ __("year(s)") }}</span>
-                                                </div>
+                                            <label for="position">Advertisement Position  <span class="required">*</span></label>
+                                            <div class="">
+                                                <select name="position" required class="form-control" required>
+                                                    <option disabled selected value="">{{__("-- Select --")}}</option>
+                                                    @php
+                                                    foreach ($positions as $positionId => $position) {
+                                                        $selected = '';
+                                                        if (old('position', $row->position) == $positionId)
+                                                            $selected = 'selected';
+                                                        printf("<option value='%s' %s>%s</option>", $positionId, $selected, $position);
+                                                    }
+                                                    @endphp
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{__("Number Of Recruitments")}}</label>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" placeholder="{{ __("0") }}" name="number_recruitments" value="{{ old('number_recruitments',$row->number_recruitments) }}">
-                                            </div>
-                                        </div>
-                                    </div>
+                                                                    
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="control-label">{{__("Video Url")}}</label>
-                                            <input type="text" name="video" class="form-control" value="{{old('video',$row->video)}}" placeholder="{{__("Youtube link video")}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>{{__("Video Cover Image")}}</label>
+                                            <label>{{__("Banner Image") }} ({{__('Recommended size image: 200px x 1920px')}})</label>
                                             <div class="form-group">
-                                                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('video_cover_id',$row->video_cover_id) !!}
+                                                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner',$row->image) !!}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label">{{__("Gallery")}} ({{__('Recommended size image:1080 x 1920px')}})</label>
-                                            @php
-                                                $gallery_id = $row->gallery ?? old('gallery');
-                                            @endphp
-                                            {!! \Modules\Media\Helpers\FileHelper::fieldGalleryUpload('gallery', $gallery_id) !!}
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             @endif
                         </div>
@@ -138,7 +135,6 @@
     <script type="text/javascript" src="{{ asset('libs/daterange/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('libs/daterange/daterangepicker.min.js') }}"></script>
     <script src="{{ asset('libs/select2/js/select2.min.js') }}" ></script>
-    {{-- <script src="{{ asset('js/condition.js') }}"></script> --}}
     <script>
         jQuery(function ($) {
             "use strict"

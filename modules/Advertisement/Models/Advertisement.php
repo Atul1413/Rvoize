@@ -17,7 +17,7 @@ class Advertisement extends BaseModel
     protected $fillable = [
         'title',
         'url',
-        'image',
+        'banner',
         'company_id',
         'start_date',
         'end_date',
@@ -27,6 +27,11 @@ class Advertisement extends BaseModel
         'is_approved',
         'create_user',
         'update_user',
+    ];
+
+    public const POSITION = [
+        1 => 'Home Page',
+        2 => 'Job Search Page',
     ];
 
     protected $casts = [

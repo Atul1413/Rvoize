@@ -17,7 +17,7 @@ class CreateBcAdvertisementsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('url');
-            $table->string('image');
+            $table->string('banner');
             $table->bigInteger('company_id');
             $table->string('location')->nullable()->default('IN');
             $table->dateTime('start_date')->nullable();
