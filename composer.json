@@ -36,6 +36,7 @@
         "rap2hpoutre/laravel-log-viewer": "^1.1",
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-image-optimizer": "^1.4",
+        "torann/geoip": "^3.0",
         "tymon/jwt-auth": "^1.0",
         "wildbit/swiftmailer-postmark": "^3.4"
     },

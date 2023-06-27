@@ -23,6 +23,7 @@ class CreateUserPlanTable extends Migration
             $table->string('duration_type',30)->nullable();
             $table->decimal('annual_price',12,2)->nullable();
             $table->integer('max_service')->nullable()->default(0);
+            $table->integer('max_ads')->nullable()->default(0);
 
             $table->string('status',30)->nullable();
 

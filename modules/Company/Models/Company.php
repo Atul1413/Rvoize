@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Advertisement\Models\Advertisement;
 use Modules\Core\Models\SEO;
 use Modules\Company\Models\CompanyCategory as Category;
 use Modules\Core\Models\Terms;
@@ -54,6 +55,10 @@ class Company extends BaseModel
         'phone_verified_at' => 'datetime',
         'otp_expired_at' => 'datetime',
     ];
+
+    public function advertisements() {
+        return $this->hasMany(Advertisement::class,'company_id','id');
+    }
 
     public function getDetailUrlAttribute()
     {

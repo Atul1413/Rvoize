@@ -42,6 +42,11 @@
     <input type="number" min="0" value="{{old('max_service',$row->max_service)}}" name="max_service" placeholder="{{__("Unlimited")}}" class="form-control">
     <p><i>{{__("How many publish services user can post")}}</i></p>
 </div>
+<div class="form-group">
+    <label class="control-label">{{__("Max Advertisements")}} </label>
+    <input type="number" min="0" value="{{old('max_ads',$row->max_service)}}" name="max_ads" placeholder="{{__("None")}}" class="form-control">
+    <p><i>{{__("How many publish advertisements user can post")}}</i></p>
+</div>
 
 <div class="form-group">
     <label class="control-label">{{__("Status")}}</label>

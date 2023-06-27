@@ -17,6 +17,10 @@ return [
     "job_manage",
     "job_manage_others",
 
+    //ad manage
+    "advertisement_manage",
+    "advertisement_manage_others",
+
     "skill_manage_others",
     "category_manage_others",
 
@@ -67,6 +71,7 @@ return [
 
     // Custom
     "dashboard_vendor_access",
+  
 
     //payout
     "admin_payout_manage",

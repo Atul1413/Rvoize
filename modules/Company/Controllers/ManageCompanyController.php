@@ -2,7 +2,6 @@
 
 namespace Modules\Company\Controllers;
 
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Company\Models\Company;
@@ -13,12 +12,9 @@ use Modules\Core\Models\Attributes;
 use Modules\FrontendController;
 use Modules\Language\Models\Language;
 use Modules\Location\Models\Location;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Arr;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use App\User;
-use Validator;
 
 class ManageCompanyController extends FrontendController{
 
@@ -256,5 +252,26 @@ class ManageCompanyController extends FrontendController{
             });
             return round((count($complete) / count($userAttributes)) * 100, 2);
         }
+    }
+
+    public function advertisementIndex(Request $request) {
+        // $this->checkPermission('advertisement_manage');
+
+        $row = $this->company::where('owner_id', Auth::id())->first();
+        $translation = $row->translateOrOrigin($request->query('lang'));
+        $data = [
+            'row'  => $row,
+            'categories'        => $this->category::get()->toTree(),
+            'attributes'     => $this->attributes::where('service', 'company')->get(),
+            'company_location'     => $this->location::where('status', 'publish')->get()->toTree(),
+            'translation'  => $translation,
+            'enable_multi_lang'=>true,
+            'page_title'=>__("Company Profile"),
+            'menu_active' => 'company_profile',
+            "selected_terms"    => $row->companyTerm ? $row->companyTerm->pluck('term_id') : [],
+            'is_user_page' => true,
+            'percentage' => $this->getProfilePercent($row),
+        ];
+        return view('Company::frontend.layouts.manageCompany.detail', $data);
     }
 }

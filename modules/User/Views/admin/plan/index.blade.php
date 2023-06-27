@@ -57,6 +57,7 @@
                                     <th width="60px">{{__("Annual Price")}}</th>
                                     <th width="60px">{{__("Duration")}}</th>
                                     <th width="60px">{{__("Max Services")}}</th>
+                                    <th width="60px">{{__("Max Ads")}}</th>
                                     <th width="60px">{{__("Status")}}</th>
                                     <th width="60px">{{__("Date")}}</th>
                                     <th width="100px"></th>
@@ -74,7 +75,8 @@
                                         <td class="">{{$row->price ? format_money($row->price) : __("Free")}}</td>
                                         <td class="">{{$row->annual_price ? format_money($row->annual_price) : ''}}</td>
                                         <td class="">{{$row->duration_text}}</td>
-                                        <td class="">{{$row->max_service ? $row->max_service : __('Unlimited')}}</td>
+                                        <td class="">{{$row->max_service ? $row->max_service : __('None')}}</td>
+                                        <td class="">{{$row->max_ads ? $row->max_ads : __('None')}}</td>
                                         <td><span class="badge badge-{{ $row->status }}">{{ $row->status }}</span></td>
                                         <td class="">{{ display_date($row->updated_at)}}</td>
                                         <td class="title">

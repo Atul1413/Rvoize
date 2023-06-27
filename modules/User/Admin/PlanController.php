@@ -75,7 +75,6 @@ class PlanController extends AdminController
             'duration' => 'required',
             'duration_type' => 'required',
         ]);
-
         if($id>0){
             $row = $this->planClass::find($id);
             if (empty($row)) {
@@ -92,6 +91,7 @@ class PlanController extends AdminController
             'duration',
             'duration_type',
             'max_service',
+            'max_ads',
             'status',
             'role_id',
             'annual_price'
