@@ -64,15 +64,15 @@ class ModuleProvider extends ModuleServiceProvider
                 'enable' => true,
                 'position'=>80,
                 'children'=>[
-                    'list'=>[
-                        'url' => '#',
+                    'manage_ads'=>[
+                        'url' => route('user.company.advertisement.manage.jobs'),
                         'title' => __("All Ads"),
                         // 'permission' => 'advertisement_manage',
                         'position' => 10
                     ],
-                    'create' => [
-                        'url' => '#',
-                        'title' => __("Create a new Ad"),
+                    'create_ads' => [
+                        'url' => route('user.company.advertisement.create.job'),
+                        'title' => __("Create a New Ad"),
                         // 'permission' => 'advertisement_manage',
                     ]
                 ]

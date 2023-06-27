@@ -15,6 +15,7 @@ class CreateBcAdvertisementsTable extends Migration
     {
         Schema::create('bc_advertisements', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->string('url');
             $table->string('image');
             $table->bigInteger('company_id');

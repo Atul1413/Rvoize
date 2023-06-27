@@ -15,6 +15,7 @@ class Advertisement extends BaseModel
     use SoftDeletes;
     protected $table = 'bc_advertisements';
     protected $fillable = [
+        'title',
         'url',
         'image',
         'company_id',
@@ -34,6 +35,12 @@ class Advertisement extends BaseModel
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];
+
+    public function getEditUrl()
+    {
+        $lang = $this->lang ?? setting_item("site_locale");
+        // return route('job.admin.edit',['id'=>$this->id , "lang"=> $lang]);
+    }
 
     public function companies() {
         return $this->belongsTo(Company::class,'company_id','id');
