@@ -4,10 +4,6 @@
 
     @includeIf('Job::frontend.layouts.search.'. $style)
     
-    @if (!empty($banner))
-        @include('Layout::parts.advertisement')
-        <div class="mb-5"></div>
-    @endif
 
 @endsection
 

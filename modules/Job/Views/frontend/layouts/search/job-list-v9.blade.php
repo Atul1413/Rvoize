@@ -1,4 +1,11 @@
 <!-- Listing Section -->
+
+
+<section>
+    @if (!empty($banner))
+        @include('Layout::parts.advertisement')
+    @endif
+</section>
 <section class="ls-section map-layout">
     <div class="filters-backdrop"></div>
 

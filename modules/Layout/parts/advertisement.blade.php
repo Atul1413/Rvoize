@@ -1,5 +1,5 @@
 
-<div id="ad-carousel" class="owl-carousel owl-theme p-3">
+<div id="ad-carousel" class="owl-carousel owl-theme p-3 my-2">
     @foreach ($banner as $ad)
         <a target="_blank" style="text-decoration:none;" href="{{ $ad['url'] }}">
             <div class="d-flex justify-content-center" style="border-radius:5px;"> 

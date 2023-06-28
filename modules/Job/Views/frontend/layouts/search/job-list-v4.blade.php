@@ -1,3 +1,9 @@
+
+<section>
+    @if (!empty($banner))
+        @include('Layout::parts.advertisement')
+    @endif
+</section>
 <section class="ls-section style-two">
     <div class="filters-backdrop"></div>
 

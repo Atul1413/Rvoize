@@ -26,10 +26,18 @@
 </section>
 <!--End Page Title-->
 
+<section>
+    @if (!empty($banner))
+        @include('Layout::parts.advertisement')
+    @endif
+</section>
+
 <!-- Listing Section -->
 <section class="ls-section">
     <div class="auto-container">
         <div class="filters-backdrop"></div>
+
+      
 
         <div class="row">
 

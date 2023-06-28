@@ -6,6 +6,11 @@
     </div>
 </div>
 
+<section>
+    @if (!empty($banner))
+        @include('Layout::parts.advertisement')
+    @endif
+</section>
 <!-- Listing Section -->
 <section class="ls-section">
     <div class="auto-container">

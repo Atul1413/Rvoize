@@ -57,10 +57,11 @@ class UserPlanExpired extends Command
             foreach($user->userPlans as $plan) {
                 $endDate = $plan->end_date;
                 $days = $endDate->diffInDays($todayDate);
-                if($todayDate->lt($endDate) && ($days === 1)) {
+                if($todayDate->lt($endDate) && ($days === 10 || $days === 15)) {
                     $alertList[] = [
                         'name' => $user->first_name . ' '. $user->last_name,
                         'mobile' => str_replace("+","",$user->phone),
+                        'days' => $days,
                     ];
                 }
                 
@@ -71,7 +72,7 @@ class UserPlanExpired extends Command
         foreach($alertList as $user) {
 
             // $msg = urlencode('Dear '.$user['name'] .', Your plan is going to expire in '.$user['days']); 
-            $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is Tomorrow'); 
+            $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '.$user['days']); 
             
             $url = 'http://aquicksms.com/API/sms-api.php?auth='.$auth.'&msisdn='.$user['mobile'].'&senderid='.$sender.'&entity_id='.$entity_id.'&template_id='.$template_id.'&message='.$msg;  // API URL
             $ch = curl_init();
