@@ -101,6 +101,14 @@
                 <div class="row justify-content-center">
                     @foreach ($percentage as $percentName => $percentValue)
                         @if ($percentName === 'errors' && !empty($percentValue))
+
+                            <div class="col-12 mb-3">
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{{ __('Need to complete Company profile before posting a job') }}</strong>
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <div class="alert alert-info">
                                     <button type="button" class="close" data-dismiss="alert">×</button>

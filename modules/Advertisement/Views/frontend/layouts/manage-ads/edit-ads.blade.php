@@ -43,6 +43,7 @@
                                 </div>
                             </div>
                          
+                         
                             @if(is_default_lang())
                                 <div class="row">
                                     <div class="col-md-6">
@@ -175,6 +176,8 @@
                 showEventTooltip    : true,
                 classNotAvailable   : ['disabled', 'off'],
                 disableHightLight: true,
+                minDate: `{{ auth()->user()->user_plan?->start_date?->format('Y-m-d H:i:s') }}`,
+                maxDate: `{{ auth()->user()->user_plan?->end_date?->format('Y-m-d H:i:s') }}`,
                 locale:{
                     format:'YYYY/MM/DD'
                 }

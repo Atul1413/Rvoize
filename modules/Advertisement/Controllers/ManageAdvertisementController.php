@@ -26,6 +26,10 @@ class ManageAdvertisementController extends FrontendController
     {
         $this->checkPermission('advertisement_manage');
         $user = auth()->user();
+       
+        if(empty($user->user_plan) || (!empty($user->user_plan) && $user->user_plan?->end_date <= now())) {
+            return redirect(route('plan'));
+        }
         $ad = Advertisement::where('company_id',$user->company?->id)->orderBy('id', 'desc')->paginate(20);
         $data = [
             'rows'        => $ad,
@@ -38,6 +42,10 @@ class ManageAdvertisementController extends FrontendController
     public function createAd()
     {
         $this->checkPermission('advertisement_manage');
+        $user = auth()->user();
+        if(empty($user->user_plan) || (!empty($user->user_plan) && $user->user_plan?->end_date <= now())) {
+            return redirect(route('plan'));
+        }
        
         $data = [
             'positions'    => Advertisement::POSITION,
@@ -50,8 +58,12 @@ class ManageAdvertisementController extends FrontendController
 
     public function editAd(Request $request, $id){
         $this->checkPermission('advertisement_manage');
+        $user = auth()->user();
+        if(empty($user->user_plan) || (!empty($user->user_plan) && $user->user_plan?->end_date <= now())) {
+            return redirect(route('plan'));
+        }
         $row = Advertisement::where('id',$id)->with('countries')->first();
-        $company_id = Auth::user()->company->id ?? '';
+        $company_id = $user->company?->id ?? '';
 
         if (empty($row)) {
             return redirect(route('user.company.advertisement.manage.ads'));
@@ -72,6 +84,9 @@ class ManageAdvertisementController extends FrontendController
     public function storeAd(Request $request, $id){
         $this->checkPermission('advertisement_manage');
         $user = auth()->user();
+        if(empty($user->user_plan) || (!empty($user->user_plan) && $user->user_plan?->end_date <= now())) {
+            return redirect(route('plan'));
+        }
         if(!$user->checkCompanyProgress()) {
             return redirect(route('user.company.profile'))->with('error', __('Need to complete Company Profile before posting an Advertisement') );
         } 

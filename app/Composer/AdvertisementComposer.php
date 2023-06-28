@@ -17,33 +17,27 @@ class AdvertisementComposer
         $companyListWithActivePlans = [];
         $imageList = [];
       
-        // $location = geoip()?->getLocation(geoip()->getClientIP()) ?? "IN";
-        $location = "IN";
+        $location = geoip()?->getLocation(geoip()->getClientIP())->iso_code ?? "IN";
         $userWithCompanyActivePlan = User::select(['id','email','role_id'])
-        ->whereHas('company')
         ->whereHas('user_plan')
-        ->with([
-            'user_plan' => function($query) {
-                $query->where('end_date','<=',now()->format('Y-m-d H:i:s'))->where('status', 1);
-            },
-            'company' => function($query) {
-                $query->select('id','owner_id')->where('status','publish');
-            }
-        ])?->get()?->toArray() ?? [];
+        ->whereHas('company',function($query) {
+            $query->select('id','owner_id')->where('status','publish');
+        })->with('company:id,owner_id')?->get()?->toArray() ?? [];
+        
+        foreach($userWithCompanyActivePlan as $user) {
+                if(!empty($user['company'])) {
+                    $companyListWithActivePlans[] = $user['company']['id'];
+                }
+        } 
 
-       foreach($userWithCompanyActivePlan as $user) {
-            if(!empty($user['company'])) {
-                $companyListWithActivePlans[] = $user['company']['id'];
-            }
-       } 
     
        if(count($companyListWithActivePlans) > 0) {
         
             $advertisementList = Advertisement::with(['banner:id,file_path'])
             ->where('is_approved', 1)
             ->where('status','publish')
-            ->where('start_date', '<=', now()->format('Y-m-d H:i:s'))
-            ->where('end_date', '>=', now()->format('Y-m-d H:i:s'))
+            ->whereDate('start_date', '<=', now()->format('Y-m-d'))
+            ->whereDate('end_date', '>=', now()->format('Y-m-d'))
             ->whereIn('company_id',$companyListWithActivePlans)
             ->whereHas('countries', function($query) use($location) {
                 $query->where('country',$location);

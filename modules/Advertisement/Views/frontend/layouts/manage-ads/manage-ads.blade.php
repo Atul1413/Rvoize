@@ -15,6 +15,12 @@
     </div>
     @include('admin.message')
     <div class="row">
+        <div class="col-12 mb-3">
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ __('Please make sure if you\'ve updated / upgraded your plan. Update all the advertisements Start and End dates as well if you wish to continue advertising given ads.') }}
+            </div>
+        </div>
         <div class="col-lg-12">
             <!-- Ls widget -->
             <div class="ls-widget">
@@ -28,7 +34,6 @@
                                 <thead>
                                 <tr>
                                     <th width="200px">{{ __("Title") }}</th>
-                                    {{-- <th width="140px">{{ __('Banner')}}</th> --}}
                                     <th width="50px">{{ __('URL')}}</th>
                                     <th width="100px">{{ __('Start Date')}}</th>
                                     <th width="100px">{{ __('End Date')}}</th>
@@ -45,11 +50,6 @@
                                             <td class="title">
                                                 <a href="#">{{$row->title}}</a>
                                             </td>
-                                            {{-- <td> 
-                                                @if(!empty($row->banner))
-                                                    <img src="{{ $row->banner }}" style="height:30px;width:auto;object-fit:contain;" />
-                                                @endif
-                                             --}}
                                             <td>
                                                 @if (!empty($row->url))
                                                     <a target="_blank" style="color:blue;text-decoration:underline;" href="{{ $row->url }}">URL</a>

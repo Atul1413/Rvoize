@@ -1,22 +1,16 @@
 
-
-
-<div class="row justify-content-center my-4">
-    <div class="col-11 col-md-8">
-        <div id="ad-carousel" class="owl-carousel owl-theme">
-                @foreach ($banner as $ad)
-                    <a target="_blank" style="text-decoration:none;" href="{{ $ad['url'] }}">
-                        <div class="d-flex justify-content-center" style="border-radius:5px;"> 
-                            <div class="d-none">.</div>
-                            <img src="{{ $ad['banner'] }}" style="height:240px;width:auto;object-fit:contain;" alt="{{ $ad['title'] }}">
-                        </div>
-                    </a>
-                @endforeach
-            
+<div id="ad-carousel" class="owl-carousel owl-theme p-3">
+    @foreach ($banner as $ad)
+        <a target="_blank" style="text-decoration:none;" href="{{ $ad['url'] }}">
+            <div class="d-flex justify-content-center" style="border-radius:5px;"> 
+                <div class="d-none">.</div>
+                <img src="{{ $ad['banner'] }}" style="height:250px;width:auto;object-fit:contain;" alt="{{ $ad['title'] }}">
             </div>
-        
-    </div>
+        </a>
+    @endforeach
+
 </div>
+
 
 @push('js')
     <script type="text/javascript">
