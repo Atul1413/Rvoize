@@ -188,6 +188,7 @@
             ];
             $prices = [199,499,799];
             $count = [5,20,50];
+            $ads = [3,5,7];
             foreach ($plans as $k=>$plan){
                 $a = new Plan();
                 $data = [
@@ -204,6 +205,7 @@
                                                 <li><span>Premium Support 24/7 </span></li>
                                             </ul>',
                     'max_service'=>$count[$k],
+                    'max_ads'=>$ads[$k],
                     'role_id'=>2,
                     'status'=>'publish'
                 ];
