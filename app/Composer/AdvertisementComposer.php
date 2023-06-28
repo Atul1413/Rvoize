@@ -17,7 +17,7 @@ class AdvertisementComposer
         $companyListWithActivePlans = [];
         $imageList = [];
       
-        $location = geoip()?->getLocation(geoip()->getClientIP())->iso_code ?? "IN";
+        $location = geoip()?->getLocation()->iso_code ?? "IN";
         $userWithCompanyActivePlan = User::select(['id','email','role_id'])
         ->whereHas('user_plan')
         ->whereHas('company',function($query) {
