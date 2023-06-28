@@ -1231,9 +1231,7 @@
             })
 
             function percentageToDegrees(percentage) {
-
                 return percentage / 100 * 360
-
             }
         });
     </script>

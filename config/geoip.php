@@ -147,19 +147,19 @@ return [
     */
 
     'default_location' => [
-        'ip' => '127.0.0.0',
-        'iso_code' => 'US',
-        'country' => 'United States',
-        'city' => 'New Haven',
-        'state' => 'CT',
-        'state_name' => 'Connecticut',
-        'postal_code' => '06510',
-        'lat' => 41.31,
-        'lon' => -72.92,
-        'timezone' => 'America/New_York',
-        'continent' => 'NA',
+        "ip" => "101.33.16.255",
+        "iso_code" => "IN",
+        "country" => "India",
+        "city" => "Mumbai",
+        "state" => "MH",
+        "state_name" => "Maharashtra",
+        "postal_code" => "400070",
+        "lat" => 19.0748,
+        "lon" => 72.8856,
+        "timezone" => "Asia/Kolkata",
+        "continent" => "Unknown",
+        "currency" => "INR",
         'default' => true,
-        'currency' => 'USD',
     ],
 
 ];

@@ -27,9 +27,8 @@
                             <table class="default-table manage-job-table">
                                 <thead>
                                 <tr>
-                                    <th width="230px">{{ __("Title") }}</th>
+                                    <th width="200px">{{ __("Title") }}</th>
                                     {{-- <th width="140px">{{ __('Banner')}}</th> --}}
-                                    <th width="50px">{{ __('Country')}}</th>
                                     <th width="50px">{{ __('URL')}}</th>
                                     <th width="100px">{{ __('Start Date')}}</th>
                                     <th width="100px">{{ __('End Date')}}</th>
@@ -50,8 +49,7 @@
                                                 @if(!empty($row->banner))
                                                     <img src="{{ $row->banner }}" style="height:30px;width:auto;object-fit:contain;" />
                                                 @endif
-                                            </td> --}}
-                                            <td>{{$row->location ?? ''}}</td>
+                                             --}}
                                             <td>
                                                 @if (!empty($row->url))
                                                     <a target="_blank" style="color:blue;text-decoration:underline;" href="{{ $row->url }}">URL</a>
@@ -78,7 +76,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="9">{{__("No data")}}</td>
+                                        <td colspan="7">{{__("No data")}}</td>
                                     </tr>
                                 @endif
 

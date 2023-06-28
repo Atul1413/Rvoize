@@ -18,8 +18,7 @@ class CreateBcAdvertisementsTable extends Migration
             $table->string('title');
             $table->string('url');
             $table->unsignedBigInteger('banner');
-            $table->bigInteger('company_id');
-            $table->string('location',5)->nullable()->default('IN');
+            $table->unsignedBigInteger('company_id');
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->unsignedTinyInteger('position')->nullable();
@@ -28,6 +27,13 @@ class CreateBcAdvertisementsTable extends Migration
             $table->boolean('is_approved')->nullable();
             $table->integer('create_user')->nullable();
             $table->integer('update_user')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('bc_advertisement_country', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('origin_id');
+            $table->string('country', 5);
             $table->timestamps();
         });
 
@@ -42,6 +48,9 @@ class CreateBcAdvertisementsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('bc_advertisements');
+        
+        
+        Schema::dropIfExists('bc_advertisement_country');
       
     }
 }

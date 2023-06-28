@@ -2,22 +2,18 @@
 
 @section('content')
   
-    <form method="post" action="{{ route('user.company.advertisement.store.ads',['id' => $row->id ?? '-1']) }}" enctype="multipart/form-data" class="default-form">
+    <form method="post" action="{{ route('user.company.advertisement.store.ads',['id' => '-1']) }}" enctype="multipart/form-data" class="default-form">
         @csrf
-        <input type="hidden" name="id" value="{{$row->id}}">
         <div class="upper-title-box">
             <div class="row">
                 <div class="col-md-9">
-                    <h4>{{$row->id ? __('Edit: ').$row->title : __('New Advertisement')}}</h4>
+                    <h4>{{__('New Advertisement')}}</h4>
                 </div>
               
             </div>
         </div>
         @include('admin.message')
 
-        {{-- @if($row->id)
-            @include('Language::admin.navigation')
-        @endif --}}
 
         <div class="row">
             <div class="col-xl-9">
@@ -31,14 +27,14 @@
 
                                     <div class="form-group">
                                         <label>{{__("Title")}} <span class="required">*</span></label>
-                                        <input type="text" value="{{ old('title', $row->title) }}" placeholder="{{__("Title")}}" name="title" required class="form-control">
+                                        <input type="text" value="{{ old('title') }}" placeholder="{{__("Title")}}" name="title" required class="form-control">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">{{__("Advertisement URL")}}</label>
-                                        <input type="text" name="url" required class="form-control" value="{{old('url',$row->url)}}" placeholder="{{__("Advertisement URL")}}">
+                                        <input type="text" name="url" required class="form-control" value="{{old('url')}}" placeholder="{{__("Advertisement URL")}}">
                                     </div>
                                 </div>
                             </div>
@@ -48,13 +44,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{__("Start Date")}} <span class="required">*</span></label>
-                                            <input type="text" value="{{ old( 'start_date', $row->start_date ? date('Y/m/d', strtotime($row->start_date)) : '') }}" placeholder="YYYY/MM/DD" name="start_date" autocomplete="false" required class="form-control has-datepicker bg-white">
+                                            <input type="text" value="{{ old( 'start_date') }}" placeholder="YYYY/MM/DD" name="start_date" autocomplete="false" required class="form-control has-datepicker bg-white">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{__("End Date")}} <span class="required">*</span></label>
-                                            <input type="text" value="{{ old( 'end_date', $row->end_date ? date('Y/m/d', strtotime($row->end_date)) : '') }}" placeholder="YYYY/MM/DD" name="end_date" autocomplete="false" required class="form-control has-datepicker bg-white">
+                                            <input type="text" value="{{ old( 'end_date') }}" placeholder="YYYY/MM/DD" name="end_date" autocomplete="false" required class="form-control has-datepicker bg-white">
                                         </div>
                                     </div>
                                     
@@ -66,10 +62,7 @@
                                                     <option disabled selected value="">{{__("-- Select --")}}</option>
                                                     @php
                                                     foreach ($positions as $positionId => $position) {
-                                                        $selected = '';
-                                                        if (old('position', $row->position) == $positionId)
-                                                            $selected = 'selected';
-                                                        printf("<option value='%s' %s>%s</option>", $positionId, $selected, $position);
+                                                        printf("<option value='%s' %s>%s</option>", $positionId, '', $position);
                                                     }
                                                     @endphp
                                                 </select>
@@ -77,23 +70,17 @@
                                         </div>
                                     </div>
 
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="">
-                                                <label for="countries">Countries <strong>( Advertise in these countries)</strong> </label>
-                                                <select id="countries" name="countries[]" class="form-control" required multiple="multiple">
+                                                <label for="countries">Countries <strong>( Advertise within these countries)</strong></label>
+                                                <select id="countries" required name="countries[]" class="form-control" multiple="multiple">
                                                     <option value="">{{ __('-- Please Select --') }}</option>
                                                     @php
                                                     foreach (get_country_lists() as $countryId => $country) {
-                                                        $selected = '';
-                                                        if (!empty($row->countries)) {
-                                                            foreach ($row->countries as $selectedCountry) {
-                                                                if ($countryId == $selectedCountry->country) {
-                                                                    $selected = 'selected';
-                                                                }
-                                                            }
-                                                        }
-                                                        printf("<option value='%s' %s>%s</option>", $countryId, $selected, $country);
+                                                       
+                                                        printf("<option value='%s' %s>%s</option>", $countryId, '', $country);
                                                     }
                                                     @endphp
                                                 </select>
@@ -106,7 +93,7 @@
                                         <div class="form-group">
                                             <label>{{__("Banner Image") }} ({{__('Recommended size image: '.\Modules\Advertisement\Models\Advertisement::HEIGHT.' px x '.\Modules\Advertisement\Models\Advertisement::WIDTH.' px')}})</label>
                                             <div class="form-group">
-                                                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner',$row->banner) !!}
+                                                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner') !!}
                                             </div>
                                         </div>
                                     </div>
@@ -134,10 +121,10 @@
                         <div class="widget-content pb-4">
                             @if(is_default_lang())
                                 <div>
-                                    <label><input @if($row->status =='publish') checked @endif type="radio" name="status" value="publish"> {{__("Publish")}}</label>
+                                    <label><input checked type="radio" name="status" value="publish"> {{__("Publish")}}</label>
                                 </div>
                                 <div>
-                                    <label><input @if($row->status =='draft') checked @endif type="radio" name="status" value="draft"> {{__("Draft")}}</label>
+                                    <label><input type="radio" name="status" value="draft"> {{__("Draft")}}</label>
                                 </div>
                             @endif
                             <div class="text-right">
@@ -186,7 +173,7 @@
         })
 
         $(document).ready(function() {
-                $('#countries').select2();
+            $('#countries').select2();
         });
     </script>
 @endsection

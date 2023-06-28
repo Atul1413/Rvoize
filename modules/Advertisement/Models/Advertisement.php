@@ -2,13 +2,7 @@
 namespace Modules\Advertisement\Models;
 
 use App\BaseModel;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Modules\Company\Models\Company;
-use Modules\Core\Models\SEO;
-use Modules\Core\Models\Attributes;
 use Modules\Media\Models\MediaFile;
 
 class Advertisement extends BaseModel
@@ -28,6 +22,9 @@ class Advertisement extends BaseModel
         'create_user',
         'update_user',
     ];
+
+    public const HEIGHT = 220;
+    public const WIDTH = 1920;
 
     public const POSITION = [
         1 => 'Home Page',
@@ -55,6 +52,9 @@ class Advertisement extends BaseModel
         return $this->hasOne(MediaFile::class,'id','banner');
     }
 
+    public function countries() {
+        return $this->hasMany(AdvertisementCountry::class,'origin_id','id');
+    }
     
 
 }

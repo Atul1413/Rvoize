@@ -2,8 +2,8 @@
 
 @if (!empty($banner))
 
-    <div class="row justify-content-center">
-        <div class="col-11 col-md-8 p-md-0">
+    <div class="row justify-content-center my-4">
+        <div class="col-11 col-md-8">
             <div id="ad-carousel" class="owl-carousel owl-theme">
                     @foreach ($banner as $ads)
                         <a target="_blank" style="text-decoration:none;" href="{{ $ads['url'] }}">

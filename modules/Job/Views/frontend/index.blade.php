@@ -6,8 +6,8 @@
 
     @if (!empty($banner) && !empty($banner[2]))
         @include('Layout::parts.advertisement',['banner' => $banner[2]])
+        <div class="mb-5"></div>
     @endif
-    <div class="mb-5"></div>
 
 @endsection
 

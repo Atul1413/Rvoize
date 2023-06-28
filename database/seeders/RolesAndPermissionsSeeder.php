@@ -33,7 +33,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'name'=>__('Candidate')
         ]);
 
-        $employer->givePermission(['job_manage','employer_manage','media_upload']);
+        $employer->givePermission(['job_manage','employer_manage','media_upload','advertisement_manage']);
         $candidate->givePermission(['candidate_manage','media_upload','gig_manage']);
     }
 }

@@ -2,11 +2,13 @@
 namespace Modules\Advertisement\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Modules\Advertisement\Models\Advertisement;
 use Modules\FrontendController;
 use Modules\Media\Traits\HasUpload;
 use Illuminate\Support\Facades\Validator;
+use Modules\Advertisement\Models\AdvertisementCountry;
 use Modules\Media\Models\MediaFile;
 
 class ManageAdvertisementController extends FrontendController
@@ -36,23 +38,19 @@ class ManageAdvertisementController extends FrontendController
     public function createAd()
     {
         $this->checkPermission('advertisement_manage');
-        $row = new Advertisement();
-        $row->fill([
-            'status' => 'publish',
-        ]);
+       
         $data = [
-            'row'         => $row,
             'positions'    => Advertisement::POSITION,
             'menu_active' => 'create_ads',
             'page_title' => __("Create Advertisement"),
             'is_user_page' => true
         ];
-        return view('Advertisement::frontend.layouts.manage-ads.edit-ads', $data);    
+        return view('Advertisement::frontend.layouts.manage-ads.create-ads', $data);    
     }
 
     public function editAd(Request $request, $id){
         $this->checkPermission('advertisement_manage');
-        $row = Advertisement::where('id',$id)->first();
+        $row = Advertisement::where('id',$id)->with('countries')->first();
         $company_id = Auth::user()->company->id ?? '';
 
         if (empty($row)) {
@@ -82,7 +80,7 @@ class ManageAdvertisementController extends FrontendController
             'url' => 'required|url',
             'start_date' => 'required|date_format:Y/m/d',
             'end_date' => 'required|date_format:Y/m/d',
-            'location' => 'required',
+            'countries' => 'required|array|min:1',
             'position' => 'required',
             'banner' => 'required|integer'
         ]);
@@ -95,7 +93,7 @@ class ManageAdvertisementController extends FrontendController
         $banner = MediaFile::where('create_user', $user->id)->first();
         if(empty($banner)) { $bannerError[] = 'Uploaded image for Advertisement Banner not found'; } 
         if(!empty($banner) && !in_array($banner->file_extension,['jpeg','jpg','png'])) { $bannerError[] = 'Banner must be of image type : jpeg, jpg or png'; } 
-        if(!empty($banner) && ($banner->file_width !== 1980 || $banner->file_height !== 200)) { $bannerError[] = 'Given banner height is '.$banner->file_height . ' px and width is '.$banner->file_width .' px. Banner must be exactly of height: 200 px and width: 1980 px' ; } 
+        if(!empty($banner) && ($banner->file_width !== Advertisement::WIDTH || $banner->file_height !== Advertisement::HEIGHT)) { $bannerError[] = 'Given banner height is '.$banner->file_height . ' px and width is '.$banner->file_width .' px. Banner must be exactly of height: '. Advertisement::HEIGHT.' px and width: '.Advertisement::WIDTH.' px' ; } 
         
         if(!empty($bannerError)) {
             return back()->withErrors($bannerError)->withInput($request->input());
@@ -124,7 +122,6 @@ class ManageAdvertisementController extends FrontendController
             'title',
             'url',
             'banner',
-            'location',
             'start_date',
             'end_date',
             'position',
@@ -132,13 +129,30 @@ class ManageAdvertisementController extends FrontendController
             'create_user',
         ];
         
-        $row->fillByAttr($attr, $input);
+        $countries = [] ;
+      
 
-        // Check Plan
+        $row->fillByAttr($attr, Arr::except($input,['countries']));
+
+         // Check Plan
         if($id < 0 && $row->status == 'publish' and !$user->checkAdPlan()){
             return back()->with('error',__("Maximum published ads reached. Please buy more plan"));
         }
+
         $res = $row->saveOriginOrTranslation($request->query('lang'),true);
+
+        if(!empty($request->input('countries'))) {
+            foreach($input['countries'] as $country) {
+                $countries[] = ['origin_id' => $row->id, 'country' => $country ,'created_at' => now(), 'updated_at' => now()];
+            }
+            if($id > 0) {
+                AdvertisementCountry::where('origin_id',$row->id)->delete();
+            }   
+            AdvertisementCountry::insert($countries);
+        }
+
+       
+       
         if ($res) {
             if($id > 0 ){
                 return back()->with('success',  __('Advertisement updated') );
@@ -155,6 +169,7 @@ class ManageAdvertisementController extends FrontendController
         $company_id = auth()->user()->company->id ?? '';
         $ad = Advertisement::where("id", $id)->where('company_id', $company_id)->first();
         if(!empty($ad)){
+            AdvertisementCountry::where('origin_id',$ad->id)->delete();
             $ad->delete();
         }
 
