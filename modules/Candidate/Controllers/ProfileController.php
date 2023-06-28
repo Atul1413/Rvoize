@@ -76,7 +76,6 @@ class ProfileController extends FrontendController
             'work_type' => 'Let us know your desired work preference',
             "address" => 'Help us to reach you by filling up address',
             "education" => 'Atleast one Education details must be provided',
-            "experience" => 'Atleast one Experience details must be provided',
             "skills" => 'Atleast one Skill must be selected',
         ];
 
@@ -102,7 +101,6 @@ class ProfileController extends FrontendController
                 "city",
                 "address",
                 "education",
-                "experience",
                 'job_type_id',
                 'relocate',
                 'work_type',
@@ -139,7 +137,6 @@ class ProfileController extends FrontendController
         $percentage['Qualification Section'] = $this->calculatePercent(Arr::only($userAttributes, [
             "education_level",
             "education",
-            "experience",
             'skills',
         ]));
         $percentage['Job Preferences'] = $this->calculatePercent(Arr::only($userAttributes, [

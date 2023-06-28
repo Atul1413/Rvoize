@@ -35,10 +35,10 @@ class ModuleProvider extends ModuleServiceProvider
         $advertisement_menus = [
             'advertisement'=>[
                 "position"=>26,
-                'url'        => route('candidate.admin.index'),
+                'url'        => route('company.advertisement.admin.index'),
                 'title'      => __("Advertisement"),
                 'icon'       => 'ion-md-paper',
-                // 'permission' => 'candidate_manage_others',
+                'permission' => 'advertisement_manage_others',
             ]
 
         ];
@@ -67,13 +67,13 @@ class ModuleProvider extends ModuleServiceProvider
                     'manage_ads'=>[
                         'url' => route('user.company.advertisement.manage.ads'),
                         'title' => __("All Ads"),
-                        // 'permission' => 'advertisement_manage',
+                        'permission' => 'advertisement_manage',
                         'position' => 10
                     ],
                     'create_ads' => [
                         'url' => route('user.company.advertisement.create.ads'),
                         'title' => __("Create a New Ad"),
-                        // 'permission' => 'advertisement_manage',
+                        'permission' => 'advertisement_manage',
                     ]
                 ]
             ];

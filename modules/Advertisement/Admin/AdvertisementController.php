@@ -5,13 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\AdminController;
-use Modules\Candidate\Models\CandidateContact;
-use Modules\Job\Events\CandidateDeleteApplied;
-use Modules\Job\Models\JobCandidate;
-use Modules\Language\Models\Language;
-use Modules\Candidate\Models\Category;
-use Modules\Candidate\Models\Candidate;
-use Modules\User\Models\User;
+
 
 class AdvertisementController extends AdminController
 {
@@ -27,59 +21,59 @@ class AdvertisementController extends AdminController
     public function index(Request $request)
     {
         $this->checkPermission('advertisement_manage_others');
-        $username = $request->query('s');
-        $cate_id = $request->query('cate_id');
-        $listUser = \App\User::query()->where('role_id',3);
-        if (!empty($username)) {
-            $listUser->where(function($query) use($username){
-                $query->where('first_name', 'LIKE', '%' . $username . '%');
-                $query->orWhere('id',  $username);
-                $query->orWhere('phone',  $username);
-                $query->orWhere('email', 'LIKE', '%' . $username . '%');
-                $query->orWhere('last_name', 'LIKE', '%' . $username . '%');
-            });
-        }
+        // $username = $request->query('s');
+        // $cate_id = $request->query('cate_id');
+        // $listUser = \App\User::query()->where('role_id',3);
+        // if (!empty($username)) {
+        //     $listUser->where(function($query) use($username){
+        //         $query->where('first_name', 'LIKE', '%' . $username . '%');
+        //         $query->orWhere('id',  $username);
+        //         $query->orWhere('phone',  $username);
+        //         $query->orWhere('email', 'LIKE', '%' . $username . '%');
+        //         $query->orWhere('last_name', 'LIKE', '%' . $username . '%');
+        //     });
+        // }
 
-        if (!empty($cate_id)) {
-            $listUser->whereHas(
-                'candidate.categories', function($q) use ($cate_id){
-                $q->where('bc_candidate_categories.cat_id', $cate_id);
-            });
-        }
+        // if (!empty($cate_id)) {
+        //     $listUser->whereHas(
+        //         'candidate.categories', function($q) use ($cate_id){
+        //         $q->where('bc_candidate_categories.cat_id', $cate_id);
+        //     });
+        // }
 
-        if (!empty($request->query('status'))) {
-            $listUser->where('status',  $request->query('status'));
-        }
+        // if (!empty($request->query('status'))) {
+        //     $listUser->where('status',  $request->query('status'));
+        // }
 
-        if (!empty($request->query('allow_search'))) {
-            $allow_search = $request->query('allow_search');
-            $listUser->whereHas(
-                'candidate', function($q) use ($allow_search){
-                $q->where('allow_search', $allow_search);
-            });
-        }
+        // if (!empty($request->query('allow_search'))) {
+        //     $allow_search = $request->query('allow_search');
+        //     $listUser->whereHas(
+        //         'candidate', function($q) use ($allow_search){
+        //         $q->where('allow_search', $allow_search);
+        //     });
+        // }
 
-        $listUser->orderBy('id','desc');
+        // $listUser->orderBy('id','desc');
 
-        //$this->filterLang($dataCandidate);
+         //$this->filterLang($dataCandidate);
 
-        $data = [
-            'rows'        => $listUser->paginate(20),
-            'categories'  => Category::get(),
-            'breadcrumbs' => [
-                [
-                    'name' => __('Candidate'),
-                    'url'  => 'admin/module/candidate'
-                ],
-                [
-                    'name'  => __('All'),
-                    'class' => 'active'
-                ],
-            ],
-            "locale"=>\App::getLocale(),
-            'page_title'=>__("Candidate Management")
-        ];
-        return view('Candidate::admin.candidate.index', $data);
+        // $data = [
+        //     'rows'        => $listUser->paginate(20),
+        //     'categories'  => Category::get(),
+        //     'breadcrumbs' => [
+        //         [
+        //             'name' => __('Candidate'),
+        //             'url'  => 'admin/module/candidate'
+        //         ],
+        //         [
+        //             'name'  => __('All'),
+        //             'class' => 'active'
+        //         ],
+        //     ],
+        //     "locale"=>\App::getLocale(),
+        //     'page_title'=>__("Candidate Management")
+        // ];
+        return view('Advertisement::admin.list-ads');
     }
 
     public function bulkEdit(Request $request)

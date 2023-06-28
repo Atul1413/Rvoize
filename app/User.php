@@ -573,7 +573,6 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         if(empty($this->candidate?->work_type)) return false;
         if(empty($this->candidate?->address)) return false;
         if(empty($this->candidate?->education)) return false;
-        if(empty($this->candidate?->experience)) return false;
         if(empty($this->candidate?->categories)) return false;
         if(empty($this->candidate?->skills)) return false;
         
