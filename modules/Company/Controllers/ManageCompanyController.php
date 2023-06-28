@@ -254,24 +254,4 @@ class ManageCompanyController extends FrontendController{
         }
     }
 
-    public function advertisementIndex(Request $request) {
-        // $this->checkPermission('advertisement_manage');
-
-        $row = $this->company::where('owner_id', Auth::id())->first();
-        $translation = $row->translateOrOrigin($request->query('lang'));
-        $data = [
-            'row'  => $row,
-            'categories'        => $this->category::get()->toTree(),
-            'attributes'     => $this->attributes::where('service', 'company')->get(),
-            'company_location'     => $this->location::where('status', 'publish')->get()->toTree(),
-            'translation'  => $translation,
-            'enable_multi_lang'=>true,
-            'page_title'=>__("Company Profile"),
-            'menu_active' => 'company_profile',
-            "selected_terms"    => $row->companyTerm ? $row->companyTerm->pluck('term_id') : [],
-            'is_user_page' => true,
-            'percentage' => $this->getProfilePercent($row),
-        ];
-        return view('Company::frontend.layouts.manageCompany.detail', $data);
-    }
 }

@@ -11,6 +11,7 @@ class UserPlan extends BaseModel
     protected $table  = 'user_plan';
 
     protected $casts = [
+        'start_date'=>'datetime',
         'end_date'=>'datetime',
         'plan_data'=>'array'
     ];

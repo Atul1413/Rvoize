@@ -6,7 +6,7 @@
     <li class="menu-hr"><a href="{{ route('user.company.profile') }}">{{__("Company profile")}}</a></li>
 
     <li class="menu-hr"><a href="{{route('user.manage.jobs')}}">{{__("Manage Jobs")}}</a></li>
-    <li class="menu-hr"><a href="{{route('user.company.advertisement.index')}}"> {{__("Manage Ads")}}</a></li>
+    <li class="menu-hr"><a href="{{route('user.company.advertisement.manage.ads')}}"> {{__("Manage Ads")}}</a></li>
     <li class="menu-hr"><a href="{{route('user.applicants')}}">{{__("All Applicants")}}</a></li>
     <li class="menu-hr"><a href="{{route('user.wishList.index')}}"> {{__("Shortlisted")}}</a></li>
 @endif

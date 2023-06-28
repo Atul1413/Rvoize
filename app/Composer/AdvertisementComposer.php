@@ -24,7 +24,7 @@ class AdvertisementComposer
         ->whereHas('user_plan')
         ->with([
             'user_plan' => function($query) {
-                $query->where('end_date','<=',now()->format('Y-m-d H:i:s'))->where('status',1);
+                $query->where('end_date','<=',now()->format('Y-m-d H:i:s'))->where('status', 1);
             },
             'company' => function($query) {
                 $query->select('id','owner_id')->where('status','publish');
@@ -49,11 +49,12 @@ class AdvertisementComposer
                 $query->where('country',$location);
              })
             ->orderBy('id','desc')->get()?->toArray() ?? [];
-
+          
             $chunks = array_chunk($advertisementList, 1000);
             foreach ($chunks as $adList) {
                 foreach ($adList as $ad) {
-                    $imageList[$ad['position']][] = [
+                    // $imageList[$ad['position']][] = [
+                    $imageList[] = [
                         'title' => $ad['title'],
                         'url' => $ad['url'],
                         'banner' => asset('uploads/' .$ad['banner']['file_path']),
@@ -61,7 +62,7 @@ class AdvertisementComposer
                 }
             }
         }
-
+        // dd($imageList);
         $view->with([
             'banner' => $imageList,
         ]);

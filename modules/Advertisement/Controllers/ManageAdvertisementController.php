@@ -61,7 +61,7 @@ class ManageAdvertisementController extends FrontendController
 
         $data = [
             'row'  => $row,
-            'positions'    => Advertisement::POSITION,
+            // 'positions'    => Advertisement::POSITION,
             'page_title' => __("Edit Advertisement: "). $row->title,
             'menu_active' => 'advertisement_manage',
             'is_user_page' => true
@@ -81,7 +81,7 @@ class ManageAdvertisementController extends FrontendController
             'start_date' => 'required|date_format:Y/m/d',
             'end_date' => 'required|date_format:Y/m/d',
             'countries' => 'required|array|min:1',
-            'position' => 'required',
+            // 'position' => 'required',
             'banner' => 'required|integer'
         ]);
 
@@ -90,7 +90,7 @@ class ManageAdvertisementController extends FrontendController
         } 
 
         $bannerError = [];
-        $banner = MediaFile::where('create_user', $user->id)->first();
+        $banner = MediaFile::where('id', $request->banner)->first();
         if(empty($banner)) { $bannerError[] = 'Uploaded image for Advertisement Banner not found'; } 
         if(!empty($banner) && !in_array($banner->file_extension,['jpeg','jpg','png'])) { $bannerError[] = 'Banner must be of image type : jpeg, jpg or png'; } 
         if(!empty($banner) && ($banner->file_width !== Advertisement::WIDTH || $banner->file_height !== Advertisement::HEIGHT)) { $bannerError[] = 'Given banner height is '.$banner->file_height . ' px and width is '.$banner->file_width .' px. Banner must be exactly of height: '. Advertisement::HEIGHT.' px and width: '.Advertisement::WIDTH.' px' ; } 
@@ -124,7 +124,7 @@ class ManageAdvertisementController extends FrontendController
             'banner',
             'start_date',
             'end_date',
-            'position',
+            // 'position',
             'status',
             'create_user',
         ];

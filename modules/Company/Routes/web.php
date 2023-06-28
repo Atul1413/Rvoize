@@ -13,5 +13,4 @@ Route::group(['middleware'=>'auth'],function() {
     Route::get('/user/company/profile', 'ManageCompanyController@companyProfile')->name("user.company.profile");
     Route::post('/user/company/update', 'ManageCompanyController@companyUpdate')->name("user.company.update");
 
-    Route::get('/user/company/advertisement', 'ManageCompanyController@advertisementIndex')->name("user.company.advertisement.index");
 });

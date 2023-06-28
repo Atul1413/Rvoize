@@ -3,9 +3,9 @@
 @section('content')
 
     @includeIf('Job::frontend.layouts.search.'. $style)
-
-    @if (!empty($banner) && !empty($banner[2]))
-        @include('Layout::parts.advertisement',['banner' => $banner[2]])
+    
+    @if (!empty($banner))
+        @include('Layout::parts.advertisement')
         <div class="mb-5"></div>
     @endif
 

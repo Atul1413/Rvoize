@@ -1551,6 +1551,7 @@ CREATE TABLE IF NOT EXISTS `bc_plans` (
   `duration_type` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `annual_price` decimal(12,2) DEFAULT NULL,
   `max_service` int DEFAULT '0',
+  `max_ads` int DEFAULT '0',
   `status` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `role_id` bigint DEFAULT NULL,
   `is_recommended` tinyint DEFAULT '1',
@@ -2730,7 +2731,9 @@ INSERT INTO `core_role_permissions` (`id`, `role_id`, `permission`, `create_user
 (61, 4, 'report_view', 1, NULL, '2023-06-14 02:41:17', '2023-06-14 02:41:17'),
 (62, 4, 'candidate_manage', 1, NULL, '2023-06-14 02:42:27', '2023-06-14 02:42:27'),
 (63, 4, 'candidate_manage_others', 1, NULL, '2023-06-14 02:42:27', '2023-06-14 02:42:27'),
-(66, 4, 'dashboard_vendor_access', 1, NULL, '2023-06-14 02:44:03', '2023-06-14 02:44:03');
+(66, 4, 'dashboard_vendor_access', 1, NULL, '2023-06-14 02:44:03', '2023-06-14 02:44:03'),
+(67, 2, 'advertisement_manage', NULL, NULL, '2023-06-14 02:44:03', '2023-06-14 02:44:03'),
+(68, 1, 'advertisement_manage_others', NULL, NULL, '2023-06-14 02:44:03', '2023-06-14 02:44:03');
 
 -- --------------------------------------------------------
 
@@ -3787,6 +3790,7 @@ CREATE TABLE IF NOT EXISTS `user_plan` (
   `start_date` timestamp NULL DEFAULT NULL,
   `end_date` timestamp NULL DEFAULT NULL,
   `max_service` int DEFAULT '0',
+  `max_ads` int DEFAULT '0',
   `price` decimal(12,2) DEFAULT NULL,
   `plan_data` text COLLATE utf8mb4_unicode_ci,
   `status` tinyint DEFAULT '1',
@@ -3927,6 +3931,42 @@ CREATE TABLE IF NOT EXISTS `vendor_payout_accounts` (
   PRIMARY KEY (`id`),
   KEY `vendor_payout_accounts_vendor_id_index` (`vendor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+DROP TABLE IF EXISTS `bc_advertisements`;
+CREATE TABLE `bc_advertisements` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `banner` bigint(20) unsigned NOT NULL,
+  `company_id` bigint(20) NOT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `position` tinyint(3) unsigned DEFAULT NULL,
+  `priority` tinyint(3) unsigned DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `is_approved` tinyint(1) DEFAULT NULL,
+  `create_user` int(11) DEFAULT NULL,
+  `update_user` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `bc_advertisement_country`;
+CREATE TABLE `bc_advertisement_country` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `origin_id` bigint(20) unsigned NOT NULL,
+  `country` varchar(5) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

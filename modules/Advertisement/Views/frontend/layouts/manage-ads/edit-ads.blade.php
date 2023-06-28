@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="position">Advertisement Position  <span class="required">*</span></label>
                                             <div class="">
@@ -75,7 +75,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-6">
                                         <div class="form-group">

@@ -23,7 +23,7 @@ class Advertisement extends BaseModel
         'update_user',
     ];
 
-    public const HEIGHT = 220;
+    public const HEIGHT = 240;
     public const WIDTH = 1920;
 
     public const POSITION = [
