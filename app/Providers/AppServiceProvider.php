@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Composer\AdvertisementComposer;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -57,6 +59,11 @@ class AppServiceProvider extends ServiceProvider
         if(is_installed()){
             $this->initConfigFromDB();
         }
+
+        View::composer([
+            'Layout::app',
+            'Job::frontend.index',
+        ], AdvertisementComposer::class);
 
     }
 

@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="col-md-3 text-right">
-            <a class="theme-btn btn-style-one" href="#">{{__("Create New Ad")}}</a>
+            <a class="theme-btn btn-style-one" href="{{ route('user.company.advertisement.create.ads') }}">{{__("Create New Ad")}}</a>
         </div>
     </div>
     @include('admin.message')
@@ -28,8 +28,8 @@
                                 <thead>
                                 <tr>
                                     <th width="230px">{{ __("Title") }}</th>
-                                    <th width="140px">{{ __('Banner')}}</th>
-                                    <th width="50px">{{ __('Location')}}</th>
+                                    {{-- <th width="140px">{{ __('Banner')}}</th> --}}
+                                    <th width="50px">{{ __('Country')}}</th>
                                     <th width="50px">{{ __('URL')}}</th>
                                     <th width="100px">{{ __('Start Date')}}</th>
                                     <th width="100px">{{ __('End Date')}}</th>
@@ -46,11 +46,11 @@
                                             <td class="title">
                                                 <a href="#">{{$row->title}}</a>
                                             </td>
-                                            <td> 
+                                            {{-- <td> 
                                                 @if(!empty($row->banner))
                                                     <img src="{{ $row->banner }}" style="height:30px;width:auto;object-fit:contain;" />
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>{{$row->location ?? ''}}</td>
                                             <td>
                                                 @if (!empty($row->url))
@@ -69,9 +69,8 @@
                                             <td>
                                                 <div class="option-box">
                                                     <ul class="option-list">
-                                                        <li><a href="#" target="_blank" data-text="{{ __("View Ad") }}" ><span class="la la-eye"></span></a></li>
-                                                        <li><a href="#" data-text="{{ __("Edit Ad") }}"><span class="la la-pencil"></span></a></li>
-                                                        <li><a href="#" data-text="{{ __("Delete Ad") }}" class="bc-delete-item" data-confirm="{{__("Do you want to delete?")}}"><span class="la la-trash"></span></a></li>
+                                                        <li><a href="{{ $row->getEditUrl() }}" data-text="{{ __("Edit Ad") }}"><span class="la la-pencil"></span></a></li>
+                                                        <li><a href="{{ route('user.company.advertisement.delete.ads',['id' => $row->id]) }}" data-text="{{ __("Delete Ad") }}" class="bc-delete-item" data-confirm="{{__("Do you want to delete?")}}"><span class="la la-trash"></span></a></li>
                                                     </ul>
                                                 </div>
                                             </td>

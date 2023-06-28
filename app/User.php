@@ -509,6 +509,21 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return true;
     }
 
+    public function checkAdPlan() {
+        
+        $max_allowed =  $this->userPlans()->where('end_date','>',date('Y-m-d H:i:s'))->sum('max_ads');
+
+        if (!$this->company) return false;
+
+        $count_service = $this->company->adsPublish()->count('id');
+      
+        if ($count_service > $max_allowed) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function checkCompanyInfo() {
         if(empty($this->company)) return false;
         if(empty($this->company->name)) return false;

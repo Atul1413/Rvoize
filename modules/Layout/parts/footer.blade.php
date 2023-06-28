@@ -4,6 +4,11 @@
         $footer_style = $row->footer_style ?? '';
         if(empty($footer_style)) $footer_style = setting_item_with_lang('footer_style');
     @endphp
+
+    @if (!empty($banner) && !empty($banner[1]))
+        @include('Layout::parts.advertisement',['banner' => $banner[1]])
+    @endif
+    
     <footer class="main-footer {{ $footer_style }} @if($footer_style == 'style_1' && empty($is_home)) alternate5 @endif">
         <div class="auto-container">
             <!--Widgets Section-->

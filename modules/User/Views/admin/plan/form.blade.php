@@ -44,7 +44,7 @@
 </div>
 <div class="form-group">
     <label class="control-label">{{__("Max Advertisements")}} </label>
-    <input type="number" min="0" value="{{old('max_ads',$row->max_service)}}" name="max_ads" placeholder="{{__("None")}}" class="form-control">
+    <input type="number" min="0" value="{{old('max_ads',$row->max_ads)}}" name="max_ads" placeholder="{{__("None")}}" class="form-control">
     <p><i>{{__("How many publish advertisements user can post")}}</i></p>
 </div>
 

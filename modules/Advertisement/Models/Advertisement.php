@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Company\Models\Company;
 use Modules\Core\Models\SEO;
 use Modules\Core\Models\Attributes;
+use Modules\Media\Models\MediaFile;
 
 class Advertisement extends BaseModel
 {
-    use SoftDeletes;
     protected $table = 'bc_advertisements';
     protected $fillable = [
         'title',
@@ -43,12 +43,18 @@ class Advertisement extends BaseModel
 
     public function getEditUrl()
     {
-        $lang = $this->lang ?? setting_item("site_locale");
-        // return route('job.admin.edit',['id'=>$this->id , "lang"=> $lang]);
+        return route('user.company.advertisement.edit.ads',['id'=>$this->id]);
     }
+    
 
     public function companies() {
         return $this->belongsTo(Company::class,'company_id','id');
     }
+
+    public function banner() {
+        return $this->hasOne(MediaFile::class,'id','banner');
+    }
+
+    
 
 }

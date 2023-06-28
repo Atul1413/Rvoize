@@ -65,13 +65,13 @@ class ModuleProvider extends ModuleServiceProvider
                 'position'=>80,
                 'children'=>[
                     'manage_ads'=>[
-                        'url' => route('user.company.advertisement.manage.jobs'),
+                        'url' => route('user.company.advertisement.manage.ads'),
                         'title' => __("All Ads"),
                         // 'permission' => 'advertisement_manage',
                         'position' => 10
                     ],
                     'create_ads' => [
-                        'url' => route('user.company.advertisement.create.job'),
+                        'url' => route('user.company.advertisement.create.ads'),
                         'title' => __("Create a New Ad"),
                         // 'permission' => 'advertisement_manage',
                     ]

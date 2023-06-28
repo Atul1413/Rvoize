@@ -59,6 +59,10 @@ class Company extends BaseModel
     public function advertisements() {
         return $this->hasMany(Advertisement::class,'company_id','id');
     }
+    public function adsPublish()
+    {
+        return $this->hasMany(Advertisement::class,'company_id','id')->where('bc_advertisements.status', 'publish');
+    }
 
     public function getDetailUrlAttribute()
     {

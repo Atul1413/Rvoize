@@ -17,9 +17,9 @@ class CreateBcAdvertisementsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('url');
-            $table->string('banner');
+            $table->unsignedBigInteger('banner');
             $table->bigInteger('company_id');
-            $table->string('location')->nullable()->default('IN');
+            $table->string('location',5)->nullable()->default('IN');
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->unsignedTinyInteger('position')->nullable();
@@ -29,7 +29,6 @@ class CreateBcAdvertisementsTable extends Migration
             $table->integer('create_user')->nullable();
             $table->integer('update_user')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         

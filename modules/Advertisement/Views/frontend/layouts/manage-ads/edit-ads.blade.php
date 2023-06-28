@@ -2,7 +2,7 @@
 
 @section('content')
   
-    <form method="post" enctype="multipart/form-data" class="default-form">
+    <form method="post" action="{{ route('user.company.advertisement.store.ads',['id' => $row->id ?? '-1']) }}" enctype="multipart/form-data" class="default-form">
         @csrf
         <input type="hidden" name="id" value="{{$row->id}}">
         <div class="upper-title-box">
@@ -24,7 +24,7 @@
                 <!-- Ls widget -->
                 <div class="ls-widget">
                     <div class="tabs-box">
-                        <div class="widget-title"><h4>{{ __("Advertise Contents") }}</h4></div>
+                        <div class="widget-title"><h4>{{ __("Advertisement Content") }}</h4></div>
                         <div class="widget-content">
                             <div class="row">
                                 <div class="col-md-6">
@@ -76,13 +76,26 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">{{ __('Country') }}</label>
+                                            <select name="location" class="form-control" id="location">
+                                                <option value="">{{ __('-- Select --') }}</option>
+                                                @foreach (get_country_lists() as $id => $name)
+                                                    <option @if ($row->location == $id) selected @endif
+                                                        value="{{ $id }}">{{ $name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                                                     
 
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>{{__("Banner Image") }} ({{__('Recommended size image: 200px x 1920px')}})</label>
                                             <div class="form-group">
-                                                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner',$row->image) !!}
+                                                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner',$row->banner) !!}
                                             </div>
                                         </div>
                                     </div>

@@ -7,12 +7,17 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Modules\Advertisement\Models\Advertisement;
 use Modules\Media\Admin\MediaController;
 
 class MediaFile extends BaseModel
 {
     use SoftDeletes;
     protected $table = 'media_files';
+
+    public function advertisement() {
+        return $this->belongsTo(Advertisement::class,'id','banner');
+    }
 
     public static function findMediaByName($name)
     {

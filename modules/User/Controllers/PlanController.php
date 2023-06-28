@@ -84,6 +84,7 @@ class PlanController extends FrontendController
             $new_user_plan->start_date = date('Y-m-d H:i:s');
             $new_user_plan->end_date = date('Y-m-d H:i:s',strtotime('+ '.$plan->duration.' '.$plan->duration_type));
             $new_user_plan->max_service = $plan->max_service;
+            $new_user_plan->max_ads = $plan->max_ads;
             $new_user_plan->plan_data = $plan;
             $new_user_plan->save();
             return redirect()->to($my_plan)->with('success', __("Purchased user package successfully"));
