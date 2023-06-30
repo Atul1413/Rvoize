@@ -316,7 +316,8 @@ class ProfileController extends FrontendController
 
         if(!empty($request->categories)){
             $cCats =  CandidateCategories::query()->where('origin_id', $user->id)->pluck('cat_id')->toArray();
-            foreach($request->categories as $category){
+            $categories = array_filter($request->categories);
+            foreach($categories as $category){
                 $pos = array_search(intval($category), $cCats);
                 if($pos !== false){
                     unset($cCats[$pos]);

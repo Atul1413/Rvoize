@@ -42,22 +42,22 @@
             <div class="btn-box row">
                 @if(setting_item('facebook_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('/social-login/facebook')}}" data-channel="facebook" class="theme-btn social-btn-two facebook-btn"><i class="fab fa-facebook-f"></i> {{ __("Log In via Facebook") }}</a>
+                        <a href="{{url('/social-login/facebook/candidate')}}" data-channel="facebook" class="theme-btn social-btn-two facebook-btn"><i class="fab fa-facebook-f"></i> {{ __("Log In via Facebook") }}</a>
                     </div>
                 @endif
                 @if(setting_item('google_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('social-login/google')}}" data-channel="google" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> {{ __("Log In via Gmail") }}</a>
+                        <a href="{{url('social-login/google/candidate')}}" data-channel="google" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> {{ __("Log In via Gmail") }}</a>
                     </div>
                 @endif
                 @if(setting_item('twitter_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('social-login/twitter')}}" data-channel="twitter" class="theme-btn social-btn-two twitter-btn"><i class="fab fa-twitter"></i> {{ __("Log In via Twitter") }}</a>
+                        <a href="{{url('social-login/twitter/candidate')}}" data-channel="twitter" class="theme-btn social-btn-two twitter-btn"><i class="fab fa-twitter"></i> {{ __("Log In via Twitter") }}</a>
                     </div>
                 @endif
                 @if(setting_item('linkedin_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('social-login/linkedin')}}" data-channel="linkedin" class="theme-btn social-btn-two linkedin-btn"><i class="fab fa-linkedin"></i> {{ __("Log In via LinkedIn") }}</a>
+                        <a href="{{url('social-login/linkedin/candidate')}}" data-channel="linkedin" class="theme-btn social-btn-two linkedin-btn"><i class="fab fa-linkedin"></i> {{ __("Log In via LinkedIn") }}</a>
                     </div>
                 @endif
             </div>

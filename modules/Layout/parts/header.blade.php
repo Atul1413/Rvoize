@@ -80,7 +80,9 @@
                 <!-- Login/Register -->
                 <div class="btn-box">
                     @if(!Auth::id())
-                        <a href="#" class="theme-btn btn-style-three "><span class="bc-call-modal login">{{__("Login")}}</span>/ <span class="bc-call-modal signup">{{ __("Register") }}</span></a>
+                        <a href="#" class="theme-btn btn-style-three"><span class="bc-call-modal login">{{ __("Login") }}</span></a>
+<a href="#" class="theme-btn btn-style-three"><span class="bc-call-modal signup">{{ __("Register") }}</span></a>
+
                     @else
                         <div class="login-item dropmenu-right dropdown show">
                             <a href="#" class="is_login dropdown-toggle" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

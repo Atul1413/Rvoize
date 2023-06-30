@@ -5,7 +5,7 @@
 @section('content')
     <div class="upper-title-box">
         <h3>{{__("My Current Plan")}}</h3>
-        <div class="text">{{ __("Ready to jump back in?") }}</div>
+        <div class="text">{{ __("Ready to jump back in?") }}</div><br><a href="{{route('plan')}}" class="btn btn-warning">{{__('Plans')}}</a>
     </div>
     @include('admin.message')
     <div class="row">

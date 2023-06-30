@@ -32,8 +32,10 @@ Route::post('register','\Modules\User\Controllers\UserController@userRegister')-
 Route::post('login','\Modules\User\Controllers\UserController@userLogin')->name('auth.login');
 Route::post('logout','\Modules\User\Controllers\UserController@logout')->name('auth.logout');
 // Social Login
-Route::get('social-login/{provider}', '\App\Http\Controllers\Auth\LoginController@socialLogin');
-Route::get('social-callback/{provider}', '\App\Http\Controllers\Auth\LoginController@socialCallBack');
+//Route::get('social-login/{provider}', '\App\Http\Controllers\Auth\LoginController@socialLogin');
+//Route::get('social-callback/{provider}', '\App\Http\Controllers\Auth\LoginController@socialCallBack');
+Route::get('social-login/{provider}/{usertype?}', '\App\Http\Controllers\Auth\LoginController@socialLogin');
+Route::get('social-callback/{usertype}/{provider}/', '\App\Http\Controllers\Auth\LoginController@socialCallBack');
 
 // Logs
 Route::get('admin/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware(['auth', 'dashboard','system_log_view']);

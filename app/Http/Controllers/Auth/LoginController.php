@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Matrix\Exception;
 use Modules\Candidate\Models\Candidate;
+use Modules\Company\Models\Company;
 use Modules\User\Events\SendMailUserRegistered;
 use Socialite;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -61,13 +63,18 @@ class LoginController extends Controller
         return view('auth.login',['page_title'=> __("Login")]);
     }
 
-    public function socialLogin($provider)
+    public function socialLogin($provider, $usertype = 'candidate')
     {
-        $this->initConfigs($provider);
+        if(!in_array($usertype,['candidate','employer'])) {
+            $usertype = 'candidate';
+        }
+      
+        $this->initConfigs($provider, $usertype);
+
         return Socialite::driver($provider)->redirect();
     }
 
-    protected function initConfigs($provider)
+    protected function initConfigs($provider,$usertype)
     {
         switch($provider){
             case "facebook":
@@ -77,17 +84,16 @@ class LoginController extends Controller
                 config()->set([
                     'services.'.$provider.'.client_id'=>setting_item($provider.'_client_id'),
                     'services.'.$provider.'.client_secret'=>setting_item($provider.'_client_secret'),
-                    'services.'.$provider.'.redirect'=>'/social-callback/'.$provider,
+                    'services.'.$provider.'.redirect'=>'/social-callback/'.$usertype.'/'.$provider,
                 ]);
             break;
         }
     }
 
-    public function socialCallBack($provider)
+    public function socialCallBack($usertype, $provider)
     {
         try {
-            $this->initConfigs($provider);
-
+            $this->initConfigs($provider, $usertype);
             $user = Socialite::driver($provider)->user();
             if (empty($user)) {
                 return redirect()->to('login')->with('error', __('Can not authorize'));
@@ -108,7 +114,7 @@ class LoginController extends Controller
 
                 $userByEmail = User::query()->where('email', $user->getEmail())->first();
                 if (!empty($userByEmail)) {
-                    return redirect()->route('login')->with('error', __('Email :email exists. Can not register new account with your social email', ['email' => $user->getEmail()]));
+                    return redirect()->route('login')->with('error', __('Email :email already exists. Please login with right social account. Cannot register new account with your social email', ['email' => $user->getEmail()]));
                 }
 
                 // Create New User
@@ -118,6 +124,7 @@ class LoginController extends Controller
                 $realUser->name = $user->getName();
                 $realUser->first_name = $user->getName();
                 $realUser->status = 'publish';
+                $realUser->role_id = ($usertype === 'employer') ? 2 : 3;
 
                 $realUser->save();
 
@@ -128,16 +135,33 @@ class LoginController extends Controller
                 $realUser->addMeta('social_meta_avatar', $user->getAvatar());
 
                 event(new Registered($realUser));
-                $realUser->assignRole('candidate');
+
+                if($usertype === 'employer') {
+                    $realUser->assignRole('employer');
+                    $company = new Company();
+                    $company_data = [
+                        'owner_id' => $realUser->id,
+                        'create_user' => $realUser->id,
+                        'name' => $realUser->name,
+                        'email' => $realUser->email,
+                        'slug' => Str::slug($realUser->name,'-'),
+                    ];
+                    $company->fillByAttr(array_keys($company_data),$company_data);
+                    $company->save();
+                } else {
+                    $realUser->assignRole('candidate');
+                    $candidate = new Candidate();
+                    $candidate_data = [
+                        'id' => $realUser->id,
+                        'create_user' => $realUser->id,
+                        'slug' => Str::slug($realUser->name,'-'),
+                    ];
+                    $candidate->fillByAttr(array_keys($candidate_data),$candidate_data);
+                    $candidate->save();
+                }
 
 
-                $candidate = new Candidate();
-                $candidate_data = [
-                    'id'=>$user->id,
-                    'title'=>$user->display_name ?? ($user->nickname ?? "")
-                ];
-                $candidate->fillByAttr(array_keys($candidate_data),$candidate_data);
-                $candidate->save();
+               
 
                 try {
                     event(new SendMailUserRegistered($realUser));

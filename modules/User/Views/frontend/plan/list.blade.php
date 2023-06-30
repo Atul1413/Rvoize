@@ -10,48 +10,55 @@
             <li data-tab="#annual" class="tab-btn">{{__('Annual')}}</li>
         </ul>
     </div>
-    <div class="tabs-content">
-        <div class="tab active-tab" id="monthly">
-            <div class="content">
-                <div class="row">
-                    @foreach($plans as $plan)
-                        @php
-                            $translate = $plan->translateOrOrigin(app()->getLocale());
-                        @endphp
-                        <div class="pricing-table col-lg-4 col-md-6 col-sm-12">
-                            <div class="inner-box">
-                                @if($plan->is_recommended)
-                                    <span class="tag">{{__('Recommended')}}</span>
-                                @endif
-                                <div class="title">{{$translate->title}}</div>
-                                <div class="price">{{$plan->price ? format_money($plan->price) : __('Free')}}
-                                    @if($plan->price)
+<div class="tabs-content">
+    <div class="tab active-tab" id="monthly">
+        <div class="content">
+            <div class="row">
+                @foreach($plans as $plan)
+                    @php $translate = $plan->translateOrOrigin(app()->getLocale()); @endphp
+                    <div class="pricing-table col-lg-4 col-md-6 col-sm-12">
+                        <div class="inner-box">
+                            @if($plan->is_recommended)
+                                <span class="tag">{{__('Recommended')}}</span>
+                            @endif
+                            <div class="title">{{$translate->title}}</div>
+                            <div class="price">
+                                @if($plan->price)
+                                    {{ format_money($plan->price) }}
                                     <span class="duration">/ {{$plan->duration > 1 ? $plan->duration : ''}} {{$plan->duration_type_text}}</span>
-                                    @endif
-                                </div>
-                                <div class="table-content">
-                                    {!! clean($translate->content) !!}
-                                </div>
-                                <div class="table-footer">
-                                    @if($user and $user_plan = $user->user_plan and $user_plan->plan_id == $plan->id)
-                                        @if($user_plan->is_valid)
-                                            <div class="d-flex text-center">
-                                                <a href="{{ route('user.plan') }}" class="theme-btn btn-style-one mr-2">{{__("Current Plan")}}</a>
+                                @else
+                                    {{ __('Free') }}
+                                @endif
+                            </div>
+                            <div class="table-content">
+                                {!! clean($translate->content) !!}
+                            </div>
+                            <div class="table-footer">
+                                @if($user and $user_plan = $user->user_plan and $user_plan->plan_id == $plan->id)
+                                    @if($user_plan->is_valid)
+                                        <div class="d-flex text-center">
+                                            <a href="{{ route('user.plan') }}" class="theme-btn btn-style-one mr-2">{{__("Current Plan")}}</a>
+                                            @if($plan->price)
                                                 <a href="{{route('user.plan.buy',['id'=>$plan->id])}}" class="theme-btn btn-style-two">{{__('Repurchase')}}</a>
-                                            </div>
-                                        @else
+                                            @endif
+                                        </div>
+                                    @else
+                                        @if($plan->price)
                                             <a href="{{route('user.plan.buy',['id'=>$plan->id])}}" class="theme-btn btn-style-two">{{__('Repurchase')}}</a>
                                         @endif
-                                    @else
-                                        <a href="{{route('user.plan.buy',['id'=>$plan->id])}}" class="theme-btn btn-style-three">{{__('Select')}}</a>
                                     @endif
-                                </div>
+                                @else
+                                    <a href="{{route('user.plan.buy',['id'=>$plan->id])}}" class="theme-btn btn-style-three">{{__('Select')}}</a>
+                                @endif
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
+    </div>
+</div>
+
         <div class="tab" id="annual">
             <div class="content">
                 <div class="row">

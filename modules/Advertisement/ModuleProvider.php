@@ -34,7 +34,7 @@ class ModuleProvider extends ModuleServiceProvider
     {
         $advertisement_menus = [
             'advertisement'=>[
-                "position"=>26,
+                "position"   =>    27,
                 'url'        => route('company.advertisement.admin.index'),
                 'title'      => __("Advertisement"),
                 'icon'       => 'ion-md-paper',
@@ -46,11 +46,6 @@ class ModuleProvider extends ModuleServiceProvider
         return $advertisement_menus;
     }
 
-    public static function getTemplateBlocks(){
-        return [
-            'list_advertisements'=>"\\Modules\\Advertisement\\Blocks\\ListAdvertisements",
-        ];
-    }
 
     public static function getUserMenu()
     {

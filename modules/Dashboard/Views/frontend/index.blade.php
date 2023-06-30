@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="upper-title-box">
-    <h3>{{ __("Howdy, :name", ['name' => Auth::user()->nameOrEmail]) }}!!</h3>
+    <h3>{{ __("Hello, :name", ['name' => Auth::user()->nameOrEmail]) }}!!</h3>
     <div class="text">{{ __("Ready to jump back in?") }}</div>
 </div>
 <div class="row">

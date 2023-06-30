@@ -94,7 +94,7 @@
                                             <td>
                                                 <div class="option-box">
                                                     <ul class="option-list">
-                                                        <li><a class="dropdown-item" href="{{ route('candidate.detail', ['slug' => $row->candidateInfo->slug]) }}" data-text="{{ __("View Candidate Profile") }}"><span class="la la-user"></span></a></li>
+                                                        <!--<li><a class="dropdown-item" href="{{ route('candidate.detail', ['slug' => $row->candidateInfo->slug]) }}" data-text="{{ __("View Candidate Profile") }}"><span class="la la-user"></span></a></li>-->
                                                         <li><a href="#modal-applied-{{ $row->id }}" class="bc-call-modal" data-text="{{ __("View Application") }}" ><span class="la la-eye"></span></a></li>
                                                         <li><a href="{{ route('user.applicants.changeStatus', ['status' => 'approved', 'id' => $row->id]) }}" data-text="{{ __("Approve Application") }}"><span class="la la-check"></span></a></li>
                                                         <li><a href="{{ route('user.applicants.changeStatus', ['status' => 'rejected', 'id' => $row->id]) }}" data-text="{{ __("Reject Application") }}"><span class="la la-times-circle"></span></a></li>

@@ -92,6 +92,26 @@
             --}}
         </div>
 
+ 
+        <!-- Notify User -->
+        @if (count($percentage) > 0)
+                @foreach ($percentage as $percentName => $percentValue)
+                    @if ($percentName === 'errors' && !empty($percentValue))
+                        <div class="row justify-content-center">
+                            <div class="col-12 mb-3">
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{{ __('Need to complete Candidate profile before applying for a job') }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        @continue;
+                    @endif
+                @endforeach
+        @endif
+        <!-- Notify User-->
+
+
         @include('admin.message')
 
         <!-- Profile Progress Bar -->
@@ -99,12 +119,7 @@
             <div class="row justify-content-center">
                 @foreach ($percentage as $percentName => $percentValue)
                     @if ($percentName === 'errors' && !empty($percentValue))
-                        <div class="col-12 mb-3">
-                            <div class="alert alert-danger">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ __('Need to complete Candidate profile before applying for a job') }}</strong>
-                            </div>
-                        </div>
+                       
                         <div class="col-12">
                             <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
@@ -207,7 +222,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Contact Number') }} <span
+                                                <label>{{ __('Contact Number(Enter Country code eg. +91') }} <span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" value="{{ old('phone', @$row->user?->phone) }}"
                                                     placeholder="{{ __('Contact Number') }}" name="phone"
@@ -254,7 +269,7 @@
                                    
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>{{ __('Website') }}</label>
+                                                <label>{{ __('Website/Github (Optional)') }}</label>
                                                 <input type="text" value="{{ old('website', @$user->candidate->website) }}"
                                                     name="website" placeholder="{{ __('Website') }}" class="form-control">
                                             </div>
@@ -375,35 +390,7 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label">{{ __('The geographic coordinate') }}</label>
-                                                <div class="control-map-group">
-                                                    <div id="map_content"></div>
-                                                    <input type="text" placeholder="{{ __('Search by name...') }}"
-                                                        class="bravo_searchbox form-control" autocomplete="off"
-                                                        onkeydown="return event.key !== 'Enter';">
-                                                    <div class="g-control">
-                                                        <div class="form-group">
-                                                            <label>{{ __('Map Latitude') }}:</label>
-                                                            <input type="text" name="map_lat" class="form-control"
-                                                                value="{{ @$user->candidate->map_lat ?? '51.505' }}"
-                                                                onkeydown="return event.key !== 'Enter';">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>{{ __('Map Longitude') }}:</label>
-                                                            <input type="text" name="map_lng" class="form-control"
-                                                                value="{{ @$user->candidate->map_lng ?? '-0.09' }}"
-                                                                onkeydown="return event.key !== 'Enter';">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>{{ __('Map Zoom') }}:</label>
-                                                            <input type="text" name="map_zoom" class="form-control"
-                                                                value="{{ @$user->candidate->map_zoom ?? '8' }}"
-                                                                onkeydown="return event.key !== 'Enter';">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
 
@@ -462,7 +449,7 @@
                                         <div class="row">
                                             <div class="col-md-2">{{ __('Year') }}</div>
                                             <div class="col-md-3">{{ __('Location') }}</div>
-                                            <div class="col-md-3">{{ __('Reward') }}</div>
+                                            <div class="col-md-3">{{ __('Achievement') }}</div>
                                             <div class="col-md-3">{{ __('More Information') }}</div>
                                             <div class="col-md-1"></div>
                                         </div>
@@ -664,7 +651,7 @@
                                         <div class="row">
                                             <div class="col-md-2">{{ __('Year') }}</div>
                                             <div class="col-md-3">{{ __('Location') }}</div>
-                                            <div class="col-md-3">{{ __('Reward') }}</div>
+                                            <div class="col-md-3">{{ __('Acheivement') }}</div>
                                             <div class="col-md-3">{{ __('More Information') }}</div>
                                             <div class="col-md-1"></div>
                                         </div>
@@ -859,7 +846,7 @@
 
 
 
-                    @include('Core::frontend.seo-meta.seo-meta')
+                   
 
                     <div class="mb-4 d-none d-md-block">
                         <button class="theme-btn btn-style-one" type="submit"><i class="fa fa-save"
@@ -870,7 +857,7 @@
                 <div class="col-lg-3 col-12">
                     <div class="ls-widget mb-4 ">
                         <div class="tabs-box">
-                            <div class="widget-title"><strong>{{ __('Profile') }}</strong></div>
+                            <div class="widget-title"><strong>{{ __('Profile below 2 MB') }}</strong></div>
                             <div class="widget-content">
                                 <div class="form-group">
                                     {!! \Modules\Media\Helpers\FileHelper::fieldUpload('avatar_id', old('avatar_id', $user->avatar_id)) !!}

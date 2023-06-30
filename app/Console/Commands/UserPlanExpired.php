@@ -41,13 +41,13 @@ class UserPlanExpired extends Command
     public function handle()
     {
         $alertList = [];
-        $sender ='SEMPWR';
-        $auth='D!~7363OldbDTVDFK';
-        $entity_id = '1201160637699734120';
-        $template_id = '1207162695833282772';
+        $sender ='RVOIZE';
+        $auth='D!~917611WaKexhcs';
+        $entity_id = '1201168656871072404';
+        $template_id = '1207168784833816051';
         $todayDate = Carbon::now();
         
-        $users = User::select(['id','first_name','last_name','email','phone','phone_verified_at'])
+        $users = User::select(['id','name','phone','phone_verified_at'])
                 ->whereHas('userPlans')
                 ->whereNotNull(['phone','phone_verified_at'])
                 ->with(['userPlans'])
@@ -59,9 +59,9 @@ class UserPlanExpired extends Command
                 $days = $endDate->diffInDays($todayDate);
                 if($todayDate->lt($endDate) && ($days === 10 || $days === 15)) {
                     $alertList[] = [
-                        'name' => $user->first_name . ' '. $user->last_name,
+                        'name' => $user->name,
                         'mobile' => str_replace("+","",$user->phone),
-                        'days' => $days,
+                        'date' => $plan->end_date->format('jS M Y h:i:A'),
                     ];
                 }
                 
@@ -70,10 +70,8 @@ class UserPlanExpired extends Command
 
        
         foreach($alertList as $user) {
-
-            // $msg = urlencode('Dear '.$user['name'] .', Your plan is going to expire in '.$user['days']); 
-            $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '.$user['days']); 
-            
+            $msg = urlencode('Hello, '. $user['name'] .'. Your current plan with Rvoize is expiring on '.$user['date'].'. Renew your plan to keep enjoying the benefits of our premium services. Thank you! RVOIZE');
+           
             $url = 'http://aquicksms.com/API/sms-api.php?auth='.$auth.'&msisdn='.$user['mobile'].'&senderid='.$sender.'&entity_id='.$entity_id.'&template_id='.$template_id.'&message='.$msg;  // API URL
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -86,6 +84,7 @@ class UserPlanExpired extends Command
                 $result = json_decode(curl_exec($ch),true);
             } catch(\Exception $exception) {
                 Log::warning("SMS-Alert Error :".$exception->getMessage());
+
             }
         }
     }

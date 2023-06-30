@@ -142,40 +142,71 @@ class UserController extends FrontendController
 
     public function userRegister(Request $request)
     {
-        $rules = [
-            'first_name' => [
-                'required',
-                'string',
-                'max:255'
-            ],
-            'last_name'  => [
-                'required',
-                'string',
-                'max:255'
-            ],
-            'email'      => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:users'
-            ],
-            'password'   => [
-                'required',
-                'string',
-                'confirmed',
-                'min:6'
-            ],
-//            'phone'       => ['required','unique:users'],
-//            'term'       => ['required'],
-        ];
+       $role = $request->input('type');
+        $name = '';
+        $firstName = '';
+
+        if($role == 'employer') {
+            $name = $request->input('company_name');
+            $firstName = $request->input('company_name');
+            $rules = [
+                'company_name'  => [
+                    'required',
+                    'max:255',
+                ],
+                'email'      => [
+                    'required',
+                    'email',
+                    'max:255',
+                    'unique:users,email'
+                ],
+                'password'   => [
+                    'required',
+                    'confirmed',
+                    'min:6'
+                ],
+    //            'phone'       => ['required','unique:users'],
+    //            'term'       => ['required'],
+            ];
+        } else {
+            $firstName = $request->input('first_name');
+            $name = $request->input('email');
+            $rules = [
+                'first_name' => [
+                    'required',
+                    'max:255',
+                ],
+                'last_name'  => [
+                    'required',
+                    'max:255',
+                ],
+                'email'      => [
+                    'required',
+                    'email',
+                    'max:255',
+                    'unique:users,email'
+                ],
+                'password'   => [
+                    'required',
+                    'confirmed',
+                    'min:6'
+                ],
+    //            'phone'       => ['required','unique:users'],
+    //            'term'       => ['required'],
+            ];
+        }
+      
+
+
         $messages = [
            // 'phone.required'      => __('Phone is required field'),
             'email.required'      => __('Email is required field'),
-            'email.email'         => __('Email invalidate'),
+            'email.email'         => __('Email is invalid'),
+            'email.unique'         => __('Email is already taken by another user'),
             'password.required'   => __('Password is required field'),
             'first_name.required' => __('The first name is required field'),
             'last_name.required'  => __('The last name is required field'),
+            'company_name.required'  => __('The Company name is required field'),
             //'term.required'       => __('The terms and conditions field is required'),
         ];
         if (ReCaptchaEngine::isEnable() and setting_item("recaptcha_enable")) {
@@ -196,10 +227,11 @@ class UserController extends FrontendController
             ], 200);
         } else {
 
+           
             $user = \App\User::create([
-                'first_name' => $request->input('first_name'),
+                'first_name' => $firstName,
                 'last_name'  => $request->input('last_name'),
-                'name' => $request->input('email'),
+                'name' => $name,
                 'email'      => $request->input('email'),
                 'password'   => Hash::make($request->input('password')),
                 'status'    => $request->input('publish','publish'),
@@ -213,13 +245,14 @@ class UserController extends FrontendController
 
                 Log::warning("SendMailUserRegistered: " . $exception->getMessage());
             }
-            $role = $request->input('type');
+            
             if(in_array($role, ['employer','candidate']))
             {
                 $user->assignRole($role);
                 if($role == 'employer') {
                     $company_data = [
-                        'name' => $request->input('first_name').' '.$request->input('last_name'),
+                        // 'name' => $request->input('first_name').' '.$request->input('last_name'),
+                        'name' => $firstName,
                         'email' => $request->input('email'),
                         'owner_id' => $user->id,
                         'status'=>'draft'
@@ -342,15 +375,13 @@ class UserController extends FrontendController
             ], 200);
         }
 
-        $sender ='SEMPWR';
-        $mob =  str_replace("+","",$user->phone);
-        $auth='D!~7363OldbDTVDFK';
-        $entity_id = '1201160637699734120';
-        $template_id = '1207162695833282772';
-        $otp = random_int(100000, 999999);
-
-
-        $msg = urlencode('Welcome to eMpower. Your OTP for the user registration is '. $otp); 
+        $sender ='RVOIZE';
+ $auth='D!~917611WaKexhcs';
+ $mob =  str_replace("+","",$user->phone);
+ $entity_id = '1201168656871072404';
+ $template_id = '1207168784804244929';
+ $otp = random_int(100000, 999999);
+ $msg = urlencode('Hello, '.$user->name.'. Welcome to Rvoize. Your OTP for mobile number verification is '.$otp.'. Thank you! RVOIZE');
         
         $url = 'http://aquicksms.com/API/sms-api.php?auth='.$auth.'&msisdn='.$mob.'&senderid='.$sender.'&entity_id='.$entity_id.'&template_id='.$template_id.'&message='.$msg;  // API URL
         

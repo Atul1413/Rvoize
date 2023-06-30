@@ -48,11 +48,13 @@ class AdvertisementComposer
             foreach ($chunks as $adList) {
                 foreach ($adList as $ad) {
                     // $imageList[$ad['position']][] = [
-                    $imageList[] = [
-                        'title' => $ad['title'],
-                        'url' => $ad['url'],
-                        'banner' => asset('uploads/' .$ad['banner']['file_path']),
-                    ];
+                    if(isset($ad['banner']['file_path'])) {
+                        $imageList[] = [
+                            'title' => $ad['title'] ?? '',
+                            'url' => $ad['url'] ?? '',
+                            'banner' => asset('uploads/' .$ad['banner']['file_path']),
+                        ];
+                    }
                 }
             }
         }

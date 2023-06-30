@@ -80,15 +80,60 @@
         <form method="post" action="{{ route('user.company.update') }}" class="default-form">
             @csrf
             <div class="upper-title-box">
-                <h3>{{ __('Edit: ') . $row->name }}</h3>
-                <div class="text">
-                    @if ($row->slug)
-                        <p class="item-url-demo">{{ __('Permalink') }}:
-                            {{ url(config('companies.companies_route_prefix')) }}/<a href="#" class="open-edit-input"
-                                data-name="slug">{{ $row->slug }}</a></p>
+    <h3>{{ __('Edit: ') . $row->name }}</h3>
+    <div class="text">
+        @if ($row->slug)
+            <p class="item-url-demo">
+                {{ __('Permalink') }}:
+                <span id="permalink">
+                    {{ url(config('companies.companies_route_prefix')) }}/<a href="#" class="open-edit-input" data-name="slug">{{ trim($row->slug) }}</a>
+                </span>
+                <i class="fas fa-copy copy-icon" onclick="copyPermalink()"></i>
+            </p>
+        @endif
+    </div>
+</div>
+
+
+<script>
+    function copyPermalink() {
+        const permalink = document.getElementById('permalink');
+        const permalinkText = permalink.innerText;
+
+        // Create a temporary input element
+        const tempInput = document.createElement('input');
+        tempInput.setAttribute('value', permalinkText);
+        document.body.appendChild(tempInput);
+
+        // Select the text in the input element
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text to the clipboard
+        document.execCommand('copy');
+
+        // Remove the temporary input element
+        document.body.removeChild(tempInput);
+    }
+</script>
+
+            <!-- Notify -->
+            @if (count($percentage) > 0)
+                @foreach ($percentage as $percentName => $percentValue)
+                    @if ($percentName === 'errors' && !empty($percentValue))
+                    <div class="row justify-content-center">
+                        <div class="col-12 mb-3">
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <strong>{{ __('Need to complete Company profile before posting a job') }}</strong>
+                            </div>
+                        </div>
+                        </div>
+                        @continue;
                     @endif
-                </div>
-            </div>
+                @endforeach
+            @endif
+            <!-- Notify End-->
 
             @include('admin.message')
 
@@ -101,14 +146,6 @@
                 <div class="row justify-content-center">
                     @foreach ($percentage as $percentName => $percentValue)
                         @if ($percentName === 'errors' && !empty($percentValue))
-
-                            <div class="col-12 mb-3">
-                                <div class="alert alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">×</button>
-                                    <strong>{{ __('Need to complete Company profile before posting a job') }}</strong>
-                                </div>
-                            </div>
-
                             <div class="col-12">
                                 <div class="alert alert-info">
                                     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -192,7 +229,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>{{ __('Contact Number') }} <span class="text-danger">*</span></label>
+                                            <label>{{ __('Contact Number [Enter country Code eg +91] ') }} <span class="text-danger">*</span></label>
                                             <input type="text" value="{{ old('phone', $row->getAuthor?->phone) }}"
                                                 placeholder="{{ __('Contact Number') }}" name="phone"
                                                 class="form-control" required>
@@ -350,7 +387,7 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group">
+                                {{--<div class="form-group">
                                     <label class="control-label">{{ __('The geographic coordinate') }}</label>
                                     <div class="control-map-group">
                                         <div id="map_content"></div>
@@ -378,7 +415,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -448,7 +485,7 @@
                         </div>
                     </div>
 
-                    @include('Core::frontend/seo-meta/seo-meta')
+                    {{--@include('Core::frontend/seo-meta/seo-meta')--}}
 
                     <div class="mb-4 d-none d-md-block">
                         <button class="theme-btn btn-style-one" type="submit"><i class="fa fa-save"

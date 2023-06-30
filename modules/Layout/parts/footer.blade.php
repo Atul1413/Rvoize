@@ -9,7 +9,7 @@
         @include('Layout::parts.advertisement')
     @endif
     
-    <footer class="main-footer {{ $footer_style }} @if($footer_style == 'style_1' && empty($is_home)) alternate5 @endif">
+    <footer class="main-footer {{ $footer_style }} @if($footer_style == 'style_1' && empty($is_home)) alternate5 @endif" style="background-color:#0a0d36;">
         <div class="auto-container">
             <!--Widgets Section-->
             <div class="widgets-section wow fadeInUp">
@@ -18,7 +18,7 @@
                         <div class="big-column col-xl-4 col-lg-3 col-md-12">
                             <div class="footer-column about-widget">
                                 @php
-                                    $logo_id = setting_item("logo_id");
+                                    $logo_id = setting_item("logo_white_id");
                                     if($footer_style == 'style-two' || $footer_style == 'style-six') $logo_id = setting_item("logo_white_id");;
                                     $logo = get_file_url($logo_id,'full');
                                 @endphp
@@ -109,6 +109,37 @@
     $(document).on('ready', function () {
         $.superioHeader.init($('#header'));
     });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        const socialBtnEmployer = $('#social_auth_employer');
+        const socialBtnCandidate = $('#social_auth_candidate');
+        const companyContainer = $('#company_show');
+        const candidateContainer = $('#candidate_show');
+
+        socialBtnEmployer.hide();
+        companyContainer.hide();
+
+        $(document).on('change','#checkbox1', function(evt) {
+            socialBtnEmployer.hide();
+            socialBtnCandidate.show();
+            
+            candidateContainer.show();
+            companyContainer.hide();
+        });
+
+        $(document).on('change','#checkbox2', function(evt) {
+            socialBtnCandidate.hide();
+            socialBtnEmployer.show();
+            
+            companyContainer.show();
+            candidateContainer.hide();
+        });
+    
+    });
+    
 </script>
 <script src="{{ asset('libs/lodash.min.js') }}"></script>
 <script src="{{ asset('libs/vue/vue'.(!env('APP_DEBUG') ? '.min':'').'.js') }}"></script>

@@ -119,12 +119,12 @@
                                         <div class="form-group">
                                             <label>{{__("Number Of Recruitments")}}</label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" placeholder="{{ __("0") }}" name="number_recruitments" value="{{ old('number_recruitments',$row->number_recruitments) }}">
+                                                <input type="number" min="1" class="form-control" placeholder="{{ __("0") }}" name="number_recruitments" value="{{ old('number_recruitments',$row->number_recruitments) }}">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    {{--<div class="col-md-12">
                                         <div class="form-group">
                                             <label class="control-label">{{__("Video Url")}}</label>
                                             <input type="text" name="video" class="form-control" value="{{old('video',$row->video)}}" placeholder="{{__("Youtube link video")}}">
@@ -138,7 +138,7 @@
                                                 {!! \Modules\Media\Helpers\FileHelper::fieldUpload('video_cover_id',$row->video_cover_id) !!}
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -211,7 +211,7 @@
                                     </div>
                                 @endif
                             </div>
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label class="control-label">{{__("The geographic coordinate")}}</label>
                                 <div class="control-map-group">
                                     <div id="map_content"></div>
@@ -231,7 +231,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
 
                         </div>
                     </div>

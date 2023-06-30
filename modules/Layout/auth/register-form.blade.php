@@ -15,7 +15,9 @@
         </div>
 
 
-        <div class="row form-group">
+    
+
+        <div class="row form-group" id="candidate_show">
             <div class="col-lg-6 col-md-12">
                 <div class="form-group">
                     <label>{{__('First Name')}}</label>
@@ -34,6 +36,17 @@
             </div>
         </div>
 
+        <div class="row form-group" id="company_show">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>{{__('Company Name')}}</label>
+                    <input type="text" class="form-control" name="company_name" id="company_name" autocomplete="off" placeholder="{{__("Company Name")}}">
+                    <i class="input-icon field-icon icofont-waiter-alt"></i>
+                    <span class="invalid-feedback error error-company_name"></span>
+                </div>
+            </div>
+        </div>
+        
         <div class="form-group">
             <label>{{__('Email address')}}</label>
             <input type="email" name="email" placeholder="{{__('Email address')}}" required>
@@ -64,31 +77,61 @@
             </button>
         </div>
     </form>
+
+
+    <!-- Socialite Form -->
     @if(setting_item('facebook_enable') or setting_item('google_enable') or setting_item('twitter_enable') or setting_item('linkedin_enable'))
-        <div class="bottom-box">
+        <div class="bottom-box" id="social_auth_candidate">
             <div class="divider"><span>or</span></div>
             <div class="btn-box row">
                 @if(setting_item('facebook_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('/social-login/facebook')}}" class="theme-btn social-btn-two facebook-btn btn_login_fb_link"><i class="fab fa-facebook-f"></i>{{__('Facebook')}}</a>
+                        <a href="{{url('/social-login/facebook/candidate')}}" class="theme-btn social-btn-two facebook-btn btn_login_fb_link"><i class="fab fa-facebook-f"></i>{{__('Facebook')}}</a>
                     </div>
                 @endif
                 @if(setting_item('google_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('social-login/google')}}" class="theme-btn social-btn-two google-btn btn_login_gg_link"><i class="fab fa-google"></i>{{__('Google')}}</a>
+                        <a href="{{url('social-login/google/candidate')}}" class="theme-btn social-btn-two google-btn btn_login_gg_link"><i class="fab fa-google"></i>{{__('Google')}}</a>
                     </div>
                 @endif
                 @if(setting_item('twitter_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('social-login/twitter')}}" class="theme-btn social-btn-two twitter-btn btn_login_tw_link"><i class="fab fa-twitter"></i> {{ __("Log In via Twitter") }}</a>
+                        <a href="{{url('social-login/twitter/candidate')}}" class="theme-btn social-btn-two twitter-btn btn_login_tw_link"><i class="fab fa-twitter"></i> {{ __("Log In via Twitter") }}</a>
                     </div>
                 @endif
                 @if(setting_item('linkedin_enable'))
                     <div class="col-lg-6 col-md-12">
-                        <a href="{{url('social-login/linkedin')}}" class="theme-btn social-btn-two linkedin-btn btn_login_lk_link"><i class="fab fa-linkedin"></i> {{ __("Log In via LinkedIn") }}</a>
+                        <a href="{{url('social-login/linkedin/candidate')}}" class="theme-btn social-btn-two linkedin-btn btn_login_lk_link"><i class="fab fa-linkedin"></i> {{ __("Log In via LinkedIn") }}</a>
                     </div>
                 @endif
             </div>
         </div>
+   
+     <div class="bottom-box" id="social_auth_employer">
+         <div class="divider"><span>or</span></div>
+         <div class="btn-box row">
+             @if(setting_item('facebook_enable'))
+                 <div class="col-lg-6 col-md-12">
+                     <a href="{{url('/social-login/facebook/employer')}}" class="theme-btn social-btn-two facebook-btn btn_login_fb_link"><i class="fab fa-facebook-f"></i>{{__('Facebook')}}</a>
+                 </div>
+             @endif
+             @if(setting_item('google_enable'))
+                 <div class="col-lg-6 col-md-12">
+                     <a href="{{url('social-login/google/employer')}}" class="theme-btn social-btn-two google-btn btn_login_gg_link"><i class="fab fa-google"></i>{{__('Google')}}</a>
+                 </div>
+             @endif
+             @if(setting_item('twitter_enable'))
+                 <div class="col-lg-6 col-md-12">
+                     <a href="{{url('social-login/twitter/employer')}}" class="theme-btn social-btn-two twitter-btn btn_login_tw_link"><i class="fab fa-twitter"></i> {{ __("Log In via Twitter") }}</a>
+                 </div>
+             @endif
+             @if(setting_item('linkedin_enable'))
+                 <div class="col-lg-6 col-md-12">
+                     <a href="{{url('social-login/linkedin/employer')}}" class="theme-btn social-btn-two linkedin-btn btn_login_lk_link"><i class="fab fa-linkedin"></i> {{ __("Log In via LinkedIn") }}</a>
+                 </div>
+             @endif
+         </div>
+     </div>
     @endif
+    <!-- Socialite Form End -->
 </form>

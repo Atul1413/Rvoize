@@ -185,6 +185,7 @@ jQuery(function ($) {
                 'type': form.find('input[name=type]:checked').val(),
                 'first_name': form.find('input[name=first_name]').val(),
                 'last_name': form.find('input[name=last_name]').val(),
+                 'company_name': form.find('input[name=company_name]').val(),
                 // 'phone': form.find('input[name=phone]').val(),
                 // 'term': form.find('input[name=term]').is(":checked") ? 1 : '',
                 'g-recaptcha-response': form.find('[name=g-recaptcha-response]').val(),

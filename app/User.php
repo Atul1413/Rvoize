@@ -538,7 +538,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         if(empty($this->phone_verified_at)) return false; 
         if(empty($this->company)) return false;
         if(empty($this->company?->name)) return false;
-        if(empty($this->company?->phone)) return false;
+        // if(empty($this->company?->phone)) return false;
         if(empty($this->company?->email)) return false;
         if(empty($this->company?->founded_in)) return false; 
         if(empty($this->company?->about)) return false; 

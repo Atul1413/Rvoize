@@ -149,5 +149,6 @@
 
 @yield('script.body')
 
+@stack('scripts')
 </body>
 </html>
