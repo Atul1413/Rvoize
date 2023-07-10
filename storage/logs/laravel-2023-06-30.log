@@ -1,0 +1,292 @@
+[2023-06-30 10:43:32] development.DEBUG: Message-ID: <59a4d50129f8331faa9a7491f5e006d8@localhost>
+Date: Fri, 30 Jun 2023 10:43:32 +0000
+Subject: [Rvoize] Verify Register
+From: Rvoize <rvoize1@gmail.com>
+To: candidate1@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" id="google-font-css-css" href="https://fonts.googleapis.com/css?family=Poppins%3A400%2C500%2C600" type="text/css" media="all">
+    <style type="text/css">@media screen and (max-width: 768px){.b-panel{padding: 15px;}.b-email-wrap{padding: 0px;}}</style>
+</head>
+    <body>
+        <div class="b-email-wrap" style='background: #ebeef2; padding: 40px 0px; color: #1a2b48; font-size: 14px; font-weight: normal; line-height: 1.5; overflow-x: hidden; margin: 0px; font-family: "Poppins",sans-serif;'>
+            <div class="" style="">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-header" style="padding: 30px; color: white; background: #292772;">
+                        <h1 class="site-title" style="margin: 0px; display: block; text-align: center;">Rvoize</h1>
+        </div>
+    </div>
+</div>
+
+                <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-panel" style="border: 1px solid rgba(0,0,0,.1); margin-bottom: 30px; padding: 30px; background: white;">
+            
+            <h1>Hello!</h1>
+            <p>Please click the button to verify your email address!</p>
+            <p style="text-align: center;"><a href="http://localhost/rvoize/public/email/verify/21/26d17d26d11f1567e2ef9562b27127707d0c7f8e?expires=1688125412&amp;signature=35bdb002d45cd730d303e8045ee643e38f386dbe10d633787e7167a9fb19a033" style="border-radius: 3px; color: #fff; display: inline-block; text-decoration: none; background-color: #3490dc; border-top: 10px solid #3490dc; border-right: 18px solid #3490dc; border-bottom: 10px solid #3490dc; border-left: 18px solid #3490dc;">Verify Email Address</a></p>
+            <p>If you did not create account, no further action is required.</p>
+            <p>Regards,<br>Rvoize</p>
+        </div>
+    </div>
+
+            <div class="b-footer" style="margin-top: 0px;">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <p class="" style="text-align: center;">© 2023 Rvoize. All rights reserved</p>
+    </div>
+</div>        </div>
+    </body>
+</html>
+  
+[2023-06-30 10:43:32] development.DEBUG: Message-ID: <ceb8139f287f2f13d1c2ed48524f372f@localhost>
+Date: Fri, 30 Jun 2023 10:43:32 +0000
+Subject: Candidate One has registered.
+From: Rvoize <rvoize1@gmail.com>
+To: candidate1@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" id="google-font-css-css" href="https://fonts.googleapis.com/css?family=Poppins%3A400%2C500%2C600" type="text/css" media="all">
+    <style type="text/css">@media screen and (max-width: 768px){.b-panel{padding: 15px;}.b-email-wrap{padding: 0px;}}</style>
+</head>
+    <body>
+        <div class="b-email-wrap" style='background: #ebeef2; padding: 40px 0px; color: #1a2b48; font-size: 14px; font-weight: normal; line-height: 1.5; overflow-x: hidden; margin: 0px; font-family: "Poppins",sans-serif;'>
+            <div class="" style="">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-header" style="padding: 30px; color: white; background: #292772;">
+                        <h1 class="site-title" style="margin: 0px; display: block; text-align: center;">Rvoize</h1>
+        </div>
+    </div>
+</div>
+
+                <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-panel" style="border: 1px solid rgba(0,0,0,.1); margin-bottom: 30px; padding: 30px; background: white;">
+            <h1 style="text-align: center;">Welcome!</h1>
+                    <h3>Hello Candidate One</h3>
+                    <p>Thank you for signing up with Superio! We hope you enjoy your time with us.</p>
+                    <p>Regards,</p>
+                    <p>Superio</p>
+        </div>
+    </div>
+
+            <div class="b-footer" style="margin-top: 0px;">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <p class="" style="text-align: center;">© 2023 Rvoize. All rights reserved</p>
+    </div>
+</div>        </div>
+    </body>
+</html>
+  
+[2023-06-30 10:43:32] development.DEBUG: Message-ID: <3ac36fd40821e183b1957d81747e4e4f@localhost>
+Date: Fri, 30 Jun 2023 10:43:32 +0000
+Subject: Candidate One has registered.
+From: Rvoize <rvoize1@gmail.com>
+To: rvoize1@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" id="google-font-css-css" href="https://fonts.googleapis.com/css?family=Poppins%3A400%2C500%2C600" type="text/css" media="all">
+    <style type="text/css">@media screen and (max-width: 768px){.b-panel{padding: 15px;}.b-email-wrap{padding: 0px;}}</style>
+</head>
+    <body>
+        <div class="b-email-wrap" style='background: #ebeef2; padding: 40px 0px; color: #1a2b48; font-size: 14px; font-weight: normal; line-height: 1.5; overflow-x: hidden; margin: 0px; font-family: "Poppins",sans-serif;'>
+            <div class="" style="">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-header" style="padding: 30px; color: white; background: #292772;">
+                        <h1 class="site-title" style="margin: 0px; display: block; text-align: center;">Rvoize</h1>
+        </div>
+    </div>
+</div>
+
+                <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-panel" style="border: 1px solid rgba(0,0,0,.1); margin-bottom: 30px; padding: 30px; background: white;">
+            <h3>Hello Administrator</h3>
+                    <p>We have new registration</p>
+                    <p>Full name: Candidate One</p>
+                    <p>Email: candidate1@gmail.com</p>
+                    <p>Regards,</p>
+                    <p>Superio</p>
+        </div>
+    </div>
+
+            <div class="b-footer" style="margin-top: 0px;">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <p class="" style="text-align: center;">© 2023 Rvoize. All rights reserved</p>
+    </div>
+</div>        </div>
+    </body>
+</html>
+  
+[2023-06-30 10:44:18] development.DEBUG: Message-ID: <b6ffe2bf06653168b3ab3550e0b6b536@localhost>
+Date: Fri, 30 Jun 2023 10:44:18 +0000
+Subject: [Rvoize] Verify Register
+From: Rvoize <rvoize1@gmail.com>
+To: company1@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" id="google-font-css-css" href="https://fonts.googleapis.com/css?family=Poppins%3A400%2C500%2C600" type="text/css" media="all">
+    <style type="text/css">@media screen and (max-width: 768px){.b-panel{padding: 15px;}.b-email-wrap{padding: 0px;}}</style>
+</head>
+    <body>
+        <div class="b-email-wrap" style='background: #ebeef2; padding: 40px 0px; color: #1a2b48; font-size: 14px; font-weight: normal; line-height: 1.5; overflow-x: hidden; margin: 0px; font-family: "Poppins",sans-serif;'>
+            <div class="" style="">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-header" style="padding: 30px; color: white; background: #292772;">
+                        <h1 class="site-title" style="margin: 0px; display: block; text-align: center;">Rvoize</h1>
+        </div>
+    </div>
+</div>
+
+                <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-panel" style="border: 1px solid rgba(0,0,0,.1); margin-bottom: 30px; padding: 30px; background: white;">
+            
+            <h1>Hello!</h1>
+            <p>Please click the button to verify your email address!</p>
+            <p style="text-align: center;"><a href="http://localhost/rvoize/public/email/verify/22/2f020f7c1a26417bc7b796f0a60b8ab1687bd8f8?expires=1688125458&amp;signature=7f70a83b86be668d802bf0e1f2494aba1c895b9306fc5022600cf2a3bd069e07" style="border-radius: 3px; color: #fff; display: inline-block; text-decoration: none; background-color: #3490dc; border-top: 10px solid #3490dc; border-right: 18px solid #3490dc; border-bottom: 10px solid #3490dc; border-left: 18px solid #3490dc;">Verify Email Address</a></p>
+            <p>If you did not create account, no further action is required.</p>
+            <p>Regards,<br>Rvoize</p>
+        </div>
+    </div>
+
+            <div class="b-footer" style="margin-top: 0px;">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <p class="" style="text-align: center;">© 2023 Rvoize. All rights reserved</p>
+    </div>
+</div>        </div>
+    </body>
+</html>
+  
+[2023-06-30 10:44:18] development.DEBUG: Message-ID: <395c7d3238275a2856c36c630b3fe53d@localhost>
+Date: Fri, 30 Jun 2023 10:44:18 +0000
+Subject: Company One has registered.
+From: Rvoize <rvoize1@gmail.com>
+To: company1@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" id="google-font-css-css" href="https://fonts.googleapis.com/css?family=Poppins%3A400%2C500%2C600" type="text/css" media="all">
+    <style type="text/css">@media screen and (max-width: 768px){.b-panel{padding: 15px;}.b-email-wrap{padding: 0px;}}</style>
+</head>
+    <body>
+        <div class="b-email-wrap" style='background: #ebeef2; padding: 40px 0px; color: #1a2b48; font-size: 14px; font-weight: normal; line-height: 1.5; overflow-x: hidden; margin: 0px; font-family: "Poppins",sans-serif;'>
+            <div class="" style="">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-header" style="padding: 30px; color: white; background: #292772;">
+                        <h1 class="site-title" style="margin: 0px; display: block; text-align: center;">Rvoize</h1>
+        </div>
+    </div>
+</div>
+
+                <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-panel" style="border: 1px solid rgba(0,0,0,.1); margin-bottom: 30px; padding: 30px; background: white;">
+            <h1 style="text-align: center;">Welcome!</h1>
+                    <h3>Hello Company One</h3>
+                    <p>Thank you for signing up with Superio! We hope you enjoy your time with us.</p>
+                    <p>Regards,</p>
+                    <p>Superio</p>
+        </div>
+    </div>
+
+            <div class="b-footer" style="margin-top: 0px;">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <p class="" style="text-align: center;">© 2023 Rvoize. All rights reserved</p>
+    </div>
+</div>        </div>
+    </body>
+</html>
+  
+[2023-06-30 10:44:18] development.DEBUG: Message-ID: <e4114108ebabf549f863d170c97f8eed@localhost>
+Date: Fri, 30 Jun 2023 10:44:18 +0000
+Subject: Company One has registered.
+From: Rvoize <rvoize1@gmail.com>
+To: rvoize1@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" id="google-font-css-css" href="https://fonts.googleapis.com/css?family=Poppins%3A400%2C500%2C600" type="text/css" media="all">
+    <style type="text/css">@media screen and (max-width: 768px){.b-panel{padding: 15px;}.b-email-wrap{padding: 0px;}}</style>
+</head>
+    <body>
+        <div class="b-email-wrap" style='background: #ebeef2; padding: 40px 0px; color: #1a2b48; font-size: 14px; font-weight: normal; line-height: 1.5; overflow-x: hidden; margin: 0px; font-family: "Poppins",sans-serif;'>
+            <div class="" style="">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-header" style="padding: 30px; color: white; background: #292772;">
+                        <h1 class="site-title" style="margin: 0px; display: block; text-align: center;">Rvoize</h1>
+        </div>
+    </div>
+</div>
+
+                <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <div class="b-panel" style="border: 1px solid rgba(0,0,0,.1); margin-bottom: 30px; padding: 30px; background: white;">
+            <h3>Hello Administrator</h3>
+                    <p>We have new registration</p>
+                    <p>Full name: Company One</p>
+                    <p>Email: company1@gmail.com</p>
+                    <p>Regards,</p>
+                    <p>Superio</p>
+        </div>
+    </div>
+
+            <div class="b-footer" style="margin-top: 0px;">
+    <div class="b-container" style="max-width: 600px; margin: 0px auto;">
+        <p class="" style="text-align: center;">© 2023 Rvoize. All rights reserved</p>
+    </div>
+</div>        </div>
+    </body>
+</html>
+  

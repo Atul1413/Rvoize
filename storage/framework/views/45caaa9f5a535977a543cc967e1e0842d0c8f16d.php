@@ -1,0 +1,1 @@
+<?php echo $__env->make("Layout::app", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customer/www/sahila35.sg-host.com/public_html/resources/views/layouts/app.blade.php ENDPATH**/ ?>
